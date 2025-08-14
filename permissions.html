@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manage Access Permissions - KANDAN ALLOYS</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-light">
+  <div class="container py-4">
+    <h2 class="mb-4">Manage Access Permissions</h2>
+    <form id="permissionsForm" class="bg-white p-4 shadow rounded">
+      <div class="mb-3">
+        <label for="userSelect" class="form-label">Select User</label>
+        <select class="form-select" id="userSelect"></select>
+      </div>
+
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="purchase" id="purchase" />
+        <label class="form-check-label" for="purchase">Purchase</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="sales" id="sales" />
+        <label class="form-check-label" for="sales">Sales</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="tenders" id="tenders" />
+        <label class="form-check-label" for="tenders">Tenders</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="jobwork" id="jobwork" />
+        <label class="form-check-label" for="jobwork">Job Work</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="payments" id="payments" />
+        <label class="form-check-label" for="payments">Payments</label>
+      </div>
+
+      <button type="submit" class="btn btn-success mt-3">Save Permissions</button>
+    </form>
+  </div>
+
+  <script>
+    const userSelect = document.getElementById("userSelect");
+    const permissionsForm = document.getElementById("permissionsForm");
+
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    const permissions = JSON.parse(localStorage.getItem("permissions") || "{}");
+
+    // Populate dropdown
+    users.forEach((user, index) => {
+      const option = document.createElement("option");
+      option.value = user.username;
+      option.textContent = `${user.username} - ${user.fullname}`;
+      userSelect.appendChild(option);
+    });
+
+    // When selecting a user, populate permissions
+    userSelect.addEventListener("change", () => {
+      const selectedUser = userSelect.value;
+      const userPermissions = permissions[selectedUser] || [];
+
+      ["purchase", "sales", "tenders", "jobwork", "payments"].forEach((perm) => {
+        document.getElementById(perm).checked = userPermissions.includes(perm);
+      });
+    });
+
+    // Save permissions
+    permissionsForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const selectedUser = userSelect.value;
+      const selectedPermissions = [];
+
+      ["purchase", "sales", "tenders", "jobwork", "payments"].forEach((perm) => {
+        if (document.getElementById(perm).checked) {
+          selectedPermissions.push(perm);
+        }
+      });
+
+      permissions[selectedUser] = selectedPermissions;
+      localStorage.setItem("permissions", JSON.stringify(permissions));
+      alert("Permissions saved!");
+    });
+
+    // Trigger initial population if user already selected
+    if (userSelect.options.length > 0) {
+      userSelect.selectedIndex = 0;
+      userSelect.dispatchEvent(new Event("change"));
+    }
+  </script>
+</body>
+</html>

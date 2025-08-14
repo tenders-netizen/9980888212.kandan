@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Entry - Modern Full Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: #f8fafc;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        .main-header {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #1a365d;
+        }
+        .form-label.required::after {
+            content: " *";
+            color: #e53e3e;
+        }
+        .table thead th {
+            background: #f1f5f9;
+        }
+        .btn-primary {
+            background: #2563eb;
+            border: none;
+        }
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+        .btn-outline-danger {
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+        .btn-outline-danger:hover {
+            background: #ef4444;
+            color: #fff;
+        }
+        .delete-row {
+            color: #ef4444;
+            cursor: pointer;
+        }
+        .delete-row:hover {
+            color: #b91c1c;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            margin-bottom: 2rem;
+        }
+        .sales-form-section {
+            background: #fff;
+            padding: 2rem 2.5rem 1.5rem 2.5rem;
+        }
+        .totals-box {
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 1.2rem 1.5rem;
+            margin-top: 1rem;
+        }
+        .table-striped>tbody>tr:nth-of-type(odd)>* {
+            --bs-table-accent-bg: #f8fafc;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .action-btns .btn {
+            margin-right: 0.5rem;
+        }
+        .section-header {
+            background: #f8fafc;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .section-header:hover {
+            background: #f1f5f9;
+        }
+        .section-header i {
+            transition: transform 0.3s ease;
+        }
+        .section-header.collapsed i {
+            transform: rotate(-90deg);
+        }
+        .section-content {
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        .status-badge.pending {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+        .status-badge.partial {
+            background: #ecfdf5;
+            color: #047857;
+        }
+        .status-badge.completed {
+            background: #f0f9ff;
+            color: #0369a1;
+        }
+        .hover-row:hover {
+            background-color: #f8fafc !important;
+            transition: background-color 0.2s ease;
+        }
+        .tooltip-icon {
+            color: #94a3b8;
+            cursor: help;
+        }
+        .mini-chart {
+            height: 40px;
+            width: 120px;
+            display: inline-block;
+            margin-left: 1rem;
+        }
+        @media (max-width: 991px) {
+            .sales-form-section {
+                padding: 1rem;
+            }
+        }
+        .sales-header-card {
+            background: linear-gradient(90deg, #a18cd1 0%, #fbc2eb 100%);
+            border-radius: 18px;
+            box-shadow: 0 6px 32px 0 rgba(161, 140, 209, 0.10), 0 1.5px 6px 0 rgba(161, 140, 209, 0.08);
+            padding: 2rem 2.5rem;
+            margin-bottom: 2rem;
+            border-top: 5px solid #7b2ff2;
+        }
+        .sales-header-logo-bg {
+            background: #f3e8ff;
+            border-radius: 50%;
+            padding: 18px;
+            box-shadow: 0 2px 8px rgba(161, 140, 209, 0.08);
+            border: 2px solid #e9d5ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 70px;
+            min-height: 70px;
+        }
+        .sales-header-title,
+        .sales-header-subtitle,
+        .sales-header-company,
+        .sales-header-system,
+        .sales-header-datetime,
+        .sales-header-datetime i {
+            color: #fff !important;
+            text-shadow: 0 1px 6px rgba(80, 0, 80, 0.15);
+        }
+        .sales-header-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 0.2rem;
+            letter-spacing: 0.5px;
+        }
+        .sales-header-subtitle {
+            font-size: 1rem;
+            font-weight: 400;
+        }
+        .sales-header-company {
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+        .sales-header-system {
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+        .sales-header-datetime {
+            background: #a18cd1;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            min-width: 150px;
+            text-align: right;
+            font-weight: 600;
+            box-shadow: 0 1px 4px rgba(161, 140, 209, 0.07);
+        }
+    </style>
+</head>
+<body>
+<div class="w-100 px-3 px-md-5 py-4">
+    <!-- Sales Entry Header Card -->
+    <div class="sales-header-card d-flex align-items-center justify-content-between flex-wrap">
+        <div class="d-flex align-items-center gap-3">
+            <div class="sales-header-logo-bg">
+                <img id="headerLogo" alt="Logo" style="max-width:40px;max-height:40px;object-fit:contain;" />
+            </div>
+            <div>
+                <div class="sales-header-title">Sales Entry</div>
+                <div class="sales-header-subtitle">Manage your sales efficiently</div>
+            </div>
+        </div>
+        <div class="text-center flex-grow-1">
+            <div class="sales-header-company">KANDAN ALLOYS</div>
+            <div class="sales-header-system">Sales Management System</div>
+        </div>
+        <div class="sales-header-datetime">
+            <div><i class="fas fa-calendar-alt me-1"></i> <span id="headerDate"></span></div>
+            <div><i class="fas fa-clock me-1"></i> <span id="headerTime"></span></div>
+        </div>
+    </div>
+
+    <!-- Sales Form Card -->
+    <div class="card sales-form-section">
+        <form id="salesForm" autocomplete="off">
+            <!-- Basic Information Section -->
+            <div class="section-header" data-bs-toggle="collapse" data-bs-target="#basicInfo">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Basic Information</h5>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+            <div id="basicInfo" class="collapse show">
+                <div class="section-content">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label required">Invoice Number</label>
+                            <input type="text" class="form-control" id="invoiceNumber" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label required">Date</label>
+                            <input type="date" class="form-control" id="invoiceDate" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label required">Party Name</label>
+                            <div class="input-group">
+                                <select class="form-select" id="partyName" required>
+                                    <option value="">Select Party</option>
+                                </select>
+                                <button type="button" class="btn btn-outline-primary" id="addPartyBtn">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label required">Invoice PDF</label>
+                            <input type="file" class="form-control" id="invoicePdf" accept="application/pdf" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Items Section -->
+            <div class="section-header" data-bs-toggle="collapse" data-bs-target="#itemsSection">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-box me-2"></i>Items</h5>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+            <div id="itemsSection" class="collapse show">
+                <div class="section-content">
+                    <div class="table-responsive mb-3">
+                        <table class="table table-bordered align-middle" id="itemsTable">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Qty</th>
+                                    <th>UOM</th>
+                                    <th>Rate</th>
+                                    <th>GST %</th>
+                                    <th>Amount</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="itemsTableBody"></tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="7">
+                                        <button type="button" class="btn btn-sm btn-outline-primary" id="addItemBtn">
+                                            <i class="fas fa-plus"></i> Add Item
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Details Section -->
+            <div class="section-header" data-bs-toggle="collapse" data-bs-target="#additionalDetails">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-clipboard-list me-2"></i>Additional Details</h5>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+            <div id="additionalDetails" class="collapse show">
+                <div class="section-content">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Notes</label>
+                            <textarea class="form-control" id="notes" rows="2"></textarea>
+                            <div class="mt-2">
+                                <label class="form-label">Weighment Slip (PDF/JPEG, optional)</label>
+                                <input type="file" class="form-control" id="weighmentSlip" accept="application/pdf,image/jpeg,image/png">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="totals-box">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Sub Total:</span>
+                                    <span id="subTotal">₹0.00</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>GST Amount:</span>
+                                    <span id="gstAmount">₹0.00</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2 align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <input type="checkbox" id="tcsEnable" class="form-check-input me-2">
+                                        <span class="me-2">TCS:</span>
+                                        <select class="form-select form-select-sm" id="tcsRate" style="width: 90px">
+                                            <option value="0.1">0.1%</option>
+                                            <option value="1">1%</option>
+                                            <option value="2">2%</option>
+                                            <option value="5">5%</option>
+                                        </select>
+                                        <i class="fas fa-info-circle ms-2 tooltip-icon" 
+                                           data-bs-toggle="tooltip" 
+                                           title="TCS (Tax Collected at Source) is calculated as: (Subtotal + GST) × TCS%"></i>
+                                    </div>
+                                    <span id="tcsAmount">₹0.00</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Grand Total:</span>
+                                    <strong id="grandTotal">₹0.00</strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Payment Status:</span>
+                                    <select class="form-select form-select-sm w-auto d-inline" id="paymentStatus">
+                                        <option value="Pending">Pending</option>
+                                        <option value="Partial">Partial</option>
+                                        <option value="Completed">Completed</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Buttons -->
+            <div class="d-flex justify-content-between mt-4">
+                <div>
+                    <button type="submit" class="btn btn-primary px-4" id="saveButton">
+                        <i class="fas fa-save me-2"></i>Submit
+                    </button>
+                </div>
+                <button type="button" class="btn btn-outline-danger px-4" id="clearButton">
+                    <i class="fas fa-times me-2"></i>Clear
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Sales List Card -->
+    <div class="card">
+        <div class="card-header bg-primary text-white py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Sales List</h5>
+                <div class="btn-group">
+                    <button class="btn btn-sm btn-light" id="bulkExportBtn">
+                        <i class="fas fa-file-export me-1"></i>Export Selected
+                    </button>
+                    <button class="btn btn-sm btn-light ms-2" id="printSelectedBtn">
+                        <i class="fas fa-print me-1"></i>Print Selected
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- Advanced Filter Section -->
+            <div class="filter-bar rounded p-3 mb-3" style="background:#f1f5f9; border:1px solid #e2e8f0;">
+                <div class="row g-3">
+                    <div class="col-md-2">
+                        <label class="form-label small">Date Range</label>
+                        <select id="dateRangeFilter" class="form-select form-select-sm">
+                            <option value="all">All Time</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label small">Payment Status</label>
+                        <select id="paymentStatusFilter" class="form-select form-select-sm">
+                            <option value="">All Status</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Partial">Partial</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label small">Amount Range</label>
+                        <select id="amountRangeFilter" class="form-select form-select-sm">
+                            <option value="">All Amounts</option>
+                            <option value="0-10000">₹0 - ₹10,000</option>
+                            <option value="10000-50000">₹10,000 - ₹50,000</option>
+                            <option value="50000-100000">₹50,000 - ₹1,00,000</option>
+                            <option value="100000+">Above ₹1,00,000</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label small">Search</label>
+                        <input type="text" id="salesFilter" class="form-control form-control-sm" 
+                               placeholder="Search by Invoice No, Party...">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label small">Quick Actions</label>
+                        <div>
+                            <button class="btn btn-sm btn-success" id="exportExcelBtn">
+                                <i class="fas fa-file-excel me-1"></i>Export to Excel
+                            </button>
+                            <button class="btn btn-sm btn-info ms-2" id="saveFilterBtn">
+                                <i class="fas fa-save me-1"></i>Save Filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sales Summary -->
+            <div class="bg-light rounded p-3 mb-3">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="text-muted small">Total Sales</div>
+                                <div class="h5 mb-0">₹<span id="totalSalesAmount">0.00</span></div>
+                            </div>
+                            <div class="mini-chart" id="salesTrendChart"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="text-muted small">Pending Amount</div>
+                                <div class="h5 mb-0">₹<span id="pendingAmount">0.00</span></div>
+                            </div>
+                            <div class="mini-chart" id="pendingTrendChart"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="text-muted small">Total GST</div>
+                                <div class="h5 mb-0">₹<span id="totalGSTAmount">0.00</span></div>
+                            </div>
+                            <div class="mini-chart" id="gstTrendChart"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="text-muted small">Total TCS</div>
+                                <div class="h5 mb-0">₹<span id="totalTCSAmount">0.00</span></div>
+                            </div>
+                            <div class="mini-chart" id="tcsTrendChart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sales Table -->
+            <div class="table-responsive">
+                <table class="table table-striped" id="salesTable">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll" class="form-check-input"></th>
+                            <th class="sortable" data-sort="date">Date <i class="fas fa-sort"></i></th>
+                            <th class="sortable" data-sort="invoiceNo">Invoice No <i class="fas fa-sort"></i></th>
+                            <th class="sortable" data-sort="partyName">Party Name <i class="fas fa-sort"></i></th>
+                            <th class="sortable" data-sort="amount">Amount <i class="fas fa-sort"></i></th>
+                            <th>Payment Status</th>
+                            <th>Documents</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="text-muted small">
+                    Showing <span id="startRecord">0</span> to <span id="endRecord">0</span> of <span id="totalRecords">0</span> entries
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-sm btn-outline-primary" id="prevPage">Previous</button>
+                    <button class="btn btn-sm btn-outline-primary" id="nextPage">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Party Modal -->
+<div class="modal fade" id="addPartyModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Party</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addPartyForm">
+                    <div class="mb-3">
+                        <label class="form-label required">Party Name</label>
+                        <input type="text" class="form-control" id="newPartyName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">GST Number</label>
+                        <input type="text" class="form-control" id="newPartyGST" placeholder="22AAAAA0000A1Z5">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Address</label>
+                        <textarea class="form-control" id="newPartyAddress" rows="2"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="savePartyBtn">Save Party</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Save Filter Modal -->
+<div class="modal fade" id="saveFilterModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Save Filter</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Filter Name</label>
+                    <input type="text" class="form-control" id="filterName" placeholder="Enter a name for this filter">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveFilterConfirm">Save Filter</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script>
+function formatCurrency(num) {
+    return '₹' + Number(num).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+}
+
+function calculateTotals() {
+    let subTotal = 0, gstTotal = 0;
+    $('#itemsTableBody tr').each(function() {
+        const $row = $(this);
+        const qty = parseFloat($row.find('.qty').val()) || 0;
+        const rate = parseFloat($row.find('.rate').val()) || 0;
+        const gstRate = parseFloat($row.find('.gst').val()) || 0;
+        const amount = qty * rate;
+        const gstAmt = amount * gstRate / 100;
+        $row.find('.amount').text(formatCurrency(amount));
+        subTotal += amount;
+        gstTotal += gstAmt;
+    });
+    $('#subTotal').text(formatCurrency(subTotal));
+    $('#gstAmount').text(formatCurrency(gstTotal));
+    // TCS Calculation
+    let tcsAmount = 0;
+    let tcsEnabled = $('#tcsEnable').is(':checked');
+    let tcsRate = tcsEnabled ? (parseFloat($('#tcsRate').val()) || 0) : 0;
+    if (tcsEnabled && tcsRate > 0) {
+        tcsAmount = (subTotal + gstTotal) * (tcsRate / 100);
+    }
+    $('#tcsAmount').text(formatCurrency(tcsAmount));
+    // Grand Total
+    let grandTotal = subTotal + gstTotal + tcsAmount;
+    $('#grandTotal').text(formatCurrency(grandTotal));
+}
+
+function addItemRow(item = null) {
+    const $row = $(`
+        <tr>
+            <td><input type="text" class="form-control desc" required value="${item ? item.desc : ''}"></td>
+            <td><input type="number" class="form-control qty" min="1" required value="${item ? item.qty : ''}"></td>
+            <td>
+                <select class="form-select uom">
+                    <option value="KG">KG</option>
+                    <option value="Nos">Nos</option>
+                    <option value="Meters">Meters</option>
+                    <option value="Pieces">Pieces</option>
+                    <option value="Tonnes">Tonnes</option>
+                </select>
+            </td>
+            <td><input type="number" class="form-control rate" min="0" required value="${item ? item.rate : ''}"></td>
+            <td>
+                <select class="form-select gst">
+                    <option value="0">0%</option>
+                    <option value="5">5%</option>
+                    <option value="12">12%</option>
+                    <option value="18">18%</option>
+                    <option value="28">28%</option>
+                </select>
+            </td>
+            <td class="amount">0.00</td>
+            <td><i class="fas fa-trash delete-row"></i></td>
+        </tr>
+    `);
+    if (item) {
+        $row.find('.uom').val(item.uom);
+        $row.find('.gst').val(item.gst);
+    }
+    $('#itemsTableBody').append($row);
+    setupRowListeners($row);
+    calculateTotals();
+}
+
+function setupRowListeners($row) {
+    $row.find('.qty, .rate, .gst').on('input change', calculateTotals);
+    $row.find('.delete-row').on('click', function() {
+        if ($('#itemsTableBody tr').length > 1) {
+            $row.remove();
+            calculateTotals();
+        }
+    });
+}
+
+function clearForm() {
+    $('#salesForm')[0].reset();
+    $('#itemsTableBody').empty();
+    addItemRow();
+    calculateTotals();
+    window.editingInvoiceNo = null;
+    $('#invoiceNumber').prop('disabled', false);
+    $('.edit-sale').prop('disabled', false);
+}
+
+// Helper: Format date as DD-MM-YYYY
+function formatDateDMY(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    if (isNaN(d)) return dateStr;
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    return `${day}-${month}-${year}`;
+}
+
+function filterSales(sales) {
+    // Date Range
+    const dateRange = $('#dateRangeFilter').val();
+    const today = new Date();
+    let startDate = null, endDate = null;
+    if (dateRange === 'today') {
+        startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+    } else if (dateRange === 'week') {
+        const dayOfWeek = today.getDay();
+        startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - dayOfWeek);
+        endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + (6 - dayOfWeek) + 1);
+    } else if (dateRange === 'month') {
+        startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+        endDate = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+    }
+    // Payment Status
+    const paymentStatus = $('#paymentStatusFilter').val();
+    // Amount Range
+    const amountRange = $('#amountRangeFilter').val();
+    let minAmt = 0, maxAmt = Infinity;
+    if (amountRange) {
+        if (amountRange === '0-10000') { minAmt = 0; maxAmt = 10000; }
+        else if (amountRange === '10000-50000') { minAmt = 10000; maxAmt = 50000; }
+        else if (amountRange === '50000-100000') { minAmt = 50000; maxAmt = 100000; }
+        else if (amountRange === '100000+') { minAmt = 100000; maxAmt = Infinity; }
+    }
+    // Search
+    const search = ($('#salesFilter').val() || '').toLowerCase();
+    return sales.filter(sale => {
+        // Date filter
+        if (startDate && endDate) {
+            const saleDate = new Date(sale.date);
+            if (isNaN(saleDate) || saleDate < startDate || saleDate >= endDate) return false;
+        }
+        // Payment status
+        if (paymentStatus && sale.paymentStatus !== paymentStatus) return false;
+        // Amount range
+        const amt = Number(sale.grandTotal) || 0;
+        if (amt < minAmt || amt > maxAmt) return false;
+        // Search
+        if (search) {
+            const match = (sale.invoiceNo || '').toLowerCase().includes(search) ||
+                          (sale.partyName || '').toLowerCase().includes(search) ||
+                          (sale.date || '').toLowerCase().includes(search);
+            if (!match) return false;
+        }
+        return true;
+    });
+}
+
+function loadSales() {
+    const sales = JSON.parse(localStorage.getItem('sales') || '[]');
+    const $tbody = $('#salesTable tbody');
+    $tbody.empty();
+    const filteredSales = filterSales(sales);
+    let totalSales = 0, pendingAmount = 0, totalGST = 0, totalTCS = 0;
+    filteredSales.forEach(sale => {
+        totalSales += Number(sale.grandTotal) || 0;
+        if ((sale.paymentStatus || '').toLowerCase() === 'pending') {
+            pendingAmount += Number(sale.grandTotal) || 0;
+        }
+        totalGST += Number(sale.gstAmount) || 0;
+        totalTCS += Number(sale.tcsAmount) || 0;
+        const docCell = sale.invoicePdf
+            ? `<a href="${sale.invoicePdf}" download="Invoice_${sale.invoiceNo}.pdf" class="btn btn-sm btn-outline-primary" title="Download Invoice"><i class="fas fa-download"></i></a>`
+            : '-';
+        const row = `
+            <tr>
+                <td><input type="checkbox" class="form-check-input sale-checkbox"></td>
+                <td>${formatDateDMY(sale.date) || ''}</td>
+                <td>${sale.invoiceNo || ''}</td>
+                <td>${sale.partyName || ''}</td>
+                <td>₹${(Number(sale.grandTotal) || 0).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                <td>
+                    <span class="status-badge ${(sale.paymentStatus || '').toLowerCase()}">${sale.paymentStatus || 'Pending'}</span>
+                </td>
+                <td>${docCell}</td>
+                <td class="action-btns">
+                    <button type="button" class="btn btn-sm btn-primary edit-sale" onclick="editSale('${sale.invoiceNo}')"><i class="fas fa-edit"></i></button>
+                    <button type="button" class="btn btn-sm btn-danger delete-sale" onclick="deleteSale('${sale.invoiceNo}')"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+        `;
+        $tbody.append(row);
+    });
+    // Update summary cards
+    $('#totalSalesAmount').text(totalSales.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+    $('#pendingAmount').text(pendingAmount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+    $('#totalGSTAmount').text(totalGST.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+    $('#totalTCSAmount').text(totalTCS.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+}
+
+window.editSale = function(invoiceNo) {
+    const sales = JSON.parse(localStorage.getItem('sales') || '[]');
+    const sale = sales.find(s => s.invoiceNo === invoiceNo);
+    if (!sale) {
+        alert('Sale record not found!');
+        return;
+    }
+    window.editingInvoiceNo = invoiceNo;
+    $('.edit-sale').prop('disabled', true);
+    $('#invoiceNumber').val(sale.invoiceNo).prop('disabled', true);
+    $('#invoiceDate').val(sale.date || '');
+    $('#partyName').val(sale.partyName || '');
+    $('#notes').val(sale.notes || '');
+    $('#paymentStatus').val(sale.paymentStatus || 'Pending');
+    $('#tcsEnable').prop('checked', !!sale.tcsEnabled).trigger('change');
+    if (sale.tcsEnabled) {
+        $('#tcsRate').val(sale.tcsRate || '0.1');
+    }
+    $('#itemsTableBody').empty();
+    (sale.items || []).forEach(item => addItemRow(item));
+    calculateTotals();
+    $('html, body').animate({scrollTop: $('#salesForm').offset().top - 20}, 500);
+};
+
+window.deleteSale = function(invoiceNo) {
+    if (confirm('Are you sure you want to delete this sale?')) {
+        let sales = JSON.parse(localStorage.getItem('sales') || '[]');
+        sales = sales.filter(s => s.invoiceNo !== invoiceNo);
+        localStorage.setItem('sales', JSON.stringify(sales));
+        loadSales();
+        alert('Sale deleted successfully!');
+    }
+};
+
+function loadParties() {
+    const parties = JSON.parse(localStorage.getItem('parties') || '[]');
+    const $partySelect = $('#partyName');
+    const current = $partySelect.val();
+    $partySelect.html('<option value="">Select Party</option>');
+    parties.forEach(party => {
+        $partySelect.append(`<option value="${party.name}">${party.name}</option>`);
+    });
+    if (current && $partySelect.find(`option[value='${current}']`).length) {
+        $partySelect.val(current);
+    }
+}
+
+$(function() {
+    $('#invoiceDate').val(new Date().toISOString().split('T')[0]);
+    $('#itemsTableBody').html('');
+    addItemRow();
+    calculateTotals();
+    loadSales();
+    $('#addItemBtn').on('click', function() { addItemRow(); });
+    $('#tcsEnable, #tcsRate').on('change input', calculateTotals);
+    $('#salesForm').on('submit', function(e) {
+        e.preventDefault();
+        const invoiceNo = $('#invoiceNumber').val().trim();
+        const date = $('#invoiceDate').val();
+        const partyName = $('#partyName').val();
+        if (!invoiceNo || !date || !partyName) {
+            alert('Please fill all required fields!');
+            return;
+        }
+        let items = [];
+        let valid = true;
+        $('#itemsTableBody tr').each(function() {
+            const $row = $(this);
+            const desc = $row.find('.desc').val().trim();
+            const qty = parseFloat($row.find('.qty').val()) || 0;
+            const uom = $row.find('.uom').val();
+            const rate = parseFloat($row.find('.rate').val()) || 0;
+            const gst = parseFloat($row.find('.gst').val()) || 0;
+            if (!desc || qty <= 0 || rate < 0) valid = false;
+            items.push({ desc, qty, uom, rate, gst });
+        });
+        if (!valid || items.length === 0) {
+            alert('Please enter valid item details.');
+            return;
+        }
+        let subTotal = 0, gstAmount = 0;
+        items.forEach(item => {
+            const amt = item.qty * item.rate;
+            subTotal += amt;
+            gstAmount += amt * item.gst / 100;
+        });
+        let tcsAmount = 0;
+        let tcsEnabled = $('#tcsEnable').is(':checked');
+        let tcsRate = tcsEnabled ? (parseFloat($('#tcsRate').val()) || 0) : 0;
+        if (tcsEnabled && tcsRate > 0) {
+            tcsAmount = (subTotal + gstAmount) * (tcsRate / 100);
+        }
+        const grandTotal = subTotal + gstAmount + tcsAmount;
+        let sales = JSON.parse(localStorage.getItem('sales') || '[]');
+        let sale = {
+            date,
+            invoiceNo,
+            partyName,
+            items,
+            subTotal,
+            gstAmount,
+            tcsEnabled,
+            tcsRate,
+            tcsAmount,
+            grandTotal,
+            paymentStatus: $('#paymentStatus').val(),
+            notes: $('#notes').val()
+        };
+        if (window.editingInvoiceNo) {
+            sales = sales.map(s => s.invoiceNo === window.editingInvoiceNo ? sale : s);
+            window.editingInvoiceNo = null;
+            $('#invoiceNumber').prop('disabled', false);
+        } else {
+            if (sales.some(s => s.invoiceNo === invoiceNo)) {
+                alert('Invoice number already exists!');
+                return;
+            }
+            sales.push(sale);
+        }
+        localStorage.setItem('sales', JSON.stringify(sales));
+        clearForm();
+        loadSales();
+        alert('Sale saved successfully!');
+    });
+    $('#clearButton').on('click', function() {
+        if (confirm('Are you sure you want to clear the form?')) {
+            clearForm();
+        }
+    });
+    $('[data-bs-toggle="tooltip"]').tooltip();
+    loadParties();
+    $('#addPartyBtn').on('click', function() {
+        $('#addPartyModal').modal('show');
+    });
+    $('#savePartyBtn').on('click', function() {
+        const name = $('#newPartyName').val().trim();
+        const gst = $('#newPartyGST').val().trim();
+        const address = $('#newPartyAddress').val().trim();
+        if (!name) {
+            alert('Party name is required!');
+            return;
+        }
+        let parties = JSON.parse(localStorage.getItem('parties') || '[]');
+        if (parties.some(p => p.name === name)) {
+            alert('Party already exists!');
+            return;
+        }
+        parties.push({ name, gst, address });
+        localStorage.setItem('parties', JSON.stringify(parties));
+        loadParties();
+        $('#partyName').val(name);
+        $('#addPartyModal').modal('hide');
+        $('#addPartyForm')[0].reset();
+    });
+
+    // Export all sales to Excel
+    $('#exportExcelBtn').off('click').on('click', function() {
+        const sales = JSON.parse(localStorage.getItem('sales') || '[]');
+        if (sales.length === 0) {
+            alert('No data to export!');
+            return;
+        }
+        exportSalesToExcel(sales, 'Sales_Data_All');
+    });
+
+    // Export selected sales to Excel
+    $('#bulkExportBtn').off('click').on('click', function() {
+        const sales = JSON.parse(localStorage.getItem('sales') || '[]');
+        const selected = getSelectedSales(sales);
+        if (selected.length === 0) {
+            alert('Please select at least one sale to export!');
+            return;
+        }
+        exportSalesToExcel(selected, 'Sales_Data_Selected');
+    });
+
+    // Print selected sales
+    $('#printSelectedBtn').off('click').on('click', function() {
+        const sales = JSON.parse(localStorage.getItem('sales') || '[]');
+        const selected = getSelectedSales(sales);
+        if (selected.length === 0) {
+            alert('Please select at least one sale to print!');
+            return;
+        }
+        printSales(selected);
+    });
+
+    // Helper: Get selected sales
+    function getSelectedSales(sales) {
+        const selectedInvoiceNos = [];
+        $('#salesTable tbody input.sale-checkbox:checked').each(function() {
+            const row = $(this).closest('tr');
+            const invoiceNo = row.find('td').eq(2).text().trim();
+            if (invoiceNo) selectedInvoiceNos.push(invoiceNo);
+        });
+        return sales.filter(sale => selectedInvoiceNos.includes(sale.invoiceNo));
+    }
+
+    // Helper: Export sales to Excel
+    function exportSalesToExcel(sales, filenamePrefix) {
+        const exportData = sales.map(sale => ({
+            'Date': sale.date,
+            'Invoice No': sale.invoiceNo,
+            'Party Name': sale.partyName,
+            'Sub Total': sale.subTotal,
+            'GST Amount': sale.gstAmount,
+            'TCS Amount': sale.tcsAmount || 0,
+            'Grand Total': sale.grandTotal,
+            'Payment Status': sale.paymentStatus,
+            'Notes': sale.notes || ''
+        }));
+        const ws = XLSX.utils.json_to_sheet(exportData);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sales');
+        const date = new Date();
+        const filename = `${filenamePrefix}_${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}.xlsx`;
+        XLSX.writeFile(wb, filename);
+    }
+
+    // Helper: Print sales
+    function printSales(sales) {
+        let html = '<table border="1" style="border-collapse:collapse;width:100%">';
+        html += '<thead><tr>' +
+            '<th>Date</th>' +
+            '<th>Invoice No</th>' +
+            '<th>Party Name</th>' +
+            '<th>Sub Total</th>' +
+            '<th>GST Amount</th>' +
+            '<th>TCS Amount</th>' +
+            '<th>Grand Total</th>' +
+            '<th>Payment Status</th>' +
+            '<th>Notes</th>' +
+            '</tr></thead><tbody>';
+        sales.forEach(sale => {
+            html += '<tr>' +
+                `<td>${sale.date || ''}</td>` +
+                `<td>${sale.invoiceNo || ''}</td>` +
+                `<td>${sale.partyName || ''}</td>` +
+                `<td>${formatCurrency(sale.subTotal)}</td>` +
+                `<td>${formatCurrency(sale.gstAmount)}</td>` +
+                `<td>${formatCurrency(sale.tcsAmount || 0)}</td>` +
+                `<td>${formatCurrency(sale.grandTotal)}</td>` +
+                `<td>${sale.paymentStatus || ''}</td>` +
+                `<td>${sale.notes || ''}</td>` +
+                '</tr>';
+        });
+        html += '</tbody></table>';
+        const printWindow = window.open('', '', 'width=900,height=700');
+        printWindow.document.write('<html><head><title>Print Sales</title></head><body>' + html + '</body></html>');
+        printWindow.document.close();
+        printWindow.focus();
+        printWindow.print();
+    }
+
+    // Filter event handlers
+    $('#dateRangeFilter, #paymentStatusFilter, #amountRangeFilter').off('change').on('change', loadSales);
+    $('#salesFilter').off('input').on('input', function() { setTimeout(loadSales, 200); });
+
+    // Header date/time
+    function updateHeaderDateTime() {
+        const now = new Date();
+        const day = String(now.getDate()).padStart(2, '0');
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const year = now.getFullYear();
+        const hours = now.getHours();
+        const mins = String(now.getMinutes()).padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const hour12 = hours % 12 || 12;
+        $('#headerDate').text(`${day}-${month}-${year}`);
+        $('#headerTime').text(`${hour12}:${mins} ${ampm}`);
+    }
+    updateHeaderDateTime();
+    setInterval(updateHeaderDateTime, 1000);
+
+    // Set logo from localStorage if available
+    var logo = localStorage.getItem('companyLogo');
+    if (logo) {
+        $('#headerLogo').attr('src', logo);
+    } else {
+        $('#headerLogo').attr('src', 'assets/images/logo.png');
+    }
+});
+</script>
+</body>
+</html> 

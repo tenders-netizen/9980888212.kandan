@@ -1,0 +1,3833 @@
+<!DOCTYPE html>
+<html lang="en" class="transition-colors duration-300">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tenders - KANDAN ALLOYS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script>
+    // Auto dark mode
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('dark');
+    }
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle('dark');
+    }
+  </script>
+  <style>
+    /* Enhanced Background Patterns and Gradients */
+    body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #e2e8f0 75%, #f8fafc 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+    }
+    
+    .dark body {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #1e293b 75%, #0f172a 100%);
+      background-size: 400% 400%;
+    }
+    
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* Enhanced Glass Effect */
+    .glass {
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(20px);
+      box-shadow: 
+        0 8px 32px 0 rgba(31,41,55,0.12),
+        inset 0 1px 0 rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    
+    .dark .glass {
+      background: rgba(31,41,55,0.85);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 
+        0 8px 32px 0 rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+    
+    /* Enhanced Card Styling */
+    .auction-card {
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      border-radius: 1.5rem;
+      box-shadow: 
+        0 4px 20px rgba(31,41,55,0.08),
+        0 1px 3px rgba(0,0,0,0.05);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateY(0);
+      border: 1px solid rgba(226,232,240,0.8);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .auction-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .auction-card:hover {
+      box-shadow: 
+        0 20px 40px rgba(31,41,55,0.15),
+        0 8px 16px rgba(0,0,0,0.1);
+      transform: translateY(-8px) scale(1.02);
+      border-color: rgba(59,130,246,0.3);
+    }
+    
+    .auction-card:hover::before {
+      opacity: 1;
+    }
+    
+    .dark .auction-card {
+      background: linear-gradient(145deg, #1e293b 0%, #334155 100%);
+      border-color: rgba(51,65,85,0.8);
+      box-shadow: 
+        0 4px 20px rgba(0,0,0,0.2),
+        0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .dark .auction-card:hover {
+      border-color: rgba(59,130,246,0.4);
+      box-shadow: 
+        0 20px 40px rgba(0,0,0,0.4),
+        0 8px 16px rgba(0,0,0,0.2);
+    }
+    
+    /* Enhanced Button Styling */
+    .modern-btn {
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%);
+      color: #fff;
+      border-radius: 9999px;
+      font-weight: 600;
+      padding: 0.75rem 2rem;
+      box-shadow: 
+        0 4px 15px rgba(59,130,246,0.3),
+        0 2px 4px rgba(0,0,0,0.1);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .modern-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(255,255,255,0.3), transparent);
+      transition: all 0.6s ease;
+    }
+    
+    .modern-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 8px 25px rgba(59,130,246,0.4),
+        0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    .modern-btn:hover::before {
+      left: 100%;
+    }
+    
+    .modern-btn:active {
+      transform: translateY(0);
+    }
+    
+    /* Enhanced Section Headings */
+    .section-heading {
+      font-size: 1.75rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 2rem;
+      letter-spacing: -0.02em;
+      text-align: center;
+      position: relative;
+    }
+    
+    .section-heading::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+      border-radius: 2px;
+    }
+    
+    /* Enhanced Navigation */
+    nav {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(226,232,240,0.8);
+      box-shadow: 
+        0 4px 20px rgba(31,41,55,0.08),
+        0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    .dark nav {
+      background: rgba(30,41,59,0.95);
+      border-bottom-color: rgba(51,65,85,0.8);
+    }
+    
+    /* Enhanced Hero Section */
+    .hero-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(120,119,198,0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255,119,198,0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(120,219,255,0.3) 0%, transparent 50%);
+    }
+    
+    /* Enhanced Toggle Buttons */
+    .toggle-container {
+      background: linear-gradient(145deg, #f1f5f9 0%, #e2e8f0 100%);
+      border-radius: 1rem;
+      padding: 0.5rem;
+      box-shadow: 
+        0 4px 15px rgba(31,41,55,0.1),
+        inset 0 1px 0 rgba(255,255,255,0.8);
+      border: 1px solid rgba(226,232,240,0.8);
+    }
+    
+    .dark .toggle-container {
+      background: linear-gradient(145deg, #334155 0%, #1e293b 100%);
+      border-color: rgba(51,65,85,0.8);
+      box-shadow: 
+        0 4px 15px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+    
+    .toggle-btn {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 0.75rem;
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .toggle-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+    
+    .toggle-btn.active::before {
+      opacity: 1;
+    }
+    
+    .toggle-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    /* Enhanced Form Styling */
+    input[type="text"], input[type="date"], select, textarea {
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      border: 2px solid rgba(226,232,240,0.8);
+      border-radius: 0.75rem;
+      padding: 0.75rem 1rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .dark input[type="text"], .dark input[type="date"], .dark select, .dark textarea {
+      background: linear-gradient(145deg, #1e293b 0%, #334155 100%);
+      border-color: rgba(51,65,85,0.8);
+    }
+    
+    input[type="text"]:focus, input[type="date"]:focus, select:focus, textarea:focus {
+      border-color: #3b82f6;
+      box-shadow: 
+        0 0 0 3px rgba(59,130,246,0.1),
+        0 4px 20px rgba(59,130,246,0.15);
+      transform: translateY(-1px);
+    }
+    
+    /* Enhanced Modal Styling */
+    .modal-overlay {
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+    }
+    
+    .modal-content {
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      border-radius: 1.5rem;
+      box-shadow: 
+        0 25px 50px rgba(0,0,0,0.25),
+        0 10px 20px rgba(0,0,0,0.15);
+      border: 1px solid rgba(226,232,240,0.8);
+    }
+    
+    .dark .modal-content {
+      background: linear-gradient(145deg, #1e293b 0%, #334155 100%);
+      border-color: rgba(51,65,85,0.8);
+    }
+    
+    /* Enhanced Table Styling */
+    .enhanced-table {
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 
+        0 4px 20px rgba(31,41,55,0.08),
+        0 1px 3px rgba(0,0,0,0.05);
+      border: 1px solid rgba(226,232,240,0.8);
+    }
+    
+    .dark .enhanced-table {
+      background: linear-gradient(145deg, #1e293b 0%, #334155 100%);
+      border-color: rgba(51,65,85,0.8);
+    }
+    
+    .enhanced-table th {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      color: white;
+      font-weight: 600;
+      padding: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.875rem;
+    }
+    
+    .enhanced-table td {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(226,232,240,0.5);
+      transition: background-color 0.2s ease;
+    }
+    
+    .enhanced-table tr:hover td {
+      background-color: rgba(59,130,246,0.05);
+    }
+    
+    .dark .enhanced-table tr:hover td {
+      background-color: rgba(59,130,246,0.1);
+    }
+    
+    /* Enhanced Status Badges */
+    .status-badge {
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .status-badge:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    /* Enhanced Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    .fade-in-up {
+      animation: fadeInUp 0.6s ease-out;
+    }
+    
+    .slide-in-right {
+      animation: slideInRight 0.6s ease-out;
+    }
+    
+    /* Enhanced Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(226,232,240,0.5);
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(135deg, #1d4ed8, #7c3aed);
+    }
+    
+    /* Enhanced Focus States */
+    .focus-ring:focus {
+      outline: none;
+      box-shadow: 
+        0 0 0 3px rgba(59,130,246,0.1),
+        0 4px 20px rgba(59,130,246,0.15);
+    }
+    
+    /* Enhanced Loading States */
+    .loading-shimmer {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    
+    /* Enhanced Responsive Design */
+    @media (max-width: 768px) {
+      .hero-section {
+        min-height: 120px;
+      }
+      
+      .section-heading {
+        font-size: 1.5rem;
+      }
+      
+      .toggle-container {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+    
+    /* Floating Animation */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    .float-animation {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    /* Pulse Glow Effect */
+    @keyframes pulse-glow {
+      0%, 100% { 
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+      }
+      50% { 
+        box-shadow: 0 0 40px rgba(59, 130, 246, 0.6);
+      }
+    }
+    
+    .pulse-glow {
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    
+    /* Gradient Text Animation */
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .gradient-text-animate {
+      background-size: 200% 200%;
+      animation: gradient-shift 3s ease infinite;
+    }
+    
+    /* Card Hover Effects */
+    .card-hover-lift {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .card-hover-lift:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.15),
+        0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Button Ripple Effect */
+    .ripple-effect {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .ripple-effect::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    
+    .ripple-effect:active::after {
+      width: 300px;
+      height: 300px;
+    }
+    
+    /* Enhanced Focus States */
+    .enhanced-focus:focus {
+      outline: none;
+      box-shadow: 
+        0 0 0 4px rgba(59, 130, 246, 0.1),
+        0 8px 25px rgba(59, 130, 246, 0.15);
+      transform: translateY(-2px);
+    }
+    
+    /* Smooth Page Transitions */
+    .page-transition {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Enhanced Loading States */
+    .enhanced-loading {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .enhanced-loading::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      animation: loading-shimmer 1.5s infinite;
+    }
+    
+    @keyframes loading-shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+    
+    /* Existing styles... */
+    .sticky-header th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    
+    /* Rich Content Styling */
+    .rich-content {
+      line-height: 1.6;
+    }
+    
+    .rich-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.75rem 0;
+      font-size: 0.875rem;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(226,232,240,0.8);
+    }
+    
+    .rich-content table th,
+    .rich-content table td {
+      border: 1px solid rgba(226,232,240,0.8);
+      padding: 0.75rem;
+      text-align: left;
+    }
+    
+    .rich-content table th {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      color: white;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.875rem;
+      letter-spacing: 0.05em;
+    }
+    
+    .rich-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 0.75rem;
+      margin: 0.75rem 0;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .rich-content ul,
+    .rich-content ol {
+      margin: 0.75rem 0;
+      padding-left: 1.75rem;
+    }
+    
+    .rich-content li {
+      margin: 0.375rem 0;
+    }
+    
+    .rich-content strong,
+    .rich-content b {
+      font-weight: 700;
+      color: #1e40af;
+    }
+    
+    .rich-content em,
+    .rich-content i {
+      font-style: italic;
+      color: #7c3aed;
+    }
+    
+    .rich-content u {
+      text-decoration: underline;
+      text-decoration-color: #06b6d4;
+    }
+    
+    /* Dark mode support for rich content */
+    .dark .rich-content table th {
+      background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+      border-color: #4b5563;
+    }
+    
+    .dark .rich-content table td {
+      border-color: #4b5563;
+    }
+    
+    .dark .rich-content strong,
+    .dark .rich-content b {
+      color: #60a5fa;
+    }
+    
+    .dark .rich-content em,
+    .dark .rich-content i {
+      color: #a78bfa;
+    }
+    
+    .dark .rich-content u {
+      text-decoration-color: #22d3ee;
+    }
+    
+    /* Rich text editor styling */
+    #materialDescriptionEditor {
+      font-family: inherit;
+      line-height: 1.6;
+      border-radius: 0.75rem;
+      transition: all 0.3s ease;
+    }
+    
+    #materialDescriptionEditor:focus {
+      box-shadow: 
+        0 0 0 3px rgba(59,130,246,0.1),
+        0 4px 20px rgba(59,130,246,0.15);
+      transform: translateY(-1px);
+    }
+    
+    #materialDescriptionEditor:empty:before {
+      content: attr(data-placeholder);
+      color: #9ca3af;
+      pointer-events: none;
+    }
+    
+    .rich-text-btn {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .rich-text-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      color: white;
+    }
+    
+    /* Improved Search Bar */
+    input[type="text"] {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    input[type="text"]:focus {
+      transform: scale(1.02);
+      box-shadow: 
+        0 0 0 3px rgba(59,130,246,0.1),
+        0 4px 20px rgba(59,130,246,0.15);
+    }
+
+    /* Enhanced Navigation Links */
+    nav a {
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-weight: 500;
+    }
+    
+    nav a:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 3px;
+      bottom: -8px;
+      left: 0;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 2px;
+    }
+    
+    nav a:hover:after {
+      width: 100%;
+    }
+    
+    nav a:hover {
+      color: #3b82f6;
+      transform: translateY(-1px);
+    }
+
+    /* Improved Dark Mode Transitions */
+    .dark .auction-card {
+      background: linear-gradient(145deg, #1e293b 0%, #334155 100%);
+      backdrop-filter: blur(20px);
+    }
+    
+    .dark input[type="text"] {
+      background: linear-gradient(145deg, #1e293b 0%, #334155 100%);
+      border-color: rgba(75, 85, 99, 0.4);
+    }
+    
+    /* Layout fixes: prevent horizontal scroll and keep content centered */
+    html, body { 
+      overflow-x: hidden; 
+      scroll-behavior: smooth;
+    }
+    
+    *, *::before, *::after { 
+      box-sizing: border-box; 
+    }
+    
+    img, svg { 
+      max-width: 100%; 
+      height: auto; 
+    }
+    
+    .no-x-scroll { 
+      overflow-x: hidden; 
+    }
+    
+    .rich-content { 
+      word-wrap: anywhere; 
+      overflow-x: auto; 
+    }
+  </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-300 min-h-screen pt-20">
+  <!-- Top App Bar -->
+  <nav class="w-full bg-white/90 dark:bg-gray-800/90 shadow-lg backdrop-blur fixed top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 gap-4 flex-wrap">
+      <!-- Left: Logo and Navigation -->
+      <div class="flex items-center space-x-6 flex-shrink-0">
+        <img src="assets/images/Kandan_Alloys_Logo.png" alt="Logo" class="w-10 h-10 object-contain rounded-lg" />
+        <span class="text-lg font-bold text-red-400 dark:text-red-300 mr-4">KANDAN ALLOYS</span>
+        <a href="home.html" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium" id="dashboard-link">Dashboard</a>
+        <a href="#" class="text-blue-600 dark:text-blue-400 font-semibold">Tenders</a>
+        <a href="#" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium">Reports</a>
+      </div>
+      <!-- Center: Search Bar -->
+      <div class="flex-1 max-w-md mx-4 order-3 md:order-none w-full md:w-auto">
+        <div class="relative">
+          <input type="text" placeholder="Search tenders..." class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-700 bg-white dark:bg-gray-700 shadow-sm" />
+        </div>
+      </div>
+      <!-- Right: Actions -->
+      <div class="flex items-center space-x-3 flex-shrink-0">
+        <button class="relative text-gray-500 dark:text-gray-300 hover:text-blue-600 dark:hover:text-yellow-400 transition" aria-label="Notifications">
+          <i class="fas fa-bell text-lg"></i>
+          <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5">3</span>
+        </button>
+        <div class="relative group">
+          <button class="flex items-center space-x-2 focus:outline-none">
+            <img src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff" class="w-8 h-8 rounded-full border-2 border-blue-600" alt="User" />
+            <i class="fas fa-chevron-down text-xs text-gray-400"></i>
+          </button>
+          <div class="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 rounded shadow-lg py-2 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200 z-20">
+            <a href="#" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700">Profile</a>
+            <a href="#" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700" onclick="logout()">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- Enhanced Hero Section -->
+  <section class="hero-section w-full relative overflow-hidden min-h-[50px]">
+    <!-- Animated background patterns -->
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-cyan-600"></div>
+    
+    <!-- Floating geometric shapes -->
+    <div class="absolute top-2.5 left-2.5 w-5 h-5 bg-white/10 rounded-full blur-md float-animation"></div>
+    <div class="absolute top-5 right-5 w-4 h-4 bg-purple-300/20 rounded-full blur-sm float-animation" style="animation-delay: 1s;"></div>
+    <div class="absolute bottom-2.5 left-1/4 w-6 h-6 bg-cyan-300/20 rounded-full blur-md float-animation" style="animation-delay: 2s;"></div>
+    <div class="absolute top-1/2 left-1/3 w-3 h-3 bg-blue-300/20 rounded-full blur-sm float-animation" style="animation-delay: 3s;"></div>
+    <div class="absolute bottom-1/3 right-1/4 w-4 h-4 bg-pink-300/20 rounded-full blur-sm float-animation" style="animation-delay: 4s;"></div>
+    
+    <!-- Grid pattern overlay -->
+    <div class="absolute inset-0 opacity-10">
+      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)" />
+      </svg>
+    </div>
+    
+    <!-- Main content -->
+    <div class="flex items-center justify-center min-h-[50px] relative z-10 px-4">
+      <div class="glass max-w-4xl w-full p-2.5 rounded-3xl shadow-2xl text-center backdrop-blur-xl bg-white/80 border border-white/40 transform hover:scale-105 transition-all duration-500">
+        <div class="mb-1.5">
+          <div class="inline-flex items-center justify-center w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mb-1 shadow-lg">
+            <i class="fas fa-gavel text-sm text-white"></i>
+          </div>
+        </div>
+        <h1 class="text-lg md:text-2xl font-black bg-gradient-to-r from-blue-900 via-purple-800 to-cyan-800 bg-clip-text text-transparent mb-1 leading-tight">
+          Tenders & Auctions
+        </h1>
+        <p class="text-sm md:text-base text-gray-700 font-medium mb-1.5 leading-relaxed">
+          Streamline your tender management with our comprehensive auction tracking system
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-1.5 text-gray-600 text-xs font-medium">
+          <div class="flex items-center bg-white/60 px-1.5 py-0.5 rounded-full shadow-md">
+            <i class="fas fa-calendar-days mr-0.5 text-blue-600"></i>
+            <span id="current-date" class="text-gray-800"></span>
+          </div>
+          <div class="flex items-center bg-white/60 px-1.5 py-0.5 rounded-full shadow-md">
+            <i class="fas fa-clock mr-0.5 text-purple-600"></i>
+            <span id="current-time" class="text-gray-800"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Main Content Wrapper -->
+  <main class="max-w-7xl mx-auto px-4 md:px-8 pb-16 relative">
+    <!-- Background decoration -->
+    <div class="absolute inset-0 -z-10">
+      <div class="absolute top-0 left-0 w-72 h-72 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full blur-3xl opacity-30 float-animation"></div>
+      <div class="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-cyan-100 to-blue-100 rounded-full blur-3xl opacity-30 float-animation" style="animation-delay: 2s;"></div>
+      <div class="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-r from-pink-100 to-rose-100 rounded-full blur-3xl opacity-20 float-animation" style="animation-delay: 4s;"></div>
+    </div>
+    
+    <!-- Auction Toggle Section -->
+    <section class="glass rounded-3xl shadow-2xl p-4 mt-4 mb-6 border border-white/20">
+      <div class="text-center mb-4">
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Auctions</h2>
+      </div>
+      
+      <div class="flex justify-center mb-4">
+        <div class="toggle-container flex flex-wrap justify-center gap-2 p-2">
+          <button id="live-tab" class="toggle-btn ripple-effect flex items-center px-6 py-3 rounded-xl font-semibold focus:outline-none transition-all duration-300 text-white bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 shadow-lg hover:shadow-xl transform hover:-translate-y-1 pulse-glow" onclick="showAuctions('live')">
+            <i class="fas fa-play-circle mr-3 text-lg"></i> 
+            <span class="mr-2">Live</span>
+            <span id="live-count" class="bg-white/20 text-white rounded-full px-2.5 py-1 text-xs font-bold backdrop-blur-sm"></span>
+          </button>
+          
+          <button id="upcoming-tab" class="toggle-btn flex items-center px-6 py-3 rounded-xl font-semibold focus:outline-none transition-all duration-300 text-gray-700 dark:text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-600 shadow-md hover:shadow-lg transform hover:-translate-y-1" onclick="showAuctions('upcoming')">
+            <i class="fas fa-clock mr-3 text-lg"></i> 
+            <span class="mr-2">Upcoming</span>
+            <span id="upcoming-count" class="ml-2 bg-blue-100 text-blue-700 rounded-full px-2.5 py-1 text-xs font-bold"></span>
+          </button>
+          
+          <button id="completed-tab" class="toggle-btn flex items-center px-6 py-3 rounded-xl font-semibold focus:outline-none transition-all duration-300 text-gray-700 dark:text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-emerald-500 hover:to-teal-600 shadow-md hover:shadow-lg transform hover:-translate-y-1" onclick="showAuctions('completed')">
+            <i class="fas fa-check-circle mr-3 text-lg"></i> 
+            <span class="mr-2">Completed</span>
+            <span id="completed-count" class="ml-2 bg-emerald-100 text-emerald-700 rounded-full px-2.5 py-1 text-xs font-bold"></span>
+          </button>
+          
+          <button id="ring-tab" class="toggle-btn flex items-center px-6 py-3 rounded-xl font-semibold focus:outline-none transition-all duration-300 text-gray-700 dark:text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-600 shadow-md hover:shadow-lg transform hover:-translate-y-1" onclick="showAuctions('ringed')">
+            <i class="fas fa-ring mr-3 text-lg"></i> 
+            <span class="mr-2">Ring Data</span>
+            <span id="ring-count" class="ml-2 bg-purple-100 text-purple-700 rounded-full px-2.5 py-1 text-xs font-bold"></span>
+          </button>
+          
+          <button id="emd-tab" class="toggle-btn flex items-center px-6 py-3 rounded-xl font-semibold focus:outline-none transition-all duration-300 text-gray-700 dark:text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-amber-500 hover:to-orange-600 shadow-md hover:shadow-lg transform hover:-translate-y-1" onclick="showAuctions('emd')">
+            <i class="fas fa-money-bill-wave mr-3 text-lg"></i> 
+            <span class="mr-2">EMD Ledger</span>
+            <span id="emd-count" class="ml-2 bg-amber-100 text-amber-700 rounded-full px-2.5 py-1 text-xs font-bold"></span>
+          </button>
+        </div>
+      </div>
+      
+
+      
+      <div id="auction-list-container" class="mt-4 fade-in-up"></div>
+    </section>
+  </main>
+  <!-- Enhanced Add Auction Modal -->
+  <div id="addAuctionModal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center hidden">
+    <div class="modal-content max-w-4xl w-full mx-4 p-8 relative max-h-[90vh] overflow-y-auto">
+      <button onclick="closeAddAuctionModal()" class="absolute top-6 right-6 text-gray-400 hover:text-red-500 text-2xl transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-red-300 rounded-full p-2">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="text-center mb-8">
+        <h3 id="auctionModalTitle" class="text-3xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent flex items-center justify-center gap-3">
+          <i class="fas fa-plus-circle text-4xl"></i> 
+          <span>Add Upcoming Auction</span>
+        </h3>
+        <p class="text-gray-600 dark:text-gray-300 text-lg">Fill in the details below to create a new auction entry</p>
+      </div>
+      <form id="addAuctionForm" class="space-y-4">
+        <input type="hidden" id="serialNumber" />
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 flex items-center gap-2">
+              <i class="fas fa-globe text-blue-500"></i>
+              Website
+            </label>
+            <input type="text" id="website" class="w-full focus-ring transition-all duration-300" placeholder="Enter website URL" />
+          </div>
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 flex items-center gap-2">
+              <i class="fas fa-building text-purple-500"></i>
+              Department
+            </label>
+            <input type="text" id="department" class="w-full focus-ring transition-all duration-300" placeholder="Enter department name" />
+          </div>
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 flex items-center gap-2">
+              <i class="fas fa-hashtag text-green-500"></i>
+              Tender ID
+            </label>
+            <input type="text" id="tenderId" class="w-full focus-ring transition-all duration-300" placeholder="Enter tender ID" />
+          </div>
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 flex items-center gap-2">
+              <i class="fas fa-map-marker-alt text-red-500"></i>
+              Location
+            </label>
+            <input type="text" id="location" class="w-full focus-ring transition-all duration-300" placeholder="Enter location" />
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-3 flex items-center gap-2">
+              <i class="fas fa-file-alt text-indigo-500"></i>
+              Material Description
+            </label>
+            <div class="border-2 border-gray-200 dark:border-gray-600 rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl">
+              <!-- Enhanced Rich Text Editor Toolbar -->
+              <div class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 border-b border-gray-200 dark:border-gray-600 p-3 flex flex-wrap gap-2">
+                <button type="button" class="rich-text-btn px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900 transition-all duration-300" onclick="formatText('bold')" title="Bold">
+                  <i class="fas fa-bold"></i>
+                </button>
+                <button type="button" class="rich-text-btn px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900 transition-all duration-300" onclick="formatText('italic')" title="Italic">
+                  <i class="fas fa-italic"></i>
+                </button>
+                <button type="button" class="rich-text-btn px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900 transition-all duration-300" onclick="formatText('underline')" title="Underline">
+                  <i class="fas fa-underline"></i>
+                </button>
+                <div class="w-px bg-gray-300 dark:bg-gray-600 mx-2"></div>
+                <button type="button" class="rich-text-btn px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900 transition-all duration-300" onclick="insertTable()" title="Insert Table">
+                  <i class="fas fa-table"></i>
+                </button>
+                <button type="button" class="rich-text-btn px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900 transition-all duration-300" onclick="insertImage()" title="Insert Image">
+                  <i class="fas fa-image"></i>
+                </button>
+                <button type="button" class="rich-text-btn px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900 transition-all duration-300" onclick="insertList()" title="Insert List">
+                  <i class="fas fa-list"></i>
+                </button>
+                <div class="w-px bg-gray-300 dark:bg-gray-600 mx-2"></div>
+                <button type="button" class="rich-text-btn px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900 transition-all duration-300" onclick="clearFormatting()" title="Clear Formatting">
+                  <i class="fas fa-eraser"></i>
+                </button>
+              </div>
+              <!-- Enhanced Rich Text Editor Content -->
+              <div id="materialDescriptionEditor" class="min-h-[150px] p-4 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none transition-all duration-300" contenteditable="true" data-placeholder="Enter material description... You can add tables, images, and formatted text here."></div>
+              <!-- Hidden input to store the HTML content -->
+              <input type="hidden" id="materialDescription" />
+            </div>
+            <div class="text-sm text-gray-500 dark:text-gray-400 mt-3 flex items-center gap-2">
+              <i class="fas fa-info-circle text-blue-500"></i>
+              <span>You can paste tables, images, or use formatting tools above</span>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 flex items-center gap-2">
+              <i class="fas fa-money-bill text-yellow-500"></i>
+              EMD
+            </label>
+            <input type="text" id="emd" class="w-full focus-ring transition-all duration-300" placeholder="Enter EMD amount" />
+          </div>
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 flex items-center gap-2">
+              <i class="fas fa-calendar text-orange-500"></i>
+              Last Date EMD Submission
+            </label>
+            <div class="grid grid-cols-2 gap-2">
+              <input type="date" id="lastDateEmd" class="w-full focus-ring transition-all duration-300" />
+              <input type="time" id="lastTimeEmd" class="w-full focus-ring transition-all duration-300" />
+            </div>
+          </div>
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 flex items-center gap-2">
+              <i class="fas fa-check-double text-teal-500"></i>
+              EMD Submitted
+            </label>
+            <select id="emdSubmitted" class="w-full focus-ring transition-all duration-300">
+              <option value="Submitted">Submitted</option>
+              <option value="Not Submitted">Not Submitted</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Auction Date</label>
+            <div class="grid grid-cols-2 gap-2">
+              <input type="date" id="auctionDate" class="w-full border rounded px-3 py-2" />
+              <input type="time" id="auctionTime" class="w-full border rounded px-3 py-2" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Inspection From</label>
+            <input type="date" id="inspectionFrom" class="w-full border rounded px-3 py-2" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Inspection To</label>
+            <input type="date" id="inspectionTo" class="w-full border rounded px-3 py-2" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Contact Details</label>
+          <input type="text" id="contactDetails" class="w-full border rounded px-3 py-2" />
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1">Tax Details</label>
+            <input type="text" id="taxDetails" class="w-full border rounded px-3 py-2" placeholder="e.g., GST 18% (CGST 9% + SGST 9%)" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Additional Description</label>
+            <textarea id="auctionDescription" class="w-full border rounded px-3 py-2" rows="3" placeholder="Short description/notes..."></textarea>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Tender Document</label>
+          <input type="file" id="tenderDocs" class="w-full" multiple accept=".pdf,.doc,.docx,.jpg,.png" />
+          <div id="tenderDocsPreview" class="flex flex-wrap gap-2 mt-2"></div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Auction Images</label>
+          <input type="file" id="auctionImages" class="w-full" multiple accept=".jpg,.jpeg,.png,.gif" />
+          <div id="auctionImagesPreview" class="flex flex-wrap gap-2 mt-2"></div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Annexure Copy</label>
+          <input type="file" id="annexureFiles" class="w-full" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
+          <div id="annexureFilesPreview" class="flex flex-wrap gap-2 mt-2"></div>
+        </div>
+                         <div class="flex justify-center gap-4 mt-8">
+                   <button type="button" onclick="closeAddAuctionModal()" class="px-8 py-3 rounded-xl bg-gradient-to-r from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600 text-white font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+                     <i class="fas fa-times mr-2"></i>
+                     Cancel
+                   </button>
+                   <button type="submit" id="auctionSubmitBtn" class="px-8 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300" onclick="console.log('Submit button clicked')">
+                     <i class="fas fa-save mr-2"></i>
+                     Add Auction
+                   </button>
+                 </div>
+               </form>
+               
+               <!-- Enhanced Success Message -->
+               <div id="addAuctionSuccess" class="hidden mt-8 p-6 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border border-green-200 dark:border-green-700 rounded-2xl text-center">
+                 <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full mb-4 shadow-lg">
+                   <i class="fas fa-check text-2xl text-white"></i>
+                 </div>
+                 <div class="text-green-800 dark:text-green-200 font-semibold text-lg">
+                   <i class="fas fa-check-circle mr-2"></i>
+                   <span id="successMessage">Upcoming auction added successfully!</span>
+                 </div>
+               </div>
+    </div>
+  </div>
+  <!-- EMD Ledger Modal -->
+  <div id="emdLedgerModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+    <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl max-w-4xl w-full p-6 relative max-h-[90vh] overflow-y-auto">
+      <button onclick="closeEmdLedgerModal()" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button>
+      <h3 class="text-xl font-bold mb-4 text-gray-800 dark:text-white flex items-center gap-2"><i class="fas fa-money-bill-wave text-green-500"></i> Add EMD Entry</h3>
+      <form id="emdLedgerForm" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1">Serial Number</label>
+            <input type="text" id="emdSerialNumber" class="w-full border rounded px-3 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-white" readonly />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Financial Year</label>
+            <select id="emdFinancialYear" class="w-full border rounded px-3 py-2" required>
+              <option value="2017-18">2017-18</option>
+              <option value="2018-19">2018-19</option>
+              <option value="2019-20">2019-20</option>
+              <option value="2020-21">2020-21</option>
+              <option value="2021-22">2021-22</option>
+              <option value="2022-23">2022-23</option>
+              <option value="2023-24">2023-24</option>
+              <option value="2024-25">2024-25</option>
+              <option value="2025-26" selected>2025-26</option>
+              <option value="2026-27">2026-27</option>
+              <option value="2027-28">2027-28</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Website</label>
+            <select id="emdWebsite" class="w-full border rounded px-3 py-2" required onchange="toggleWebsiteInput()">
+              <option value="">Select Website</option>
+              <option value="GEM">GEM</option>
+              <option value="TN TENDER">TN TENDER</option>
+              <option value="CPP">CPP</option>
+              <option value="IOCL">IOCL</option>
+              <option value="M Junction">M Junction</option>
+              <option value="MSTC">MSTC</option>
+              <option value="Zecomy">Zecomy</option>
+              <option value="Matex">Matex</option>
+              <option value="Intis">Intis</option>
+              <option value="IREPS">IREPS</option>
+              <option value="Synise">Synise</option>
+              <option value="Other">Other (Add New)</option>
+            </select>
+            <input type="text" id="emdWebsiteOther" class="w-full border rounded px-3 py-2 mt-2 hidden" placeholder="Enter new website name..." />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Company Name</label>
+            <input type="text" id="emdCompanyName" class="w-full border rounded px-3 py-2" required />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Location</label>
+            <input type="text" id="emdLocation" class="w-full border rounded px-3 py-2" required />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Debit Date</label>
+            <input type="date" id="emdDebitDate" class="w-full border rounded px-3 py-2" required />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Payment Out (₹)</label>
+            <input type="number" id="emdPaymentOut" class="w-full border rounded px-3 py-2" step="0.01" min="0" required />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Credit Date</label>
+            <input type="date" id="emdCreditDate" class="w-full border rounded px-3 py-2" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Payment In (₹)</label>
+            <input type="number" id="emdPaymentIn" class="w-full border rounded px-3 py-2" step="0.01" min="0" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Lot Status</label>
+            <input type="text" id="emdLotStatus" class="w-full border rounded px-3 py-2" placeholder="Enter lot status..." />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Bank</label>
+            <select id="emdBank" class="w-full border rounded px-3 py-2" required onchange="toggleBankInput()">
+              <option value="">Select Bank</option>
+              <option value="ICICI">ICICI</option>
+              <option value="HDFC">HDFC</option>
+              <option value="SBI">SBI</option>
+              <option value="Axis">Axis</option>
+              <option value="Kotak">Kotak Mahindra Bank</option>
+              <option value="Yes Bank">Yes Bank</option>
+              <option value="Bank of Baroda">Bank of Baroda</option>
+              <option value="PNB">Punjab National Bank</option>
+              <option value="Canara">Canara Bank</option>
+              <option value="Union">Union Bank of India</option>
+              <option value="IDFC">IDFC FIRST Bank</option>
+              <option value="IndusInd">IndusInd Bank</option>
+              <option value="Federal">Federal Bank</option>
+              <option value="IDBI">IDBI Bank</option>
+              <option value="Central Bank">Central Bank of India</option>
+              <option value="Indian Bank">Indian Bank</option>
+              <option value="UCO">UCO Bank</option>
+              <option value="Bank of India">Bank of India</option>
+              <option value="RBL">RBL Bank</option>
+              <option value="South Indian Bank">South Indian Bank</option>
+              <option value="Karur Vysya">Karur Vysya Bank</option>
+              <option value="DCB">DCB Bank</option>
+              <option value="Dhanlaxmi">Dhanlaxmi Bank</option>
+              <option value="Other">Other</option>
+            </select>
+            <input type="text" id="emdBankOther" class="w-full border rounded px-3 py-2 mt-2 hidden" placeholder="Enter bank name..." />
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Remarks</label>
+          <textarea id="emdRemarks" class="w-full border rounded px-3 py-2" rows="3" placeholder="Enter any additional remarks..."></textarea>
+        </div>
+        <div class="flex justify-end gap-2 mt-4">
+          <button type="button" onclick="closeEmdLedgerModal()" class="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-700">Cancel</button>
+          <button type="submit" id="emdLedgerFormSubmit" class="px-6 py-2 rounded bg-green-600 hover:bg-green-700 text-white font-semibold">Add EMD Entry</button>
+        </div>
+      </form>
+      <div id="emdLedgerSuccess" class="hidden mt-4 text-green-600 font-semibold text-center"><i class="fas fa-check-circle mr-2"></i>EMD entry added successfully!</div>
+    </div>
+  </div>
+  <!-- Add Auction Modal -->
+  <div id="imageViewerModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 hidden">
+    <div class="relative bg-white rounded shadow-lg p-4 max-w-lg w-full flex flex-col items-center">
+      <button onclick="closeImageViewer()" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button>
+      <img id="imageViewerImg" src="" alt="Auction Image" class="max-h-[60vh] rounded mb-2" />
+      <div class="flex gap-2 mt-2" id="imageViewerNav"></div>
+    </div>
+  </div>
+
+  <!-- Enhanced Final Price and Remarks Edit Modal -->
+  <div id="finalPriceRemarksModal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center hidden" onclick="closeFinalPriceRemarksModal()">
+    <div class="modal-content max-w-lg w-full mx-4 p-8" onclick="event.stopPropagation()">
+      <div class="text-center mb-6">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mb-4 shadow-lg">
+          <i class="fas fa-edit text-2xl text-white"></i>
+        </div>
+        <h3 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Edit Final Price & Remarks</h3>
+        <p class="text-gray-600 dark:text-gray-300 mt-2">Update the final price and add any important remarks</p>
+      </div>
+      
+      <button onclick="closeFinalPriceRemarksModal()" class="absolute top-6 right-6 text-gray-400 hover:text-red-500 text-2xl transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-red-300 rounded-full p-2">
+        <i class="fas fa-times"></i>
+      </button>
+      
+      <form id="finalPriceRemarksForm" class="space-y-6">
+        <div class="space-y-2">
+          <label for="editFinalPrice" class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 flex items-center gap-2">
+            <i class="fas fa-dollar-sign text-green-500"></i>
+            Final Price
+          </label>
+          <input type="text" id="editFinalPrice" name="finalPrice" 
+                 class="w-full focus-ring transition-all duration-300"
+                 placeholder="Enter final price">
+        </div>
+        
+        <div class="space-y-2">
+          <label for="editRemarks" class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2 flex items-center gap-2">
+            <i class="fas fa-comment text-blue-500"></i>
+            Remarks
+          </label>
+          <textarea id="editRemarks" name="remarks" rows="4"
+                    class="w-full focus-ring transition-all duration-300"
+                    placeholder="Enter any remarks or notes"></textarea>
+        </div>
+        
+        <div class="flex justify-center gap-4 pt-4">
+          <button type="button" onclick="closeFinalPriceRemarksModal()" 
+                  class="px-6 py-3 rounded-xl bg-gradient-to-r from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600 text-white font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+            <i class="fas fa-times mr-2"></i>
+            Cancel
+          </button>
+          <button type="submit" 
+                  class="px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+            <i class="fas fa-save mr-2"></i>
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Date and time update
+    function updateDateTime() {
+      const now = new Date();
+      // Format date as 19-Jul-2025
+      const day = String(now.getDate()).padStart(2, '0');
+      const month = now.toLocaleString('en-US', { month: 'short' });
+      const year = now.getFullYear();
+      document.getElementById('current-date').textContent = `${day}-${month}-${year}`;
+      document.getElementById('current-time').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+
+    // Use localStorage for persistence
+    const AUCTIONS_KEY = 'auctionsData';
+    const EMD_LEDGER_KEY = 'emdLedgerData';
+    
+    function loadAuctions() {
+      const data = localStorage.getItem(AUCTIONS_KEY);
+      if (data) return JSON.parse(data);
+      // Default data
+      return [
+        { title: 'Steel Scrap Auction', date: '2025-07-18', status: 'live', serial: 1 },
+        { title: 'Machinery Auction', date: '2025-07-20', status: 'upcoming', serial: 2 },
+        { title: 'Copper Lot Auction', date: '2025-07-18', status: 'live', serial: 3 },
+        { title: 'Aluminium Auction', date: '2025-07-22', status: 'upcoming', serial: 4 },
+        { title: 'Old Equipment Auction', date: '2025-07-10', status: 'completed', serial: 5 },
+        { title: 'Iron Scrap Auction', date: '2025-07-09', status: 'completed', serial: 6 },
+      ];
+    }
+    
+    function loadEmdData() {
+      const data = localStorage.getItem(EMD_LEDGER_KEY);
+      if (data) return JSON.parse(data);
+      // Default EMD data
+      return [
+        {
+          serial: 1,
+          financialYear: '2025-26',
+          website: 'GEM',
+          companyName: 'Indian Navy(MATERIAL ORGANISATION PORTBLAIR)',
+          location: 'Andaman',
+          debitDate: '2025-12-16',
+          paymentOut: 10000,
+          creditDate: '2025-04-15',
+          paymentIn: 10000,
+          lotLifted: '',
+          remarks: 'Lot High Rate',
+          bank: 'ICICI'
+        },
+        {
+          serial: 2,
+          financialYear: '2025-26',
+          website: 'GEM',
+          companyName: 'Department of Atomic Energy',
+          location: 'Visakhapatnam',
+          debitDate: '2025-03-17',
+          paymentOut: 35300,
+          creditDate: '2025-04-17',
+          paymentIn: 35300,
+          lotLifted: '',
+          remarks: 'EMD Rejected',
+          bank: 'ICICI'
+        },
+        {
+          serial: 3,
+          financialYear: '2025-26',
+          website: 'TN TENDER',
+          companyName: 'TNSTC VPM LTD',
+          location: 'Panruti',
+          debitDate: '2025-03-18',
+          paymentOut: 83700,
+          creditDate: '2025-04-25',
+          paymentIn: 83700,
+          lotLifted: '',
+          remarks: 'Sale bill to Trichy metal INV/2025-26/28',
+          bank: 'ICICI'
+        },
+        {
+          serial: 4,
+          financialYear: '2025-26',
+          website: 'TN TENDER',
+          companyName: 'TNSTC VPM LTD',
+          location: 'Panruti',
+          debitDate: '2025-04-21',
+          paymentOut: 659868,
+          creditDate: '2025-04-25',
+          paymentIn: 659868,
+          lotLifted: '',
+          remarks: 'Sale bill to Trichy metal INV/2025-26/28',
+          bank: 'ICICI'
+        },
+        {
+          serial: 5,
+          financialYear: '2025-26',
+          website: 'Synise',
+          companyName: 'BOSCH AUTOMOTIVE ELECTRONICS INDIA PVT LTD',
+          location: 'Bangalore',
+          debitDate: '2025-04-22',
+          paymentOut: 50000,
+          creditDate: '',
+          paymentIn: 0,
+          lotLifted: '',
+          remarks: '',
+          bank: 'ICICI'
+        },
+        {
+          serial: 6,
+          financialYear: '2025-26',
+          website: 'General',
+          companyName: 'TATA MOTORS PASSENGER VECHILE LIMITED',
+          location: 'Pune',
+          debitDate: '2025-04-24',
+          paymentOut: 532000,
+          creditDate: '',
+          paymentIn: 0,
+          lotLifted: '',
+          remarks: 'Auction notfavor to kandan',
+          bank: 'ICICI'
+        },
+        // ... (continue for all rows in the screenshot, mapping each field as above)
+      ];
+    }
+    
+    function saveAuctions() {
+      localStorage.setItem(AUCTIONS_KEY, JSON.stringify(auctions));
+    }
+    
+    function saveEmdData() {
+      localStorage.setItem(EMD_LEDGER_KEY, JSON.stringify(emdData));
+    }
+    
+    let auctions = loadAuctions();
+    let emdData = loadEmdData();
+    function filterAuctions(type) {
+      let filteredAuctions;
+      if (type === 'ringed') {
+        filteredAuctions = auctions.filter(a => a.ringStatus === 'ring');
+      } else if (type === 'emd') {
+        return emdData; // Return EMD data for EMD ledger
+      } else {
+        filteredAuctions = auctions.filter(a => a.status === type);
+      }
+      
+      // Sort auctions by auction date (earliest first)
+      if (filteredAuctions && filteredAuctions.length > 0) {
+        filteredAuctions.sort((a, b) => {
+          const dateA = new Date(a.auctionDate || '9999-12-31');
+          const dateB = new Date(b.auctionDate || '9999-12-31');
+          return dateA - dateB;
+        });
+      }
+      
+      return filteredAuctions;
+    }
+    
+    function renderEmdLedger() {
+      const container = document.getElementById('auction-list-container');
+      
+      // Get data for current financial year
+      const currentYearData = getEmdDataForCurrentYear();
+      
+      // Calculate totals
+      const totalOut = currentYearData.reduce((sum, entry) => sum + (entry.paymentOut || 0), 0);
+      const totalIn = currentYearData.reduce((sum, entry) => sum + (entry.paymentIn || 0), 0);
+      const balance = totalOut - totalIn;
+      
+      // Summary section
+      const summaryHtml = `
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
+          <h2 class="text-2xl font-bold text-center mb-6 text-blue-600 dark:text-blue-400">EMD Ledger</h2>
+          <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center gap-4">
+              <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Financial Year:</label>
+              <select id="financialYearSelect" class="border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-white" onchange="changeFinancialYear()">
+                <option value="2017-18">2017-18</option>
+                <option value="2018-19">2018-19</option>
+                <option value="2019-20">2019-20</option>
+                <option value="2020-21">2020-21</option>
+                <option value="2021-22">2021-22</option>
+                <option value="2022-23">2022-23</option>
+                <option value="2023-24">2023-24</option>
+                <option value="2024-25">2024-25</option>
+                <option value="2025-26" selected>2025-26</option>
+                <option value="2026-27">2026-27</option>
+                <option value="2027-28">2027-28</option>
+              </select>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="exportToExcel()" class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-lg shadow transition">
+                <i class="fas fa-file-excel"></i> Export Excel
+              </button>
+              <button onclick="exportToPDF()" class="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg shadow transition">
+                <i class="fas fa-file-pdf"></i> Export PDF
+              </button>
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-4 mb-6">
+            <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg text-center">
+              <div class="text-sm text-gray-600 dark:text-gray-300 mb-1">EMD OUT</div>
+              <div class="text-2xl font-bold text-red-600">₹${totalOut.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+            </div>
+            <div class="bg-green-100 dark:bg-green-900 p-4 rounded-lg text-center">
+              <div class="text-sm text-gray-600 dark:text-gray-300 mb-1">EMD IN</div>
+              <div class="text-2xl font-bold text-green-600">₹${totalIn.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+            </div>
+            <div class="bg-blue-100 dark:bg-blue-900 p-4 rounded-lg text-center">
+              <div class="text-sm text-gray-600 dark:text-gray-300 mb-1">BALANCE</div>
+              <div class="text-2xl font-bold text-blue-600">₹${balance.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+            </div>
+          </div>
+          <div class="flex justify-end mb-4">
+            <button onclick="openEmdLedgerModal()" class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2 rounded-full shadow transition">
+              <i class="fas fa-plus"></i> Add EMD Entry
+            </button>
+          </div>
+        </div>
+      `;
+      
+      // Set the selected financial year
+      setTimeout(() => {
+        const yearSelect = document.getElementById('financialYearSelect');
+        if (yearSelect) {
+          yearSelect.value = currentFinancialYear;
+        }
+      }, 100);
+      
+      // Table section
+      const tableHtml = `
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-orange-100 dark:bg-orange-900">
+                <tr>
+                  <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">SL NO</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Website</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Company Name</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Location</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Debit Date</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Payment Out</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Credit Date</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Payment In</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Lot Status</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Remarks</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Bank</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${currentYearData.map((entry, index) => `
+                  <tr class="${index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-600">
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-200">${entry.serial}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-200">${entry.website}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-200">${entry.companyName}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-200">${entry.location}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-200">${formatDate(entry.debitDate)}</td>
+                    <td class="px-4 py-3 text-sm font-semibold text-red-600">₹${entry.paymentOut?.toLocaleString('en-IN') || '0'}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-200">${entry.creditDate ? formatDate(entry.creditDate) : '-'}</td>
+                    <td class="px-4 py-3 text-sm font-semibold text-green-600">₹${entry.paymentIn?.toLocaleString('en-IN') || '0'}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-200">${entry.lotLifted || '-'}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-200">${entry.remarks || '-'}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-200">${entry.bank}</td>
+                    <td class="px-4 py-3 text-sm">
+                      <div class="flex gap-2">
+                        <button onclick="editEmdEntry(${entry.serial})" class="text-blue-600 hover:text-blue-800" title="Edit">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button onclick="deleteEmdEntry(${entry.serial})" class="text-red-600 hover:text-red-800" title="Delete">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+      
+      container.innerHTML = summaryHtml + tableHtml;
+    }
+    
+    function formatDate(dateString) {
+      if (!dateString) return '-';
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return dateString; // Return original if invalid date
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = date.toLocaleString('en-US', { month: 'short' });
+      const year = date.getFullYear();
+      return `${day} ${month} ${year}`;
+    }
+    function renderAuctionList(type, searchQuery) {
+      // Handle EMD Ledger separately
+      if (type === 'emd') {
+        renderEmdLedger();
+        return;
+      }
+      
+      // Update auction status based on date and time (11:29 PM cutoff) and final price/remarks
+      const now = new Date();
+      const todayStr = now.toISOString().slice(0, 10);
+      const cutoff = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 29, 59, 999); // 11:29:59 PM today
+      auctions.forEach(a => {
+        if (!a.auctionDate) return;
+        const auctionDateStr = a.auctionDate;
+        if (auctionDateStr === todayStr) {
+          if (now <= cutoff) {
+            a.status = 'live';
+          } else {
+            a.status = 'completed';
+          }
+        } else if (auctionDateStr < todayStr) {
+          a.status = 'completed';
+        } else {
+          a.status = 'upcoming';
+        }
+      });
+      saveAuctions();
+      const container = document.getElementById('auction-list-container');
+      let addBtn = '';
+      if (type === 'upcoming') {
+        addBtn = `<div class='flex justify-between items-center mb-4' id='add-upcoming-btn-container'>
+          <div class='text-sm text-gray-600 dark:text-gray-400'>
+            <i class='fas fa-info-circle mr-1'></i>
+            Total Upcoming Auctions: ${filterAuctions('upcoming').length}
+          </div>
+          <div class='flex gap-2'>
+            <button onclick='exportUpcomingToPDF()' class='flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg shadow transition'>
+              <i class='fas fa-file-pdf'></i> Export PDF
+            </button>
+            <button onclick='openAddAuctionModal()' class='flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-full shadow transition'>
+              <i class='fas fa-plus'></i> Add Upcoming Auction
+            </button>
+          </div>
+        </div>`;
+      } else if (type === 'live') {
+        addBtn = `<div class='flex justify-between items-center mb-4'>
+          <div class='text-sm text-gray-600 dark:text-gray-400'>
+            <i class='fas fa-bolt mr-1'></i>
+            Total Live Auctions: ${filterAuctions('live').length}
+          </div>
+          <div class='flex gap-2'>
+            <button onclick='exportLiveToPDF()' class='flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg shadow transition'>
+              <i class='fas fa-file-pdf'></i> Export PDF
+            </button>
+          </div>
+        </div>`;
+      } else if (type === 'ringed') {
+        addBtn = `<div class='flex justify-between items-center mb-4'>
+          <div class='text-sm text-gray-600 dark:text-gray-400'>
+            <i class='fas fa-ring mr-1'></i>
+            Total Ring Data: ${filterAuctions('ringed').length}
+          </div>
+          <div class='flex gap-2'>
+            <button onclick='exportRingedToPDF()' class='flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg shadow transition'>
+              <i class='fas fa-file-pdf'></i> Export PDF
+            </button>
+            <button onclick='exportRingedToExcel()' class='flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-lg shadow transition'>
+              <i class='fas fa-file-excel'></i> Export Excel
+            </button>
+          </div>
+        </div>`;
+      }
+      
+      // Add sorting indicator for all auction types except EMD
+      let sortingIndicator = '';
+      if (type !== 'emd') {
+        sortingIndicator = `<div class='text-xs text-gray-500 dark:text-gray-400 mb-2 flex items-center gap-1'>
+          <i class='fas fa-sort-amount-up'></i>
+          Sorted by auction date (earliest first)
+        </div>`;
+      }
+      const showCompletedFilter = type === 'completed';
+      let filterBar = '';
+      if (showCompletedFilter) {
+        // Get unique departments, months, and years from completed auctions
+        const completedDepts = [...new Set(auctions.filter(a => a.status === 'completed').map(a => a.department).filter(Boolean))];
+        const completedMonths = [...new Set(auctions.filter(a => a.status === 'completed' && a.auctionDate).map(a => a.auctionDate.slice(5, 7)))];
+        const completedYears = [...new Set(auctions.filter(a => a.status === 'completed' && a.auctionDate).map(a => a.auctionDate.slice(0, 4)))];
+        filterBar = `
+          <div id="completed-filter-bar" class="flex gap-4 mb-4 flex-wrap">
+            <select id="completed-dept-filter" class="border rounded px-3 py-2">
+              <option value="">All Departments</option>
+              ${completedDepts.map(d => `<option value="${d}">${d}</option>`).join('')}
+            </select>
+            <input type="date" id="completed-date-filter" class="border rounded px-3 py-2" />
+            <select id="completed-month-filter" class="border rounded px-3 py-2">
+              <option value="">All Months</option>
+              ${completedMonths.map(m => `<option value="${m}">${new Date(2000, parseInt(m,10)-1, 1).toLocaleString('default', { month: 'long' })}</option>`).join('')}
+            </select>
+            <select id="completed-year-filter" class="border rounded px-3 py-2">
+              <option value="">All Years</option>
+              ${completedYears.map(y => `<option value="${y}">${y}</option>`).join('')}
+            </select>
+            <button onclick="clearCompletedFilters()" class="px-3 py-2 bg-gray-200 rounded">Clear</button>
+          </div>
+        `;
+      }
+      const auctionsToShow = filterAuctions(type).filter(a => {
+        if (!searchQuery) return true;
+        const stripHtml = (html) => html.replace(/<[^>]*>/g, '');
+        const fields = [
+          a.title, 
+          a.website, 
+          a.department, 
+          a.tenderId, 
+          a.location, 
+          stripHtml(a.materialDescription || ''), 
+          a.status, 
+          a.serial
+        ].map(x => (x || '').toString().toLowerCase());
+        return fields.some(f => f.includes(searchQuery));
+      });
+      let listHtml = '';
+      if (auctionsToShow.length === 0) {
+        listHtml = `<div class='text-center text-gray-400 dark:text-gray-500 py-8'><i class='fas fa-info-circle text-2xl mb-2'></i><div>No ${type} auctions found.</div></div>`;
+      } else {
+        listHtml = `<div class='flex flex-col gap-10'>${auctionsToShow.map(a => {
+          const isCompleted = a.status === 'completed' || a.status === 'ringed';
+          const finalPrice = isCompleted ? (a.finalPrice || 'Not mentioned') : (a.finalPrice || '-');
+          const remarks = isCompleted ? (a.remarks || 'Not mentioned') : (a.remarks || '-');
+          return `
+          <div class='auction-card flex flex-col md:flex-row items-stretch min-h-[120px] bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 hover:border-blue-200 dark:hover:border-blue-800'>
+            <div class='flex-shrink-0 flex flex-col items-center justify-center w-full md:w-52 h-auto bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 p-3 border-r border-gray-100 dark:border-gray-700'>
+              <span class='px-3 py-1.5 rounded-full text-sm font-bold bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 flex items-center mb-2 shadow hover:shadow-md transition-all duration-300'><i class="fas fa-calendar-alt mr-2"></i>${formatDate(a.auctionDate) || ''}</span>
+              <div class='flex gap-3 mb-2'>
+                <button class='edit-auction-btn p-2 bg-blue-50 hover:bg-blue-100 text-blue-600 hover:text-blue-800 rounded-full transition-all duration-300 shadow hover:shadow-lg' title='Edit Auction' data-serial='${a.serial}'><i class='fas fa-edit'></i></button>
+                <button class='delete-auction-btn p-2 bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-800 rounded-full transition-all duration-300 shadow hover:shadow-lg' title='Delete' data-serial='${a.serial}'><i class='fas fa-trash'></i></button>
+              </div>
+              ${a.tenderDocs && a.tenderDocs.length ? `<div class='flex flex-col items-center w-full'><span class='font-semibold text-xs text-gray-600 dark:text-gray-300 mb-1 bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full'>Tender Docs</span> ${a.tenderDocs.map((doc, idx) => `<a href='#' onclick='downloadAuctionDoc(${a.serial},${idx});return false;' class='inline-block bg-blue-100 text-blue-700 rounded-lg px-2 py-1 text-xs font-medium flex items-center gap-1 shadow hover:shadow-md transition-all duration-300 mb-1 w-full justify-center'><i class='fas fa-file-download'></i> ${(doc && doc.name) ? doc.name : 'Document'}</a>`).join('')}</div>` : ''}
+            </div>
+            <div class='flex-1 flex flex-col justify-between p-3'>
+              <div class='flex flex-col md:flex-row md:items-center md:justify-between gap-x-6 gap-y-2 w-full'>
+                <div class='flex-1 min-w-0'>
+                  <div class='font-bold text-lg text-gray-800 dark:text-white mb-1 truncate'>${a.website || ''}</div>
+                  <div class='text-sm text-gray-600 dark:text-gray-300 mb-2 break-words max-h-24 overflow-y-auto rich-content leading-relaxed bg-gray-50 dark:bg-gray-750 p-2 rounded-lg shadow-inner'>${a.materialDescription || ''}</div>
+                  <table class="text-xs text-gray-700 dark:text-gray-300 w-full mb-2 border-collapse">
+                    <tr class="bg-gray-50 dark:bg-gray-750">
+                      <td class="font-semibold pr-2 py-1 pl-2 rounded-l-lg">Department:</td>
+                      <td class="pr-4 py-1">${a.department || ''}</td>
+                      <td class="font-semibold pr-2 py-1">Tender ID:</td>
+                      <td class="pr-4 py-1">${a.tenderId || ''}</td>
+                      <td class="font-semibold pr-2 py-1">Location:</td>
+                      <td class="pr-4 py-1">${a.location || ''}</td>
+                      <td class="font-semibold pr-2 py-1">EMD:</td>
+                      <td class="py-1 pr-2 rounded-r-lg">${a.emd || ''}</td>
+                    </tr>
+                    <tr class="bg-blue-50 dark:bg-gray-700">
+                      <td class="font-semibold pr-2 py-1 pl-2 rounded-l-lg">EMD Status:</td>
+                      <td class="pr-4 py-1">${a.emdSubmitted || ''}</td>
+                      <td class="font-semibold pr-2 py-1">Last Date EMD:</td>
+                      <td class="pr-4 py-1">${formatDate(a.lastDateEmd) || ''}</td>
+                      <td class="font-semibold pr-2 py-1">Inspection:</td>
+                      <td class="pr-4 py-1">${formatDate(a.inspectionFrom) || ''} to ${formatDate(a.inspectionTo) || ''}</td>
+                      <td class="font-semibold pr-2 py-1">Contact:</td>
+                       <td class="py-1 pr-2 rounded-r-lg">${a.contactDetails || ''}</td>
+                    </tr>
+                    <tr class="bg-gray-50 dark:bg-gray-750">
+                      <td class="font-semibold pr-2 py-1 pl-2 rounded-l-lg">Tax Details:</td>
+                      <td class="pr-4 py-1" colspan="3">${a.taxDetails || '-'}</td>
+                      <td class="font-semibold pr-2 py-1">Description:</td>
+                      <td class="pr-4 py-1" colspan="3" class="rounded-r-lg">${a.auctionDescription || '-'}</td>
+                    </tr>
+                  </table>
+                  ${(a.status === 'live') ? `
+                    <div class='mt-2 flex flex-col gap-2 p-2 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-750 dark:to-gray-700 rounded-lg border border-blue-100 dark:border-gray-600 shadow-sm'>
+                      <div class='flex items-center'><span class='font-semibold text-gray-700 dark:text-gray-300 mr-2 bg-white dark:bg-gray-800 px-2 py-0.5 rounded-md shadow-sm text-xs'>Final Price:</span> <span id='final-price-${a.serial}' class='text-blue-700 dark:text-blue-400 font-medium ml-2 text-xs'>${finalPrice}</span></div>
+                      <div class='flex items-start'><span class='font-semibold text-gray-700 dark:text-gray-300 mr-2 bg-white dark:bg-gray-800 px-2 py-0.5 rounded-md shadow-sm text-xs'>Remarks:</span> <span id='remarks-${a.serial}' class='text-gray-600 dark:text-gray-400 ml-2 text-xs'>${remarks}</span></div>
+                      <button class='mt-1 px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-xs font-semibold shadow hover:shadow-md transition-all duration-300' onclick='editFinalPriceRemarks(${a.serial}); return false;'><i class='fas fa-edit mr-1'></i> Edit Final Price/Remarks</button>
+                    </div>
+                  ` : ''}
+                  ${(a.status === 'completed' || a.status === 'ringed') ? `
+                    <div class='mt-2 flex flex-col gap-2 p-2 bg-gradient-to-r from-green-50 to-blue-50 dark:from-gray-750 dark:to-gray-700 rounded-lg border border-green-100 dark:border-gray-600 shadow-sm'>
+                      <div class='flex items-center justify-between'>
+                        <div class='flex items-center'><span class='font-semibold text-gray-700 dark:text-gray-300 mr-2 bg-white dark:bg-gray-800 px-2 py-0.5 rounded-md shadow-sm text-xs'>Final Price:</span> <span id='final-price-${a.serial}' class='text-blue-700 dark:text-blue-400 font-medium ml-2 text-xs'>${finalPrice}</span></div>
+                        <button class='ml-2 px-2 py-1 bg-blue-500 text-white rounded text-xs font-semibold shadow hover:shadow-md transition-all duration-300' onclick='editFinalPriceRemarks(${a.serial}); return false;'><i class='fas fa-edit mr-1'></i> Edit</button>
+                      </div>
+                      <div class='flex items-start justify-between'>
+                        <div class='flex items-start'><span class='font-semibold text-gray-700 dark:text-gray-300 mr-2 bg-white dark:bg-gray-800 px-2 py-0.5 rounded-md shadow-sm text-xs'>Remarks:</span> <span id='remarks-${a.serial}' class='text-gray-600 dark:text-gray-400 ml-2 text-xs'>${remarks}</span></div>
+                      </div>
+                      ${(type === 'completed' || type === 'ringed') ? `<div class='mt-1'><div class='flex items-center'><span class='font-semibold text-gray-700 dark:text-gray-300 mr-2 bg-white dark:bg-gray-800 px-2 py-0.5 rounded-md shadow-sm text-xs'>Status:</span> <span class='ml-2'>${renderRingStatusButton(a)}</span></div></div>` : ''}
+                    </div>
+                  ` : ''}
+                  ${a.annexures && a.annexures.length ? `<div class='flex flex-wrap gap-1 mb-2 mt-2 p-2 bg-gray-50 dark:bg-gray-750 rounded-lg border border-gray-100 dark:border-gray-700'><span class='font-semibold text-xs text-gray-600 dark:text-gray-300 mr-2 bg-white dark:bg-gray-800 px-2 py-0.5 rounded-md shadow-sm'>Annexures:</span> <div class='flex flex-wrap gap-1 mt-1'>${a.annexures.map((ann, idx) => `<a href='#' onclick='downloadAnnexure(${a.serial},${idx});return false;' class='inline-block bg-green-100 hover:bg-green-200 text-green-700 rounded-lg px-2 py-1 text-xs font-medium flex items-center gap-1 shadow hover:shadow-md transition-all duration-300'><i class='fas fa-file-download'></i> ${ann.name}</a>`).join('')}</div></div>` : ''}
+                </div>
+                <!-- Removed duplicate date, edit, and delete buttons -->
+              </div>
+            </div>
+          </div>
+          `;}).join('')}</div>`;
+      }
+      container.innerHTML = addBtn + sortingIndicator + filterBar + `<div id='auction-list-content'>${listHtml}</div>`;
+      // Attach edit/delete handlers with a small delay to ensure DOM is ready
+      setTimeout(() => {
+        document.querySelectorAll('.edit-auction-btn').forEach(btn => {
+          btn.onclick = function() { 
+            const serial = this.getAttribute('data-serial');
+            openEditAuctionModal(serial); 
+            return false;
+          };
+        });
+
+        document.querySelectorAll('.delete-auction-btn').forEach(btn => {
+          btn.onclick = function() { 
+            const serial = this.getAttribute('data-serial');
+            deleteAuction(serial); 
+            return false;
+          };
+        });
+      }, 100);
+    }
+    function updateCounts() {
+      const live = filterAuctions('live').length;
+      const upcoming = filterAuctions('upcoming').length;
+      const completed = filterAuctions('completed').length;
+      const ringed = filterAuctions('ringed').length;
+      const emd = filterAuctions('emd').length;
+      const liveCount = document.getElementById('live-count');
+      const upcomingCount = document.getElementById('upcoming-count');
+      const completedCount = document.getElementById('completed-count');
+      const ringCount = document.getElementById('ring-count');
+      const emdCount = document.getElementById('emd-count');
+      if (live > 0) { liveCount.textContent = live; liveCount.classList.remove('hidden'); } else { liveCount.classList.add('hidden'); }
+      if (upcoming > 0) { upcomingCount.textContent = upcoming; upcomingCount.classList.remove('hidden'); } else { upcomingCount.classList.add('hidden'); }
+      if (completed > 0) { completedCount.textContent = completed; completedCount.classList.remove('hidden'); } else { completedCount.classList.add('hidden'); }
+      if (ringed > 0) { ringCount.textContent = ringed; ringCount.classList.remove('hidden'); } else { ringCount.classList.add('hidden'); }
+      if (emd > 0) { emdCount.textContent = emd; emdCount.classList.remove('hidden'); } else { emdCount.classList.add('hidden'); }
+    }
+    
+    // EMD Ledger Modal Functions
+    function openEmdLedgerModal() {
+      document.getElementById('emdLedgerModal').classList.remove('hidden');
+      document.getElementById('emdLedgerSuccess').classList.add('hidden');
+      document.getElementById('emdLedgerForm').reset();
+      // Set serial number (max serial + 1)
+      const maxSerial = emdData.reduce((max, entry) => entry.serial > max ? entry.serial : max, 0);
+      document.getElementById('emdSerialNumber').value = maxSerial + 1;
+      // Set current financial year as default
+      document.getElementById('emdFinancialYear').value = currentFinancialYear;
+      populateWebsiteDropdown();
+      toggleWebsiteInput();
+      document.getElementById('emdLedgerFormSubmit').textContent = 'Add EMD Entry';
+    }
+    
+    function closeEmdLedgerModal() {
+      document.getElementById('emdLedgerModal').classList.add('hidden');
+    }
+    
+    function editEmdEntry(serial) {
+      const entry = emdData.find(e => e.serial == serial);
+      if (!entry) return;
+      
+      document.getElementById('emdLedgerModal').classList.remove('hidden');
+      document.getElementById('emdLedgerSuccess').classList.add('hidden');
+      
+      // Fill form fields
+      document.getElementById('emdSerialNumber').value = entry.serial;
+      document.getElementById('emdFinancialYear').value = entry.financialYear || '';
+      populateWebsiteDropdown(entry.website);
+      if (!Array.from(document.getElementById('emdWebsite').options).some(opt => opt.value === entry.website)) {
+        addCustomWebsite(entry.website);
+        populateWebsiteDropdown(entry.website);
+      }
+      if (
+        !['GEM','TN TENDER','CPP','IOCL','M Junction','MSTC','Zecomy','Matex','Intis','IREPS','Synise',''].includes(entry.website)
+      ) {
+        document.getElementById('emdWebsite').value = 'Other';
+        document.getElementById('emdWebsiteOther').value = entry.website;
+        document.getElementById('emdWebsiteOther').classList.remove('hidden');
+      } else {
+        document.getElementById('emdWebsiteOther').value = '';
+        document.getElementById('emdWebsiteOther').classList.add('hidden');
+      }
+      document.getElementById('emdCompanyName').value = entry.companyName || '';
+      document.getElementById('emdLocation').value = entry.location || '';
+      document.getElementById('emdDebitDate').value = entry.debitDate || '';
+      document.getElementById('emdPaymentOut').value = entry.paymentOut || '';
+      document.getElementById('emdCreditDate').value = entry.creditDate || '';
+      document.getElementById('emdPaymentIn').value = entry.paymentIn || '';
+      document.getElementById('emdLotStatus').value = entry.lotLifted || '';
+      document.getElementById('emdBank').value = entry.bank || '';
+      document.getElementById('emdRemarks').value = entry.remarks || '';
+      
+      // Set edit mode
+      document.getElementById('emdLedgerForm').setAttribute('data-edit-serial', entry.serial);
+      document.getElementById('emdLedgerFormSubmit').textContent = 'Update EMD Entry';
+    }
+    
+    function deleteEmdEntry(serial) {
+      if (!confirm('Are you sure you want to delete this EMD entry?')) return;
+      emdData = emdData.filter(e => e.serial != serial);
+      saveEmdData();
+      renderEmdLedger();
+      updateCounts();
+    }
+    
+    function saveEmdEntryFromForm(e) {
+      e.preventDefault();
+      const editSerial = document.getElementById('emdLedgerForm').getAttribute('data-edit-serial');
+      const maxSerial = emdData.reduce((max, entry) => entry.serial > max ? entry.serial : max, 0);
+      const serial = editSerial ? Number(editSerial) : maxSerial + 1;
+      let website = document.getElementById('emdWebsite').value;
+      if (website === 'Other') {
+        website = document.getElementById('emdWebsiteOther').value.trim();
+        if (website) addCustomWebsite(website);
+      }
+      let bank = document.getElementById('emdBank').value;
+      if (bank === 'Other') {
+        bank = document.getElementById('emdBankOther').value.trim();
+      }
+      const newEntry = {
+        serial: serial,
+        financialYear: document.getElementById('emdFinancialYear').value,
+        website: website,
+        companyName: document.getElementById('emdCompanyName').value,
+        location: document.getElementById('emdLocation').value,
+        debitDate: document.getElementById('emdDebitDate').value,
+        paymentOut: parseFloat(document.getElementById('emdPaymentOut').value) || 0,
+        creditDate: document.getElementById('emdCreditDate').value || null,
+        paymentIn: parseFloat(document.getElementById('emdPaymentIn').value) || 0,
+        lotLifted: document.getElementById('emdLotStatus').value || '',
+        remarks: document.getElementById('emdRemarks').value || '',
+        bank: bank
+      };
+      if (editSerial) {
+        const idx = emdData.findIndex(e => e.serial == editSerial);
+        if (idx !== -1) emdData[idx] = newEntry;
+        document.getElementById('emdLedgerForm').removeAttribute('data-edit-serial');
+      } else {
+        emdData.push(newEntry);
+      }
+      saveEmdData();
+      document.getElementById('emdLedgerSuccess').classList.remove('hidden');
+      setTimeout(() => {
+        closeEmdLedgerModal();
+        renderEmdLedger();
+        updateCounts();
+      }, 1200);
+    }
+    
+    // Financial Year Management
+    let currentFinancialYear = '2025-26';
+    
+    function changeFinancialYear() {
+      currentFinancialYear = document.getElementById('financialYearSelect').value;
+      renderEmdLedger();
+    }
+    
+    function getEmdDataForCurrentYear() {
+      return emdData.filter(entry => entry.financialYear === currentFinancialYear);
+    }
+    
+    // Export Functions
+    function exportToExcel() {
+      const currentYearData = getEmdDataForCurrentYear();
+      const totalOut = currentYearData.reduce((sum, entry) => sum + (entry.paymentOut || 0), 0);
+      const totalIn = currentYearData.reduce((sum, entry) => sum + (entry.paymentIn || 0), 0);
+      const balance = totalOut - totalIn;
+      
+      let csvContent = "data:text/csv;charset=utf-8,";
+      
+      // Add header
+      csvContent += "EMD Ledger - " + currentFinancialYear + "\n\n";
+      csvContent += "Summary\n";
+      csvContent += "EMD OUT,EMD IN,BALANCE\n";
+      csvContent += `${totalOut.toFixed(2)},${totalIn.toFixed(2)},${balance.toFixed(2)}\n\n`;
+      
+      // Add table headers
+      csvContent += "SL NO,Website,Company Name,Location,Debit Date,Payment Out,Credit Date,Payment In,Lot Status,Remarks,Bank\n";
+      
+      // Add data rows
+      currentYearData.forEach(entry => {
+        const row = [
+          entry.serial,
+          entry.website,
+          entry.companyName,
+          entry.location,
+          formatDate(entry.debitDate),
+          entry.paymentOut || 0,
+          entry.creditDate ? formatDate(entry.creditDate) : '',
+          entry.paymentIn || 0,
+          entry.lotLifted || '',
+          entry.remarks || '',
+          entry.bank
+        ].join(',');
+        csvContent += row + '\n';
+      });
+      
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `EMD_Ledger_${currentFinancialYear}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+    
+    function exportToPDF() {
+      const currentYearData = getEmdDataForCurrentYear();
+      const totalOut = currentYearData.reduce((sum, entry) => sum + (entry.paymentOut || 0), 0);
+      const totalIn = currentYearData.reduce((sum, entry) => sum + (entry.paymentIn || 0), 0);
+      const balance = totalOut - totalIn;
+      
+      // Create PDF content
+      let pdfContent = `
+        <html>
+        <head>
+          <title>EMD Ledger - ${currentFinancialYear}</title>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            .header { text-align: center; font-size: 24px; font-weight: bold; margin-bottom: 20px; }
+            .summary { margin-bottom: 20px; }
+            .summary-row { display: flex; justify-content: space-between; margin-bottom: 10px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 12px; }
+            th { background-color: #f2f2f2; font-weight: bold; }
+            .total-row { font-weight: bold; background-color: #f9f9f9; }
+          </style>
+        </head>
+        <body>
+          <div class="header">EMD Ledger - ${currentFinancialYear}</div>
+          
+          <div class="summary">
+            <div class="summary-row">
+              <span>EMD OUT: ₹${totalOut.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+              <span>EMD IN: ₹${totalIn.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+              <span>BALANCE: ₹${balance.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+            </div>
+          </div>
+          
+          <table>
+            <thead>
+              <tr>
+                <th>SL NO</th>
+                <th>Website</th>
+                <th>Company Name</th>
+                <th>Location</th>
+                <th>Debit Date</th>
+                <th>Payment Out</th>
+                <th>Credit Date</th>
+                <th>Payment In</th>
+                <th>Lot Status</th>
+                <th>Remarks</th>
+                <th>Bank</th>
+              </tr>
+            </thead>
+            <tbody>
+      `;
+      
+      currentYearData.forEach(entry => {
+        pdfContent += `
+          <tr>
+            <td>${entry.serial}</td>
+            <td>${entry.website}</td>
+            <td>${entry.companyName}</td>
+            <td>${entry.location}</td>
+            <td>${formatDate(entry.debitDate)}</td>
+            <td>₹${entry.paymentOut?.toLocaleString('en-IN') || '0'}</td>
+            <td>${entry.creditDate ? formatDate(entry.creditDate) : '-'}</td>
+            <td>₹${entry.paymentIn?.toLocaleString('en-IN') || '0'}</td>
+            <td>${entry.lotLifted || '-'}</td>
+            <td>${entry.remarks || '-'}</td>
+            <td>${entry.bank}</td>
+          </tr>
+        `;
+      });
+      
+      pdfContent += `
+            </tbody>
+          </table>
+        </body>
+        </html>
+      `;
+      
+      // Create a new window and print
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(pdfContent);
+      printWindow.document.close();
+      printWindow.print();
+    }
+    function showAuctions(type) {
+      window.currentAuctionTab = type;
+      document.getElementById('live-tab').classList.toggle('bg-green-700', type === 'live');
+      document.getElementById('live-tab').classList.toggle('text-white', type === 'live');
+      document.getElementById('live-tab').classList.toggle('text-gray-600', type !== 'live');
+      document.getElementById('upcoming-tab').classList.toggle('bg-green-700', type === 'upcoming');
+      document.getElementById('upcoming-tab').classList.toggle('text-white', type === 'upcoming');
+      document.getElementById('upcoming-tab').classList.toggle('text-gray-600', type !== 'upcoming');
+      document.getElementById('completed-tab').classList.toggle('bg-green-700', type === 'completed');
+      document.getElementById('completed-tab').classList.toggle('text-white', type === 'completed');
+      document.getElementById('completed-tab').classList.toggle('text-gray-600', type !== 'completed');
+      document.getElementById('ring-tab').classList.toggle('bg-green-700', type === 'ringed');
+      document.getElementById('ring-tab').classList.toggle('text-white', type === 'ringed');
+      document.getElementById('ring-tab').classList.toggle('text-gray-600', type !== 'ringed');
+      document.getElementById('emd-tab').classList.toggle('bg-green-700', type === 'emd');
+      document.getElementById('emd-tab').classList.toggle('text-white', type === 'emd');
+      document.getElementById('emd-tab').classList.toggle('text-gray-600', type !== 'emd');
+      renderAuctionList(type);
+      updateCounts();
+      updateAddUpcomingBtn(type);
+    }
+    function updateAddUpcomingBtn(type) {
+      document.getElementById('add-upcoming-btn-container').style.display = (type === 'upcoming') ? 'flex' : 'none';
+    }
+    function openAddAuctionModal() {
+      document.getElementById('addAuctionModal').classList.remove('hidden');
+      document.getElementById('addAuctionSuccess').classList.add('hidden');
+      
+      // Reset modal title and submit button for add mode
+      document.getElementById('auctionModalTitle').innerHTML = '<i class="fas fa-plus-circle text-blue-500"></i> Add Upcoming Auction';
+      document.getElementById('auctionSubmitBtn').textContent = 'Add Auction';
+      
+      document.getElementById('addAuctionForm').reset();
+      // Set serial number (max serial + 1) - consider all auctions, not just upcoming
+      const maxSerial = auctions.reduce((max, a) => a.serial > max ? a.serial : max, 0);
+      document.getElementById('serialNumber').value = maxSerial + 1;
+      // Clear rich text editor
+      const editor = document.getElementById('materialDescriptionEditor');
+      if (editor) {
+        editor.innerHTML = '';
+      }
+      document.getElementById('tenderDocsPreview').innerHTML = '';
+      document.getElementById('tenderDocs').value = '';
+      document.getElementById('auctionImagesPreview').innerHTML = '';
+      document.getElementById('auctionImages').value = '';
+      document.getElementById('annexureFilesPreview').innerHTML = '';
+      document.getElementById('annexureFiles').value = '';
+    }
+    function closeAddAuctionModal() {
+      document.getElementById('addAuctionModal').classList.add('hidden');
+      // Reset modal title and submit button to default add mode
+      document.getElementById('auctionModalTitle').innerHTML = '<i class="fas fa-plus-circle text-blue-500"></i> Add Upcoming Auction';
+      document.getElementById('auctionSubmitBtn').textContent = 'Add Auction';
+      // Remove edit mode attribute
+      document.getElementById('addAuctionForm').removeAttribute('data-edit-serial');
+    }
+    // Edit auction logic
+    function openEditAuctionModal(serial) {
+      const auction = auctions.find(a => a.serial == serial);
+      if (!auction) return;
+      document.getElementById('addAuctionModal').classList.remove('hidden');
+      document.getElementById('addAuctionSuccess').classList.add('hidden');
+      
+      // Change modal title and submit button for edit mode
+      document.getElementById('auctionModalTitle').innerHTML = '<i class="fas fa-edit text-blue-500"></i> Edit Auction';
+      document.getElementById('auctionSubmitBtn').textContent = 'Update Auction';
+      
+      // Fill form fields
+      document.getElementById('serialNumber').value = auction.serial;
+      document.getElementById('website').value = auction.website || '';
+      document.getElementById('department').value = auction.department || '';
+      document.getElementById('tenderId').value = auction.tenderId || '';
+      document.getElementById('location').value = auction.location || '';
+      // Set rich text editor content
+      const editor = document.getElementById('materialDescriptionEditor');
+      if (editor) {
+        editor.innerHTML = auction.materialDescription || '';
+      }
+      document.getElementById('emd').value = auction.emd || '';
+      document.getElementById('lastDateEmd').value = auction.lastDateEmd || '';
+      // Populate time fields
+      if (document.getElementById('lastTimeEmd')) {
+        document.getElementById('lastTimeEmd').value = auction.lastTimeEmd || '';
+      }
+      document.getElementById('emdSubmitted').value = auction.emdSubmitted || '';
+      document.getElementById('auctionDate').value = auction.auctionDate || '';
+      if (document.getElementById('auctionTime')) {
+        document.getElementById('auctionTime').value = auction.auctionTime || '';
+      }
+      document.getElementById('inspectionFrom').value = auction.inspectionFrom || '';
+      document.getElementById('inspectionTo').value = auction.inspectionTo || '';
+      document.getElementById('contactDetails').value = auction.contactDetails || '';
+      document.getElementById('taxDetails').value = auction.taxDetails || '';
+      document.getElementById('auctionDescription').value = auction.auctionDescription || '';
+      document.getElementById('tenderDocs').value = '';
+      document.getElementById('tenderDocsPreview').innerHTML = (auction.tenderDocs && auction.tenderDocs.length) ? auction.tenderDocs.map(f => `<div class='bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-xs'>${(f && f.name) ? f.name : f}</div>`).join('') : '';
+      document.getElementById('auctionImages').value = '';
+      document.getElementById('auctionImagesPreview').innerHTML = (auction.images && auction.images.length) ? auction.images.map(img => `<div class='bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-xs'>${img.name}</div>`).join('') : '';
+      document.getElementById('annexureFiles').value = '';
+      document.getElementById('annexureFilesPreview').innerHTML = (auction.annexures && auction.annexures.length) ? auction.annexures.map(ann => `<div class='bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-xs'>${ann.name}</div>`).join('') : '';
+      // Set edit mode
+      document.getElementById('addAuctionForm').setAttribute('data-edit-serial', auction.serial);
+    }
+    // Update add/edit logic
+    function saveAuctionFromForm(e) {
+      e.preventDefault();
+      
+      console.log('Form submission started');
+      
+      // Check if this is an edit or add operation
+      const editSerial = document.getElementById('addAuctionForm').getAttribute('data-edit-serial');
+      const isEdit = !!editSerial;
+      
+      // Get form values
+      const website = document.getElementById('website').value.trim();
+      const department = document.getElementById('department').value.trim();
+      const tenderId = document.getElementById('tenderId').value.trim();
+      const location = document.getElementById('location').value.trim();
+      const materialDescription = document.getElementById('materialDescription').value.trim();
+      const emd = document.getElementById('emd').value.trim();
+      const lastDateEmd = document.getElementById('lastDateEmd').value;
+      const lastTimeEmd = document.getElementById('lastTimeEmd')?.value || '';
+      const emdSubmitted = document.getElementById('emdSubmitted').value;
+      const auctionDate = document.getElementById('auctionDate').value;
+      const auctionTime = document.getElementById('auctionTime')?.value || '';
+      const inspectionFrom = document.getElementById('inspectionFrom').value;
+      const inspectionTo = document.getElementById('inspectionTo').value;
+      const contactDetails = document.getElementById('contactDetails').value.trim();
+      const taxDetails = document.getElementById('taxDetails').value.trim();
+      const auctionDescription = document.getElementById('auctionDescription').value.trim();
+      
+      // Basic validation
+      if (!website || !department || !tenderId || !location || !auctionDate) {
+        showNotification('Please fill in all required fields', 'error');
+        return;
+      }
+      
+      // Process file uploads
+      const processFiles = async () => {
+        const tenderDocs = document.getElementById('tenderDocs').files;
+        const auctionImages = document.getElementById('auctionImages').files;
+        const annexureFiles = document.getElementById('annexureFiles').files;
+        
+        const processFileArray = (fileList) => {
+          return Array.from(fileList).map(file => {
+            return new Promise((resolve) => {
+              const reader = new FileReader();
+              reader.onload = () => resolve({
+                name: file.name,
+                data: reader.result,
+                type: file.type,
+                size: file.size
+              });
+              reader.readAsDataURL(file);
+            });
+          });
+        };
+        
+        try {
+          const [tenderDocsData, auctionImagesData, annexureFilesData] = await Promise.all([
+            Promise.all(processFileArray(tenderDocs)),
+            Promise.all(processFileArray(auctionImages)),
+            Promise.all(processFileArray(annexureFiles))
+          ]);
+          
+          console.log('Files processed successfully');
+          
+          // Create auction object
+          const auctionData = {
+            website,
+            department,
+            tenderId,
+            location,
+            materialDescription,
+            emd,
+            lastDateEmd,
+            lastTimeEmd,
+            emdSubmitted,
+            auctionDate,
+            auctionTime,
+            inspectionFrom,
+            inspectionTo,
+            contactDetails,
+            taxDetails,
+            auctionDescription,
+            tenderDocs: tenderDocsData,
+            images: auctionImagesData,
+            annexures: annexureFilesData,
+            status: 'upcoming'
+          };
+          
+          if (isEdit) {
+            // Edit existing auction
+            const idx = auctions.findIndex(a => a.serial == editSerial);
+            if (idx !== -1) {
+              auctionData.serial = editSerial;
+              auctionData.status = auctions[idx].status; // Preserve status
+              auctionData.finalPrice = auctions[idx].finalPrice; // Preserve final price
+              auctionData.remarks = auctions[idx].remarks; // Preserve remarks
+              auctionData.ringStatus = auctions[idx].ringStatus; // Preserve ring status
+              auctions[idx] = auctionData;
+              console.log('Auction updated');
+            }
+            document.getElementById('addAuctionForm').removeAttribute('data-edit-serial');
+          } else {
+            // Add new auction
+            const maxSerial = auctions.reduce((max, a) => a.serial > max ? a.serial : max, 0);
+            auctionData.serial = maxSerial + 1;
+            auctions.push(auctionData);
+            console.log('New auction added to array');
+          }
+          
+          // Save to storage
+          console.log('Saving auctions...');
+          await saveAuctions();
+          
+          // Show success message
+          const successMessage = isEdit ? 'Auction updated successfully!' : 'Upcoming auction added successfully!';
+          document.getElementById('successMessage').textContent = successMessage;
+          document.getElementById('addAuctionSuccess').classList.remove('hidden');
+          
+          // Close modal and refresh
+          setTimeout(() => {
+            closeAddAuctionModal();
+            showAuctions('upcoming');
+          }, 1200);
+          
+        } catch (error) {
+          console.error('Error processing files:', error);
+          showNotification('Error processing files. Please try again.', 'error');
+        }
+      };
+      
+      processFiles();
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('tenderDocs').addEventListener('change', function(e) {
+        const files = Array.from(e.target.files).slice(0, 3);
+        const preview = document.getElementById('tenderDocsPreview');
+        preview.innerHTML = '';
+        files.forEach(file => {
+          const div = document.createElement('div');
+          div.className = 'bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-xs';
+          div.textContent = file.name;
+          preview.appendChild(div);
+        });
+      });
+          document.getElementById('addAuctionForm').addEventListener('submit', saveAuctionFromForm);
+    document.getElementById('emdLedgerForm').addEventListener('submit', saveEmdEntryFromForm);
+    document.getElementById('finalPriceRemarksForm').addEventListener('submit', saveFinalPriceRemarks);
+      const searchInput = document.querySelector('input[placeholder="Search tenders..."]');
+      if (searchInput) {
+        searchInput.addEventListener('input', function() {
+          const query = this.value.trim().toLowerCase();
+          if (window.currentAuctionTab) {
+            renderAuctionList(window.currentAuctionTab, query);
+          } else {
+            renderAuctionList('live', query);
+          }
+        });
+      }
+    });
+    // Delete auction logic
+    function deleteAuction(serial) {
+      if (!confirm('Are you sure you want to delete this auction?')) return;
+      auctions = auctions.filter(a => a.serial != serial);
+      saveAuctions();
+      showAuctions('upcoming');
+    }
+    // Download document logic (dummy for now)
+    function downloadAuctionDoc(serial, docIndex) {
+      const auction = auctions.find(a => a.serial == serial);
+      if (!auction || !auction.tenderDocs || !auction.tenderDocs[docIndex]) return;
+      const doc = auction.tenderDocs[docIndex];
+      const name = (doc && doc.name) ? doc.name : `document_${docIndex+1}`;
+      const dataUrl = (doc && doc.data) ? doc.data : null;
+      if (!dataUrl) { alert('Document data not available'); return; }
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.download = name;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+    
+    // Download annexure logic
+    function downloadAnnexure(serial, annexureIndex) {
+      const auction = auctions.find(a => a.serial == serial);
+      if (!auction || !auction.annexures || !auction.annexures[annexureIndex]) return;
+      const annexure = auction.annexures[annexureIndex];
+      // Create a temporary link to download the file
+      const link = document.createElement('a');
+      link.href = annexure.data;
+      link.download = annexure.name;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+    // Add Final Price/Remarks logic (now handled by editFinalPriceRemarks for consistency)
+    function addFinalPriceRemarks(serial) {
+      // Redirect to the unified edit function
+      editFinalPriceRemarks(serial);
+    }
+
+    // Edit Final Price/Remarks logic for both live and completed auctions
+    function editFinalPriceRemarks(serial) {
+      const auction = auctions.find(a => a.serial == serial);
+      if (!auction) return;
+      
+      // Store the serial number for the form submission
+      document.getElementById('finalPriceRemarksForm').setAttribute('data-serial', serial);
+      
+      // Fill the form with current values
+      document.getElementById('editFinalPrice').value = auction.finalPrice || '';
+      document.getElementById('editRemarks').value = auction.remarks || '';
+      
+      // Change modal title based on auction status
+      const isLive = auction.status === 'live';
+      const title = isLive ? 'Add/Edit Final Price & Remarks' : 'Edit Final Price & Remarks';
+      document.querySelector('#finalPriceRemarksModal h3').textContent = title;
+      
+      // Show the modal
+      document.getElementById('finalPriceRemarksModal').classList.remove('hidden');
+    }
+
+    function closeFinalPriceRemarksModal() {
+      document.getElementById('finalPriceRemarksModal').classList.add('hidden');
+      document.getElementById('finalPriceRemarksForm').reset();
+    }
+
+    function saveFinalPriceRemarks(e) {
+      e.preventDefault();
+      
+      const serial = document.getElementById('finalPriceRemarksForm').getAttribute('data-serial');
+      const finalPrice = document.getElementById('editFinalPrice').value.trim();
+      const remarks = document.getElementById('editRemarks').value.trim();
+      
+      // Basic validation
+      if (!finalPrice && !remarks) {
+        showNotification('Please enter at least Final Price or Remarks', 'error');
+        return;
+      }
+      
+      const idx = auctions.findIndex(a => a.serial == serial);
+      if (idx !== -1) {
+        const isNew = !auctions[idx].finalPrice && !auctions[idx].remarks;
+        auctions[idx].finalPrice = finalPrice;
+        auctions[idx].remarks = remarks;
+        saveAuctions();
+        
+        // Close the modal
+        closeFinalPriceRemarksModal();
+        
+        // Refresh the current view to show updated values
+        const currentTab = window.currentAuctionTab || 'completed';
+        showAuctions(currentTab);
+        
+        // Show appropriate success message
+        const message = isNew ? 'Final Price and Remarks added successfully!' : 'Final Price and Remarks updated successfully!';
+        showNotification(message, 'success');
+      }
+    }
+
+    function showNotification(message, type = 'info') {
+      // Create notification element
+      const notification = document.createElement('div');
+      notification.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full ${
+        type === 'success' ? 'bg-green-500 text-white' : 
+        type === 'error' ? 'bg-red-500 text-white' : 
+        'bg-blue-500 text-white'
+      }`;
+      notification.textContent = message;
+      
+      document.body.appendChild(notification);
+      
+      // Animate in
+      setTimeout(() => notification.classList.remove('translate-x-full'), 100);
+      
+      // Remove after 3 seconds
+      setTimeout(() => {
+        notification.classList.add('translate-x-full');
+        setTimeout(() => document.body.removeChild(notification), 300);
+      }, 3000);
+    }
+    // Image Viewer logic
+    function showImageViewer(serial, index) {
+      const auction = auctions.find(a => a.serial == serial);
+      if (!auction || !auction.images || auction.images.length === 0) return;
+      const imageUrls = auction.images.map(img => img.data);
+      const imageNames = auction.images.map(img => img.name);
+      const currentImageUrl = imageUrls[index];
+      const currentImageName = imageNames[index];
+
+      document.getElementById('imageViewerModal').classList.remove('hidden');
+      document.getElementById('imageViewerImg').src = currentImageUrl;
+      document.getElementById('imageViewerImg').alt = currentImageName;
+      document.getElementById('imageViewerNav').innerHTML = ''; // Clear previous navigation
+
+      imageUrls.forEach((url, i) => {
+        const navBtn = document.createElement('button');
+        navBtn.className = 'text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100';
+        navBtn.onclick = () => showImageViewer(serial, i);
+        navBtn.innerHTML = `<img src='${url}' alt='${imageNames[i]}' class='w-10 h-10 object-cover rounded-md' />`;
+        document.getElementById('imageViewerNav').appendChild(navBtn);
+      });
+    }
+
+    function closeImageViewer() {
+      document.getElementById('imageViewerModal').classList.add('hidden');
+    }
+    
+    // Clear completed filters function
+    function clearCompletedFilters() {
+      document.getElementById('completed-dept-filter').value = '';
+      document.getElementById('completed-date-filter').value = '';
+      document.getElementById('completed-month-filter').value = '';
+      document.getElementById('completed-year-filter').value = '';
+      showAuctions('completed');
+    }
+
+    function renderRingStatusButton(a) {
+      const status = a.ringStatus || 'notring';
+      if (status === 'notring') {
+        return `<button class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-lg text-xs font-semibold shadow-sm hover:shadow transition-all duration-300 flex items-center gap-1" onclick="cycleRingStatus(${a.serial})"><i class="fas fa-times-circle"></i> Not Ring</button>`;
+      } else if (status === 'ring') {
+        return `<button class="bg-green-100 text-green-700 px-3 py-1 rounded-lg text-xs font-semibold shadow-sm hover:shadow transition-all duration-300 flex items-center gap-1" onclick="cycleRingStatus(${a.serial})"><i class="fas fa-check-circle"></i> Ring</button>`;
+      } else if (status === 'bidding') {
+        return `<button class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-xs font-semibold shadow-sm hover:shadow transition-all duration-300 flex items-center gap-1" onclick="cycleRingStatus(${a.serial})"><i class="fas fa-gavel"></i> Bidding By KANDAN ALLOYS</button>`;
+      }
+      return '';
+    }
+    function cycleRingStatus(serial) {
+      const idx = auctions.findIndex(a => a.serial == serial);
+      if (idx !== -1) {
+        const current = auctions[idx].ringStatus || 'notring';
+        let next = 'notring';
+        if (current === 'notring') next = 'ring';
+        else if (current === 'ring') next = 'bidding';
+        else if (current === 'bidding') next = 'notring';
+        
+        auctions[idx].ringStatus = next;
+        
+        // If setting to 'ring', also update the auction status to 'ringed'
+        if (next === 'ring') {
+          auctions[idx].status = 'ringed';
+        } else if (next === 'notring' && auctions[idx].status === 'ringed') {
+          // If removing ring status, revert to completed
+          auctions[idx].status = 'completed';
+        }
+        
+        saveAuctions();
+        
+        // Show the appropriate tab based on the new status
+        if (next === 'ring') {
+          showAuctions('ringed');
+        } else {
+          showAuctions('completed');
+        }
+      }
+    }
+
+    // Initial render
+    showAuctions('live');
+
+    // Store custom websites in localStorage
+    function getCustomWebsites() {
+      return JSON.parse(localStorage.getItem('customWebsites') || '[]');
+    }
+    function addCustomWebsite(name) {
+      let customWebsites = getCustomWebsites();
+      if (!customWebsites.includes(name)) {
+        customWebsites.push(name);
+        localStorage.setItem('customWebsites', JSON.stringify(customWebsites));
+      }
+    }
+    function populateWebsiteDropdown(selectedValue) {
+      const select = document.getElementById('emdWebsite');
+      const customWebsites = getCustomWebsites();
+      const builtIn = [
+        { value: '', label: 'Select Website' },
+        { value: 'GEM', label: 'GEM' },
+        { value: 'TN TENDER', label: 'TN TENDER' },
+        { value: 'CPP', label: 'CPP' },
+        { value: 'IOCL', label: 'IOCL' },
+        { value: 'M Junction', label: 'M Junction' },
+        { value: 'MSTC', label: 'MSTC' },
+        { value: 'Zecomy', label: 'Zecomy' },
+        { value: 'Matex', label: 'Matex' },
+        { value: 'Intis', label: 'Intis' },
+        { value: 'IREPS', label: 'IREPS' },
+        { value: 'Synise', label: 'Synise' }
+      ];
+      select.innerHTML = '';
+      builtIn.forEach(opt => {
+        const o = document.createElement('option');
+        o.value = opt.value;
+        o.textContent = opt.label;
+        select.appendChild(o);
+      });
+      customWebsites.forEach(name => {
+        const o = document.createElement('option');
+        o.value = name;
+        o.textContent = name;
+        select.appendChild(o);
+      });
+      const other = document.createElement('option');
+      other.value = 'Other';
+      other.textContent = 'Other (Add New)';
+      select.appendChild(other);
+      if (selectedValue) select.value = selectedValue;
+    }
+
+    function toggleWebsiteInput() {
+      const select = document.getElementById('emdWebsite');
+      const otherInput = document.getElementById('emdWebsiteOther');
+      if (select.value === 'Other') {
+        otherInput.classList.remove('hidden');
+        otherInput.required = true;
+      } else {
+        otherInput.classList.add('hidden');
+        otherInput.required = false;
+        otherInput.value = '';
+      }
+    }
+
+    function toggleBankInput() {
+      const select = document.getElementById('emdBank');
+      const otherInput = document.getElementById('emdBankOther');
+      if (select.value === 'Other') {
+        otherInput.classList.remove('hidden');
+        otherInput.required = true;
+      } else {
+        otherInput.classList.add('hidden');
+        otherInput.required = false;
+        otherInput.value = '';
+      }
+    }
+
+    // Helper: sanitize HTML (keep formatting/tables, remove scripts)
+    function sanitizeHtml(html) {
+      if (!html) return '';
+      return String(html)
+        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '') // Remove script tags
+        .replace(/&nbsp;/g, ' ') // Replace &nbsp; with regular space
+        .replace(/&amp;/g, '&') // Replace &amp; with &
+        .replace(/&lt;/g, '<') // Replace &lt; with <
+        .replace(/&gt;/g, '>') // Replace &gt; with >
+        .replace(/&quot;/g, '"') // Replace &quot; with "
+        .replace(/&#39;/g, "'"); // Replace &#39; with '
+    }
+
+    // Helper: clean HTML content for Excel/CSV export (removes all HTML and entities)
+    // This function ensures that HTML content like &nbsp;, &amp;, HTML tags, etc.
+    // are properly converted to clean text suitable for Excel/CSV export
+    // Usage: cleanHtmlForExport(htmlContent) - returns clean text
+    function cleanHtmlForExport(html) {
+      if (!html) return '';
+      return String(html)
+        // Common HTML entities
+        .replace(/&nbsp;/g, ' ') // Non-breaking space
+        .replace(/&amp;/g, '&') // Ampersand
+        .replace(/&lt;/g, '<') // Less than
+        .replace(/&gt;/g, '>') // Greater than
+        .replace(/&quot;/g, '"') // Double quote
+        .replace(/&#39;/g, "'") // Single quote
+        .replace(/&apos;/g, "'") // Apostrophe
+        .replace(/&copy;/g, '(c)') // Copyright
+        .replace(/&reg;/g, '(R)') // Registered trademark
+        .replace(/&trade;/g, '(TM)') // Trademark
+        .replace(/&hellip;/g, '...') // Horizontal ellipsis
+        .replace(/&mdash;/g, '—') // Em dash
+        .replace(/&ndash;/g, '–') // En dash
+        .replace(/&rsquo;/g, "'") // Right single quotation mark
+        .replace(/&lsquo;/g, "'") // Left single quotation mark
+        .replace(/&rdquo;/g, '"') // Right double quotation mark
+        .replace(/&ldquo;/g, '"') // Left double quotation mark
+        // Numeric HTML entities
+        .replace(/&#160;/g, ' ') // Non-breaking space (numeric)
+        .replace(/&#38;/g, '&') // Ampersand (numeric)
+        .replace(/&#60;/g, '<') // Less than (numeric)
+        .replace(/&#62;/g, '>') // Greater than (numeric)
+        .replace(/&#34;/g, '"') // Double quote (numeric)
+        .replace(/&#39;/g, "'") // Single quote (numeric)
+        // Remove all remaining HTML tags
+        .replace(/<[^>]*>/g, '')
+        // Clean up whitespace
+        .replace(/\s+/g, ' ') // Replace multiple spaces with single space
+        .replace(/\n\s*\n/g, '\n') // Remove empty lines
+        .trim(); // Remove leading/trailing spaces
+    }
+
+    // Export Upcoming Auctions to PDF
+    function exportUpcomingToPDF() {
+      const upcomingAuctions = filterAuctions('upcoming');
+      const currentDate = new Date();
+      const formattedDate = currentDate.toLocaleDateString('en-GB', { 
+        day: '2-digit', 
+        month: 'short', 
+        year: 'numeric' 
+      });
+      
+      if (upcomingAuctions.length === 0) {
+        alert('No upcoming auctions to export.');
+        return;
+      }
+
+      // Create PDF content
+      let pdfContent = `
+        <html>
+        <head>
+          <title>Upcoming Auctions Report - ${formattedDate}</title>
+          <style>
+            body { 
+              font-family: Arial, sans-serif; 
+              margin: 20px; 
+              line-height: 1.6;
+              color: #333;
+            }
+            .header { 
+              text-align: center; 
+              font-size: 24px; 
+              font-weight: bold; 
+              margin-bottom: 10px; 
+              color: #1e3a8a;
+              border-bottom: 3px solid #3b82f6;
+              padding-bottom: 10px;
+            }
+            .subheader { text-align: center; font-size: 14px; color: #666; margin-bottom: 20px; }
+            .summary { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
+            .summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-weight: 500; }
+            .auction-card { border: 2px solid #e2e8f0; border-radius: 8px; margin-bottom: 20px; page-break-inside: avoid; background-color: #fff; }
+            .auction-header { background-color: #3b82f6; color: white; padding: 12px 15px; font-weight: bold; font-size: 16px; border-radius: 6px 6px 0 0; }
+            .auction-content { padding: 15px; }
+            .auction-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+            .auction-section { margin-bottom: 15px; }
+            .section-title { font-weight: bold; color: #1e3a8a; margin-bottom: 8px; font-size: 14px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
+            .detail-row { display: flex; margin-bottom: 6px; font-size: 12px; }
+            .detail-label { font-weight: bold; min-width: 120px; color: #4b5563; }
+            .detail-value { flex: 1; color: #1f2937; }
+            .material-description { background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 4px; padding: 10px; margin-top: 10px; font-size: 12px; line-height: 1.4; }
+            .material-description table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 12px; }
+            .material-description th, .material-description td { border: 1px solid #d1d5db; padding: 6px; text-align: left; }
+            .material-description th { background: #f3f4f6; }
+            .date-highlight { background-color: #fef3c7; color: #92400e; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 11px; }
+            .status-badge { display: inline-block; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
+            .status-not-submitted { background-color: #fee2e2; color: #dc2626; }
+            .status-submitted { background-color: #dcfce7; color: #166534; }
+            .footer { margin-top: 30px; text-align: center; font-size: 12px; color: #666; border-top: 1px solid #e2e8f0; padding-top: 15px; }
+            @media print { .auction-card { page-break-inside: avoid; } }
+          </style>
+        </head>
+        <body>
+          <div class="header">KANDAN ALLOYS</div>
+          <div class="subheader">Upcoming Auctions Report</div>
+          <div class="subheader">Generated on: ${formattedDate}</div>
+          <div class="summary">
+            <div class="summary-row"><span>Total Upcoming Auctions:</span><span><strong>${upcomingAuctions.length}</strong></span></div>
+            <div class="summary-row"><span>Report Period:</span><span>From ${formattedDate} onwards</span></div>
+            <div class="summary-row"><span>Sorted By:</span><span>Auction Date (Earliest First)</span></div>
+          </div>
+      `;
+
+      // Add each auction to the PDF
+      upcomingAuctions.forEach((auction, index) => {
+        const materialHtml = sanitizeHtml(auction.materialDescription || '');
+        
+        pdfContent += `
+          <div class="auction-card">
+            <div class="auction-header">${index + 1}. ${auction.website || 'Auction'} - ${formatDate(auction.auctionDate)}</div>
+            <div class="auction-content">
+              <div class="auction-grid">
+                <div class="auction-section">
+                  <div class="section-title">Basic Information</div>
+                  <div class="detail-row"><span class="detail-label">Website:</span><span class="detail-value">${auction.website || 'N/A'}</span></div>
+                  <div class="detail-row"><span class="detail-label">Department:</span><span class="detail-value">${auction.department || 'N/A'}</span></div>
+                  <div class="detail-row"><span class="detail-label">Tender ID:</span><span class="detail-value">${auction.tenderId || 'N/A'}</span></div>
+                  <div class="detail-row"><span class="detail-label">Location:</span><span class="detail-value">${auction.location || 'N/A'}</span></div>
+                  <div class="detail-row"><span class="detail-label">Auction Date:</span><span class="detail-value"><span class="date-highlight">${formatDate(auction.auctionDate)}</span></span></div>
+                </div>
+                <div class="auction-section">
+                  <div class="section-title">EMD Details</div>
+                  <div class="detail-row"><span class="detail-label">EMD Amount:</span><span class="detail-value">₹${auction.emd || 'N/A'}</span></div>
+                  <div class="detail-row"><span class="detail-label">EMD Status:</span><span class="detail-value"><span class="status-badge ${auction.emdSubmitted === 'Submitted' ? 'status-submitted' : 'status-not-submitted'}">${auction.emdSubmitted || 'Not Submitted'}</span></span></div>
+                  <div class="detail-row"><span class="detail-label">Last Date EMD:</span><span class="detail-value"><span class="date-highlight">${formatDate(auction.lastDateEmd)}</span></span></div>
+                </div>
+              </div>
+              <div class="auction-section">
+                <div class="section-title">Inspection Details</div>
+                <div class="detail-row"><span class="detail-label">Inspection Period:</span><span class="detail-value"><span class="date-highlight">${formatDate(auction.inspectionFrom)} to ${formatDate(auction.inspectionTo)}</span></span></div>
+              </div>
+              <div class="auction-section">
+                <div class="section-title">Material Description</div>
+                <div class="material-description">${materialHtml || 'No description available'}</div>
+              </div>
+              <div class="auction-section">
+                <div class="section-title">Contact Information</div>
+                <div class="detail-row"><span class="detail-label">Contact Details:</span><span class="detail-value">${auction.contactDetails || 'N/A'}</span></div>
+              </div>
+              ${auction.tenderDocs && auction.tenderDocs.length > 0 ? `
+              <div class="auction-section"><div class="section-title">Tender Documents</div><div class="detail-row"><span class="detail-label">Documents:</span><span class="detail-value">${auction.tenderDocs.join(', ')}</span></div></div>` : ''}
+              ${auction.annexures && auction.annexures.length > 0 ? `
+              <div class="auction-section"><div class="section-title">Annexure Files</div><div class="detail-row"><span class="detail-label">Files:</span><span class="detail-value">${auction.annexures.map(ann => ann.name).join(', ')}</span></div></div>` : ''}
+              <div class="auction-section">
+                <div class="section-title">Additional</div>
+                <div class="detail-row"><span class="detail-label">Tax Details:</span><span class="detail-value">${auction.taxDetails || 'N/A'}</span></div>
+                <div class="detail-row"><span class="detail-label">Description:</span><span class="detail-value">${auction.auctionDescription || 'N/A'}</span></div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      pdfContent += `
+          <div class="footer">
+            <p><strong>KANDAN ALLOYS</strong> - Auction Management System</p>
+            <p>This report contains ${upcomingAuctions.length} upcoming auction(s) as of ${formattedDate}</p>
+            <p>Generated automatically from the tender management system</p>
+          </div>
+        </body>
+        </html>
+      `;
+
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(pdfContent);
+      printWindow.document.close();
+      setTimeout(() => { printWindow.print(); }, 500);
+    }
+
+    function exportLiveToPDF() {
+      const liveAuctions = filterAuctions('live');
+      const currentDate = new Date();
+      const formattedDate = currentDate.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+      if (liveAuctions.length === 0) { alert('No live auctions to export.'); return; }
+
+      let pdfContent = `
+        <html><head><title>Live Auctions - ${formattedDate}</title>
+        <style>
+          body { font-family: Arial, sans-serif; margin: 20px; color:#333; }
+          .header { text-align:center; font-size:24px; font-weight:700; color:#065f46; margin-bottom:6px; }
+          .sub { text-align:center; color:#555; margin-bottom:16px; }
+          .card { border:1px solid #e5e7eb; border-radius:8px; margin-bottom:16px; page-break-inside:avoid; }
+          .title { background:#10b981; color:#fff; padding:10px 12px; border-radius:8px 8px 0 0; font-weight:700; }
+          .row { display:flex; gap:16px; padding:12px; }
+          .col { flex:1; }
+          .label { font-weight:600; min-width:120px; display:inline-block; color:#374151; }
+          .val { color:#111827; }
+          .badge { display:inline-block; padding:3px 8px; border-radius:999px; font-size:11px; font-weight:700; }
+          .badge-live { background:#d1fae5; color:#065f46; }
+          .desc { background:#f9fafb; border:1px solid #e5e7eb; padding:10px; border-radius:6px; margin:0 12px 12px; font-size:12px; }
+          .desc table { width:100%; border-collapse:collapse; margin-top:6px; font-size:12px; }
+          .desc th, .desc td { border:1px solid #d1d5db; padding:6px; text-align:left; }
+          .desc th { background:#f3f4f6; }
+        </style></head><body>
+          <div class='header'>KANDAN ALLOYS</div>
+          <div class='sub'>Live Auctions Report • Generated on ${formattedDate}</div>
+      `;
+
+      liveAuctions.forEach((a, i) => {
+        const materialHtml = sanitizeHtml(a.materialDescription || '');
+        pdfContent += `
+          <div class='card'>
+            <div class='title'>${i+1}. ${a.website || 'Auction'} • ${formatDate(a.auctionDate)} <span class='badge badge-live' style='margin-left:8px;'>LIVE</span></div>
+            <div class='row'>
+              <div class='col'>
+                <div><span class='label'>Department:</span> <span class='val'>${a.department || '-'}</span></div>
+                <div><span class='label'>Tender ID:</span> <span class='val'>${a.tenderId || '-'}</span></div>
+                <div><span class='label'>Location:</span> <span class='val'>${a.location || '-'}</span></div>
+              </div>
+              <div class='col'>
+                <div><span class='label'>EMD:</span> <span class='val'>₹${a.emd || '-'}</span></div>
+                <div><span class='label'>Last Date EMD:</span> <span class='val'>${formatDate(a.lastDateEmd) || '-'}</span></div>
+                <div><span class='label'>Inspection:</span> <span class='val'>${formatDate(a.inspectionFrom)} to ${formatDate(a.inspectionTo)}</span></div>
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col'>
+                <div><span class='label'>Final Price:</span> <span class='val'>${a.finalPrice || 'Not mentioned'}</span></div>
+              </div>
+              <div class='col'>
+                <div><span class='label'>Remarks:</span> <span class='val'>${a.remarks || 'Not mentioned'}</span></div>
+              </div>
+            </div>
+            <div class='desc'>${materialHtml || 'No description available'}</div>
+            <div class='row'>
+              <div class='col'>
+                <div><span class='label'>Tax Details:</span> <span class='val'>${a.taxDetails || 'N/A'}</span></div>
+              </div>
+              <div class='col'>
+                <div><span class='label'>Description:</span> <span class='val'>${a.auctionDescription || 'N/A'}</span></div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      pdfContent += `</body></html>`;
+      const w = window.open('', '_blank');
+      w.document.write(pdfContent);
+      w.document.close();
+      setTimeout(() => { w.print(); }, 400);
+    }
+
+    // Export Ring Data to PDF
+    function exportRingedToPDF() {
+      const ringedAuctions = filterAuctions('ringed');
+      const currentDate = new Date();
+      const formattedDate = currentDate.toLocaleDateString('en-GB', { 
+        day: '2-digit', 
+        month: 'short', 
+        year: 'numeric' 
+      });
+      
+      if (ringedAuctions.length === 0) {
+        alert('No ring data to export.');
+        return;
+      }
+
+      // Create PDF content
+      let pdfContent = `
+        <html>
+        <head>
+          <title>Ring Data Report - ${formattedDate}</title>
+          <style>
+            body { 
+              font-family: Arial, sans-serif; 
+              margin: 20px; 
+              line-height: 1.6;
+              color: #333;
+            }
+            .header { 
+              text-align: center; 
+              font-size: 24px; 
+              font-weight: bold; 
+              margin-bottom: 10px; 
+              color: #059669;
+              border-bottom: 3px solid #10b981;
+              padding-bottom: 10px;
+            }
+            .subheader { text-align: center; font-size: 14px; color: #666; margin-bottom: 20px; }
+            .summary { background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
+            .summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-weight: 500; }
+            .auction-card { border: 2px solid #bbf7d0; border-radius: 8px; margin-bottom: 20px; page-break-inside: avoid; background-color: #fff; }
+            .auction-header { background-color: #10b981; color: white; padding: 12px 15px; font-weight: bold; font-size: 16px; border-radius: 6px 6px 0 0; }
+            .auction-content { padding: 15px; }
+            .auction-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+            .auction-section { margin-bottom: 15px; }
+            .section-title { font-weight: bold; color: #059669; margin-bottom: 8px; font-size: 14px; border-bottom: 1px solid #bbf7d0; padding-bottom: 4px; }
+            .detail-row { display: flex; margin-bottom: 6px; font-size: 12px; }
+            .detail-label { font-weight: bold; min-width: 120px; color: #4b5563; }
+            .detail-value { flex: 1; color: #1f2937; }
+            .material-description { background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 4px; padding: 10px; margin-top: 10px; font-size: 12px; line-height: 1.4; }
+            .material-description table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 12px; }
+            .material-description th, .material-description td { border: 1px solid #d1d5db; padding: 6px; text-align: left; }
+            .material-description th { background: #f3f4f6; }
+            .date-highlight { background-color: #fef3c7; color: #92400e; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 11px; }
+            .status-badge { display: inline-block; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
+            .status-ring { background-color: #d1fae5; color: #065f46; }
+            .footer { margin-top: 30px; text-align: center; font-size: 12px; color: #666; border-top: 1px solid #bbf7d0; padding-top: 15px; }
+            @media print { .auction-card { page-break-inside: avoid; } }
+          </style>
+        </head>
+        <body>
+          <div class="header">KANDAN ALLOYS</div>
+          <div class="subheader">Ring Data Report</div>
+          <div class="subheader">Generated on: ${formattedDate}</div>
+          <div class="summary">
+            <div class="summary-row"><span>Total Ring Data Entries:</span><span><strong>${ringedAuctions.length}</strong></span></div>
+            <div class="summary-row"><span>Report Period:</span><span>From ${formattedDate} onwards</span></div>
+            <div class="summary-row"><span>Sorted By:</span><span>Auction Date (Earliest First)</span></div>
+          </div>
+      `;
+
+      // Add each ring data entry to the PDF
+      ringedAuctions.forEach((auction, index) => {
+        const materialHtml = sanitizeHtml(auction.materialDescription || '');
+        
+        pdfContent += `
+          <div class="auction-card">
+            <div class="auction-header">${index + 1}. ${auction.website || 'Auction'} - ${formatDate(auction.auctionDate)} <span class="status-badge status-ring">RING</span></div>
+            <div class="auction-content">
+              <div class="auction-grid">
+                <div class="auction-section">
+                  <div class="section-title">Basic Information</div>
+                  <div class="detail-row"><span class="detail-label">Website:</span><span class="detail-value">${auction.website || 'N/A'}</span></div>
+                  <div class="detail-row"><span class="detail-label">Department:</span><span class="detail-value">${auction.department || 'N/A'}</span></div>
+                  <div class="detail-row"><span class="detail-label">Tender ID:</span><span class="detail-value">${auction.tenderId || 'N/A'}</span></div>
+                  <div class="detail-row"><span class="detail-label">Location:</span><span class="detail-value">${auction.location || 'N/A'}</span></div>
+                  <div class="detail-row"><span class="detail-label">Auction Date:</span><span class="detail-value"><span class="date-highlight">${formatDate(auction.auctionDate)}</span></span></div>
+                </div>
+                <div class="auction-section">
+                  <div class="section-title">EMD Details</div>
+                  <div class="detail-row"><span class="detail-label">EMD Amount:</span><span class="detail-value">₹${auction.emd || 'N/A'}</span></div>
+                  <div class="detail-row"><span class="detail-label">EMD Status:</span><span class="detail-value"><span class="status-badge ${auction.emdSubmitted === 'Submitted' ? 'status-ring' : 'status-ring'}">${auction.emdSubmitted || 'Not Submitted'}</span></span></div>
+                  <div class="detail-row"><span class="detail-label">Last Date EMD:</span><span class="detail-value"><span class="date-highlight">${formatDate(auction.lastDateEmd)}</span></span></div>
+                </div>
+              </div>
+              <div class="auction-section">
+                <div class="section-title">Inspection Details</div>
+                <div class="detail-row"><span class="detail-label">Inspection Period:</span><span class="detail-value"><span class="date-highlight">${formatDate(auction.inspectionFrom)} to ${formatDate(auction.inspectionTo)}</span></span></div>
+              </div>
+              <div class="auction-section">
+                <div class="section-title">Material Description</div>
+                <div class="material-description">${materialHtml || 'No description available'}</div>
+              </div>
+              <div class="auction-section">
+                <div class="section-title">Ring Information</div>
+                <div class="detail-row"><span class="detail-label">Ring Status:</span><span class="detail-value"><span class="status-badge status-ring">RING</span></span></div>
+                <div class="detail-row"><span class="detail-label">Final Price:</span><span class="detail-value">₹${auction.finalPrice || 'Not mentioned'}</span></div>
+                <div class="detail-row"><span class="detail-label">Remarks:</span><span class="detail-value">${auction.remarks || 'Not mentioned'}</span></div>
+              </div>
+              <div class="auction-section">
+                <div class="section-title">Contact Information</div>
+                <div class="detail-row"><span class="detail-label">Contact Details:</span><span class="detail-value">${auction.contactDetails || 'N/A'}</span></div>
+              </div>
+              ${auction.tenderDocs && auction.tenderDocs.length > 0 ? `
+              <div class="auction-section"><div class="section-title">Tender Documents</div><div class="detail-row"><span class="detail-label">Documents:</span><span class="detail-value">${auction.tenderDocs.join(', ')}</span></div></div>` : ''}
+              ${auction.annexures && auction.annexures.length > 0 ? `
+              <div class="auction-section"><div class="section-title">Annexure Files</div><div class="detail-row"><span class="detail-label">Files:</span><span class="detail-value">${auction.annexures.map(ann => ann.name).join(', ')}</span></div></div>` : ''}
+              <div class="auction-section">
+                <div class="section-title">Additional</div>
+                <div class="detail-row"><span class="detail-label">Tax Details:</span><span class="detail-value">${auction.taxDetails || 'N/A'}</span></div>
+                <div class="detail-row"><span class="detail-label">Description:</span><span class="detail-value">${auction.auctionDescription || 'N/A'}</span></div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      pdfContent += `
+          <div class="footer">
+            <p><strong>KANDAN ALLOYS</strong> - Ring Data Management System</p>
+            <p>This report contains ${ringedAuctions.length} ring data entry(ies) as of ${formattedDate}</p>
+            <p>Generated automatically from the tender management system</p>
+          </div>
+        </body>
+        </html>
+      `;
+
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(pdfContent);
+      printWindow.document.close();
+      setTimeout(() => { printWindow.print(); }, 500);
+    }
+
+    // Export Ring Data to Excel
+    function exportRingedToExcel() {
+      const ringedAuctions = filterAuctions('ringed');
+      const currentDate = new Date();
+      const formattedDate = currentDate.toLocaleDateString('en-GB', { 
+        day: '2-digit', 
+        month: 'short', 
+        year: 'numeric' 
+      });
+      
+      if (ringedAuctions.length === 0) {
+        alert('No ring data to export.');
+        return;
+      }
+
+      // Create CSV content
+      let csvContent = "data:text/csv;charset=utf-8,";
+      
+      // Add header
+      csvContent += "Ring Data Report - " + formattedDate + "\n\n";
+      csvContent += "Summary\n";
+      csvContent += "Total Ring Data Entries," + ringedAuctions.length + "\n";
+      csvContent += "Report Period," + formattedDate + " onwards\n\n";
+      
+      // Add table headers
+      csvContent += "SL NO,Website,Department,Tender ID,Location,Auction Date,EMD,EMD Status,Last Date EMD,Inspection From,Inspection To,Final Price,Remarks,Contact Details,Tax Details,Description,Material Description,Tender Documents,Annexure Files\n";
+      
+      // Add data rows
+      ringedAuctions.forEach((auction, index) => {
+        const materialDesc = cleanHtmlForExport(auction.materialDescription || '');
+        const tenderDocs = (auction.tenderDocs || []).join('; ');
+        const annexures = (auction.annexures || []).map(ann => ann.name).join('; ');
+        
+        const row = [
+          index + 1,
+          cleanHtmlForExport(auction.website || ''),
+          cleanHtmlForExport(auction.department || ''),
+          cleanHtmlForExport(auction.tenderId || ''),
+          cleanHtmlForExport(auction.location || ''),
+          formatDate(auction.auctionDate) || '',
+          cleanHtmlForExport(auction.emd || ''),
+          cleanHtmlForExport(auction.emdSubmitted || ''),
+          formatDate(auction.lastDateEmd) || '',
+          formatDate(auction.inspectionFrom) || '',
+          formatDate(auction.inspectionTo) || '',
+          cleanHtmlForExport(auction.finalPrice || ''),
+          cleanHtmlForExport(auction.remarks || ''),
+          cleanHtmlForExport(auction.contactDetails || ''),
+          cleanHtmlForExport(auction.taxDetails || ''),
+          cleanHtmlForExport(auction.auctionDescription || ''),
+          materialDesc,
+          tenderDocs,
+          annexures
+        ].map(field => `"${field}"`).join(',');
+        
+        csvContent += row + '\n';
+      });
+      
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `Ring_Data_Report_${formattedDate.replace(/ /g, '_')}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+  <!-- Reports Section (hidden by default) -->
+  <section id="reports-section" class="max-w-6xl mx-auto px-4 mb-8 hidden">
+    <h2 class="text-2xl font-bold text-center mb-4 text-gray-800">Reports</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="bg-white rounded-xl shadow-lg p-6">
+        <h3 class="text-lg font-semibold mb-2 text-blue-700">Yearly Completed Auctions</h3>
+        <canvas id="completedAuctionsChart" height="220"></canvas>
+      </div>
+      <div class="bg-white rounded-xl shadow-lg p-6">
+        <h3 class="text-lg font-semibold mb-2 text-green-700">Yearly Ring Auctions</h3>
+        <canvas id="ringAuctionsChart" height="220"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // ...existing JS...
+    // Show Reports section and hide others
+    function showReports() {
+      document.getElementById('reports-section').classList.remove('hidden');
+      document.getElementById('auction-list-container').parentElement.classList.add('hidden');
+      renderReportsCharts();
+    }
+    // Show Auctions section and hide Reports
+    function showAuctionsTab() {
+      document.getElementById('reports-section').classList.add('hidden');
+      document.getElementById('auction-list-container').parentElement.classList.remove('hidden');
+    }
+    // Add click event to Reports nav
+    document.addEventListener('DOMContentLoaded', function() {
+      // ...existing code...
+      document.querySelectorAll('a').forEach(a => {
+        if (a.textContent.trim() === 'Reports') {
+          a.onclick = function(e) { e.preventDefault(); showReports(); };
+        }
+        if (a.textContent.trim() === 'Tenders') {
+          a.onclick = function(e) { e.preventDefault(); showAuctionsTab(); };
+        }
+      });
+    });
+    // Render the charts
+    function renderReportsCharts() {
+      // Gather yearly completed auction data
+      const yearCounts = {};
+      const ringCounts = {};
+      auctions.forEach(a => {
+        if (a.status === 'completed' || a.status === 'ringed') {
+          const year = (a.auctionDate || '').slice(0, 4);
+          if (year) yearCounts[year] = (yearCounts[year] || 0) + 1;
+        }
+        if (a.ringStatus === 'ring') {
+          const year = (a.auctionDate || '').slice(0, 4);
+          if (year) ringCounts[year] = (ringCounts[year] || 0) + 1;
+        }
+      });
+      const years = Array.from(new Set([...Object.keys(yearCounts), ...Object.keys(ringCounts)])).sort();
+      const completedData = years.map(y => yearCounts[y] || 0);
+      const ringData = years.map(y => ringCounts[y] || 0);
+      // Completed Auctions Chart
+      const ctx1 = document.getElementById('completedAuctionsChart').getContext('2d');
+      if (window.completedAuctionsChart) window.completedAuctionsChart.destroy();
+      window.completedAuctionsChart = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+          labels: years,
+          datasets: [{
+            label: 'Completed Auctions',
+            data: completedData,
+            backgroundColor: '#2563eb',
+          }]
+        },
+        options: { responsive: true, plugins: { legend: { display: false } } }
+      });
+      // Ring Auctions Chart
+      const ctx2 = document.getElementById('ringAuctionsChart').getContext('2d');
+      if (window.ringAuctionsChart) window.ringAuctionsChart.destroy();
+      window.ringAuctionsChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+          labels: years,
+          datasets: [{
+            label: 'Ring Auctions',
+            data: ringData,
+            backgroundColor: '#059669',
+          }]
+        },
+        options: { responsive: true, plugins: { legend: { display: false } } }
+      });
+    }
+  </script>
+  <script>
+    function logout() {
+      window.location.href = 'index.html'; // or 'login.html' if you have a login page
+    }
+  </script>
+  <script>
+    // Rich Text Editor Functions
+    function formatText(command) {
+      document.execCommand(command, false, null);
+      document.getElementById('materialDescriptionEditor').focus();
+    }
+
+    function insertTable() {
+      // Create a modal for table insertion
+      const modalHTML = `
+        <div id="tableModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div class="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4">
+            <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-white">Insert Table</h3>
+            <div class="space-y-4">
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium mb-1">Rows</label>
+                  <input type="number" id="tableRows" min="1" max="20" value="3" class="w-full border rounded px-3 py-2">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-1">Columns</label>
+                  <input type="number" id="tableCols" min="1" max="10" value="3" class="w-full border rounded px-3 py-2">
+                </div>
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-1">Table Style</label>
+                <select id="tableStyle" class="w-full border rounded px-3 py-2">
+                  <option value="simple">Simple Table</option>
+                  <option value="striped">Striped Rows</option>
+                  <option value="bordered">Full Borders</option>
+                  <option value="compact">Compact</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-1">Header Row</label>
+                <input type="checkbox" id="tableHeader" checked class="mr-2">
+                <span class="text-sm">Include header row</span>
+              </div>
+              <div class="flex justify-end gap-2 mt-6">
+                <button onclick="closeTableModal()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded">Cancel</button>
+                <button onclick="createTable()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">Create Table</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Remove existing modal if any
+      const existingModal = document.getElementById('tableModal');
+      if (existingModal) {
+        existingModal.remove();
+      }
+      
+      // Add modal to body
+      document.body.insertAdjacentHTML('beforeend', modalHTML);
+    }
+
+    function closeTableModal() {
+      const modal = document.getElementById('tableModal');
+      if (modal) {
+        modal.remove();
+      }
+    }
+
+    function createTable() {
+      const rows = parseInt(document.getElementById('tableRows').value) || 3;
+      const cols = parseInt(document.getElementById('tableCols').value) || 3;
+      const style = document.getElementById('tableStyle').value;
+      const hasHeader = document.getElementById('tableHeader').checked;
+      
+      let tableClass = "border-collapse w-full my-2";
+      let headerClass = "border border-gray-300 px-3 py-2 bg-gray-100 font-semibold";
+      let cellClass = "border border-gray-300 px-3 py-2";
+      
+      // Apply different styles
+      switch(style) {
+        case 'striped':
+          tableClass += " border border-gray-300";
+          break;
+        case 'bordered':
+          tableClass += " border border-gray-300";
+          break;
+        case 'compact':
+          tableClass += " border border-gray-300";
+          headerClass = "border border-gray-300 px-2 py-1 bg-gray-100 font-semibold text-sm";
+          cellClass = "border border-gray-300 px-2 py-1 text-sm";
+          break;
+        default:
+          tableClass += " border border-gray-300";
+      }
+      
+      let tableHTML = `<table class="${tableClass}">`;
+      
+      for (let i = 0; i < rows; i++) {
+        tableHTML += '<tr>';
+        for (let j = 0; j < cols; j++) {
+          if (i === 0 && hasHeader) {
+            tableHTML += `<th class="${headerClass}">Header ${j + 1}</th>`;
+          } else {
+            const rowClass = style === 'striped' && i % 2 === 1 ? 'bg-gray-50' : '';
+            tableHTML += `<td class="${cellClass} ${rowClass}">Cell ${i + 1}-${j + 1}</td>`;
+          }
+        }
+        tableHTML += '</tr>';
+      }
+      tableHTML += '</table>';
+      
+      document.execCommand('insertHTML', false, tableHTML);
+      document.getElementById('materialDescriptionEditor').focus();
+      closeTableModal();
+    }
+
+    // Add table management functions
+    function addTableRow() {
+      const selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        const table = range.commonAncestorContainer.closest('table');
+        if (table) {
+          const tbody = table.querySelector('tbody') || table;
+          const newRow = tbody.insertRow();
+          const colCount = tbody.rows[0] ? tbody.rows[0].cells.length : 3;
+          
+          for (let i = 0; i < colCount; i++) {
+            const cell = newRow.insertCell();
+            cell.className = 'border border-gray-300 px-3 py-2';
+            cell.textContent = `New Cell ${tbody.rows.length}-${i + 1}`;
+          }
+        }
+      }
+    }
+
+    function addTableColumn() {
+      const selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        const table = range.commonAncestorContainer.closest('table');
+        if (table) {
+          const rows = table.rows;
+          for (let i = 0; i < rows.length; i++) {
+            const cell = rows[i].insertCell();
+            cell.className = 'border border-gray-300 px-3 py-2';
+            cell.textContent = `Cell ${i + 1}-${rows[i].cells.length}`;
+          }
+        }
+      }
+    }
+
+    function deleteTableRow() {
+      const selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        const row = range.commonAncestorContainer.closest('tr');
+        if (row && row.parentNode.rows.length > 1) {
+          row.remove();
+        }
+      }
+    }
+
+    function deleteTableColumn() {
+      const selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        const cell = range.commonAncestorContainer.closest('td, th');
+        if (cell) {
+          const row = cell.parentNode;
+          const cellIndex = cell.cellIndex;
+          const table = row.closest('table');
+          
+          if (table) {
+            const rows = table.rows;
+            for (let i = 0; i < rows.length; i++) {
+              if (rows[i].cells.length > 1) {
+                rows[i].deleteCell(cellIndex);
+              }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script>
+    function insertImage() {
+      const imageUrl = prompt('Enter image URL or paste image data:', '');
+      if (imageUrl) {
+        const imgHTML = '<img src="' + imageUrl + '" alt="Material Image" class="max-w-full h-auto my-2 rounded" style="max-height: 300px;" />';
+        document.execCommand('insertHTML', false, imgHTML);
+        document.getElementById('materialDescriptionEditor').focus();
+      }
+    }
+
+    function insertList() {
+      const listType = confirm('Click OK for ordered list (1, 2, 3...), Cancel for unordered list (• • •)') ? 'ol' : 'ul';
+      const listHTML = '<' + listType + ' class="list-disc ml-6 my-2"><li>List item 1</li><li>List item 2</li><li>List item 3</li></' + listType + '>';
+      document.execCommand('insertHTML', false, listHTML);
+      document.getElementById('materialDescriptionEditor').focus();
+    }
+
+    function clearFormatting() {
+      document.execCommand('removeFormat', false, null);
+      document.getElementById('materialDescriptionEditor').focus();
+    }
+
+    // Handle paste events to clean up pasted content
+    document.addEventListener('DOMContentLoaded', function() {
+      const editor = document.getElementById('materialDescriptionEditor');
+      if (editor) {
+        editor.addEventListener('paste', function(e) {
+          e.preventDefault();
+          const text = e.clipboardData.getData('text/html') || e.clipboardData.getData('text/plain');
+          
+          // Clean up pasted content
+          const cleanText = text.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+          
+          document.execCommand('insertHTML', false, cleanText);
+        });
+
+        // Handle placeholder
+        editor.addEventListener('focus', function() {
+          if (editor.textContent === '') {
+            editor.innerHTML = '';
+          }
+        });
+
+        editor.addEventListener('blur', function() {
+          if (editor.textContent === '') {
+            editor.innerHTML = '';
+          }
+        });
+
+        // Update hidden input when content changes
+        editor.addEventListener('input', function() {
+          document.getElementById('materialDescription').value = editor.innerHTML;
+        });
+      }
+    });
+
+
+
+
+
+    function logout() {
+      window.location.href = 'index.html'; // or 'login.html' if you have a login page
+    }
+
+    // Enhanced data restoration function
+    async function restoreFromLocalStorage() {
+      try {
+        // Check all possible localStorage keys
+        const allKeys = Object.keys(localStorage);
+        console.log('All localStorage keys:', allKeys);
+        
+        // Look for any data that might contain auction information
+        let foundAuctions = null;
+        let foundEmdData = null;
+        
+        for (const key of allKeys) {
+          try {
+            const value = localStorage.getItem(key);
+            if (value && value.includes('"title"') && value.includes('"status"')) {
+              console.log('Found potential auction data in key:', key);
+              foundAuctions = JSON.parse(value);
+            }
+            if (value && value.includes('"financialYear"') && value.includes('"website"')) {
+              console.log('Found potential EMD data in key:', key);
+              foundEmdData = JSON.parse(value);
+            }
+          } catch (e) {
+            // Skip invalid JSON
+          }
+        }
+        
+        // Also check the standard keys
+        const existingAuctions = localStorage.getItem('auctionsData') || localStorage.getItem('auctions');
+        const existingEmdData = localStorage.getItem('emdLedgerData') || localStorage.getItem('emdData');
+        
+        if (existingAuctions) {
+          try {
+            foundAuctions = JSON.parse(existingAuctions);
+          } catch (e) {
+            console.error('Error parsing existing auctions:', e);
+          }
+        }
+        
+        if (existingEmdData) {
+          try {
+            foundEmdData = JSON.parse(existingEmdData);
+          } catch (e) {
+            console.error('Error parsing existing EMD data:', e);
+          }
+        }
+        
+        if (!foundAuctions && !foundEmdData) {
+          alert('No backup data found in localStorage to restore.\n\nAvailable keys: ' + allKeys.join(', '));
+          return;
+        }
+        
+        let restoreMessage = 'Found backup data:\n';
+        if (foundAuctions) restoreMessage += `- ${foundAuctions.length} auctions\n`;
+        if (foundEmdData) restoreMessage += `- ${foundEmdData.length} EMD entries\n`;
+        restoreMessage += '\nThis will restore your data from backup. Continue?';
+        
+        if (!confirm(restoreMessage)) {
+          return;
+        }
+        
+        // Restore auctions
+        if (foundAuctions && foundAuctions.length > 0) {
+          auctions = foundAuctions;
+          await saveAuctions(); // Save to IndexedDB
+          console.log('Auctions restored from localStorage:', foundAuctions.length);
+        }
+        
+        // Restore EMD data
+        if (foundEmdData && foundEmdData.length > 0) {
+          emdData = foundEmdData;
+          await saveEmdData(); // Save to IndexedDB
+          console.log('EMD data restored from localStorage:', foundEmdData.length);
+        }
+        
+        alert('Data restored successfully from localStorage backup!');
+        
+        // Refresh the display
+        if (window.currentAuctionTab) {
+          showAuctions(window.currentAuctionTab);
+        } else {
+          showAuctions('upcoming');
+        }
+      } catch (error) {
+        console.error('Error restoring data:', error);
+        alert('Error restoring data: ' + error.message);
+      }
+    }
+
+    // Storage management functions
+    async function clearStorageData() {
+      if (!confirm('This will clear ALL data (auctions, EMD, etc.). Are you sure?')) return;
+      
+      try {
+        // Clear IndexedDB
+        const db = await initDB();
+        const tx = db.transaction([AUCTIONS_STORE, EMD_STORE], 'readwrite');
+        await tx.objectStore(AUCTIONS_STORE).clear();
+        await tx.objectStore(EMD_STORE).clear();
+        
+        // Clear localStorage and sessionStorage as fallback
+        localStorage.clear();
+        sessionStorage.clear();
+        
+        // Reset to default data
+        await initializeData();
+        
+        alert('All data cleared successfully!');
+        showAuctions('upcoming');
+      } catch (error) {
+        console.error('Error clearing data:', error);
+        alert('Error clearing data: ' + error.message);
+      }
+    }
+
+    function exportDataToFile() {
+      const data = {
+        auctions: auctions,
+        emdData: emdData,
+        exportDate: new Date().toISOString(),
+        totalAuctions: auctions.length,
+        totalEmdEntries: emdData.length
+      };
+      
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `kandan_alloys_data_${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
+
+    function getStorageInfo() {
+      const auctionSize = JSON.stringify(auctions).length;
+      const emdSize = JSON.stringify(emdData).length;
+      const totalSize = auctionSize + emdSize;
+      
+      // Check for localStorage backup
+      const localStorageAuctions = localStorage.getItem('auctionsData') || localStorage.getItem('auctions');
+      const localStorageEmd = localStorage.getItem('emdLedgerData') || localStorage.getItem('emdData');
+      
+      let backupInfo = '';
+      if (localStorageAuctions || localStorageEmd) {
+        backupInfo = '\n\n🔍 LOCALSTORAGE BACKUP FOUND:';
+        if (localStorageAuctions) {
+          try {
+            const parsed = JSON.parse(localStorageAuctions);
+            backupInfo += `\n- ${parsed.length} auctions available for restoration`;
+          } catch (e) {
+            backupInfo += '\n- Auctions backup (corrupted)';
+          }
+        }
+        if (localStorageEmd) {
+          try {
+            const parsed = JSON.parse(localStorageEmd);
+            backupInfo += `\n- ${parsed.length} EMD entries available for restoration`;
+          } catch (e) {
+            backupInfo += '\n- EMD backup (corrupted)';
+          }
+        }
+        backupInfo += '\n\n💡 Use "Restore Data" button to recover this data!';
+      }
+      
+      alert(`📊 STORAGE INFORMATION:
+      
+Current Data:
+- Auctions: ${auctions.length} items (${(auctionSize / 1024).toFixed(1)} KB)
+- EMD Data: ${emdData.length} items (${(emdSize / 1024).toFixed(1)} KB)
+- Total: ${(totalSize / 1024).toFixed(1)} KB
+
+Browser Limits:
+- localStorage: ~5-10 MB
+- IndexedDB: ~50 MB+ (varies by browser)${backupInfo}`);
+    }
+
+    // Initialize data on page load
+    async function initializeData() {
+      try {
+        console.log('Initializing data...');
+        
+        // Initialize IndexedDB
+        await initDB();
+        
+        // Check for localStorage backup data first
+        const existingAuctions = localStorage.getItem('auctionsData') || localStorage.getItem('auctions');
+        const existingEmdData = localStorage.getItem('emdLedgerData') || localStorage.getItem('emdData');
+        
+        if (existingAuctions || existingEmdData) {
+          console.log('Found existing data in localStorage, migrating to IndexedDB...');
+          
+          // Migrate auctions
+          if (existingAuctions) {
+            try {
+              const parsedAuctions = JSON.parse(existingAuctions);
+              if (parsedAuctions && parsedAuctions.length > 0) {
+                console.log('Migrating', parsedAuctions.length, 'auctions from localStorage');
+                auctions = parsedAuctions;
+                await saveAuctions(); // Save to IndexedDB
+                console.log('Auctions migrated successfully');
+              }
+            } catch (e) {
+              console.error('Error parsing auctions from localStorage:', e);
+            }
+          }
+          
+          // Migrate EMD data
+          if (existingEmdData) {
+            try {
+              const parsedEmdData = JSON.parse(existingEmdData);
+              if (parsedEmdData && parsedEmdData.length > 0) {
+                console.log('Migrating', parsedEmdData.length, 'EMD entries from localStorage');
+                emdData = parsedEmdData;
+                await saveEmdData(); // Save to IndexedDB
+                console.log('EMD data migrated successfully');
+              }
+            } catch (e) {
+              console.error('Error parsing EMD data from localStorage:', e);
+            }
+          }
+          
+          // Clear localStorage after successful migration
+          localStorage.removeItem('auctionsData');
+          localStorage.removeItem('emdLedgerData');
+          localStorage.removeItem('auctions');
+          localStorage.removeItem('emdData');
+          console.log('Migration completed, localStorage cleared');
+        } else {
+          // Load from IndexedDB
+          await loadAuctions();
+          await loadEmdData();
+        }
+        
+        // Update display
+        showAuctions('upcoming');
+        updateCounts();
+        
+      } catch (error) {
+        console.error('Error initializing data:', error);
+        
+        // Fallback to localStorage if IndexedDB fails
+        try {
+          const fallbackAuctions = localStorage.getItem('auctionsData') || localStorage.getItem('auctions');
+          const fallbackEmdData = localStorage.getItem('emdLedgerData') || localStorage.getItem('emdData');
+          
+          if (fallbackAuctions) {
+            auctions = JSON.parse(fallbackAuctions);
+          }
+          if (fallbackEmdData) {
+            emdData = JSON.parse(fallbackEmdData);
+          }
+          
+          showAuctions('upcoming');
+          updateCounts();
+        } catch (fallbackError) {
+          console.error('Fallback also failed:', fallbackError);
+          // Use default data
+          showAuctions('upcoming');
+          updateCounts();
+        }
+      }
+    }
+
+    // IndexedDB functions
+    const DB_NAME = 'KandanAlloysDB';
+    const DB_VERSION = 1;
+    const AUCTIONS_STORE = 'auctions';
+    const EMDS_STORE = 'emdLedger';
+
+    async function initDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => resolve(request.result);
+        
+        request.onupgradeneeded = (event) => {
+          const db = event.target.result;
+          
+          // Create auctions store
+          if (!db.objectStoreNames.contains(AUCTIONS_STORE)) {
+            const auctionStore = db.createObjectStore(AUCTIONS_STORE, { keyPath: 'serial' });
+            auctionStore.createIndex('status', 'status', { unique: false });
+            auctionStore.createIndex('date', 'auctionDate', { unique: false });
+          }
+          
+          // Create EMD ledger store
+          if (!db.objectStoreNames.contains(EMDS_STORE)) {
+            const emdStore = db.createObjectStore(EMDS_STORE, { keyPath: 'serial' });
+            emdStore.createIndex('financialYear', 'financialYear', { unique: false });
+            emdStore.createIndex('website', 'website', { unique: false });
+          }
+        };
+      });
+    }
+
+    async function loadAuctions() {
+      try {
+        const db = await initDB();
+        const tx = db.transaction(AUCTIONS_STORE, 'readonly');
+        const store = tx.objectStore(AUCTIONS_STORE);
+        const request = store.getAll();
+        
+        return new Promise((resolve, reject) => {
+          request.onsuccess = () => {
+            const data = request.result;
+            if (data && data.length > 0) {
+              auctions = data;
+              console.log('Loaded', data.length, 'auctions from IndexedDB');
+            } else {
+              console.log('No auctions found in IndexedDB, using default data');
+            }
+            resolve();
+          };
+          request.onerror = () => reject(request.error);
+        });
+      } catch (error) {
+        console.error('Error loading auctions from IndexedDB:', error);
+        throw error;
+      }
+    }
+
+    async function saveAuctions() {
+      try {
+        const db = await initDB();
+        const tx = db.transaction(AUCTIONS_STORE, 'readwrite');
+        const store = tx.objectStore(AUCTIONS_STORE);
+        
+        // Clear existing data
+        await store.clear();
+        
+        // Add all current auctions
+        for (const auction of auctions) {
+          await store.add(auction);
+        }
+        
+        console.log('Auctions saved to IndexedDB:', auctions.length);
+        
+        // Also save to localStorage as backup
+        try {
+          localStorage.setItem('auctionsData', JSON.stringify(auctions));
+        } catch (e) {
+          console.warn('Could not save to localStorage (quota exceeded):', e);
+        }
+        
+      } catch (error) {
+        console.error('Error saving auctions to IndexedDB:', error);
+        
+        // Fallback to localStorage
+        try {
+          localStorage.setItem('auctionsData', JSON.stringify(auctions));
+          console.log('Auctions saved to localStorage as fallback');
+        } catch (fallbackError) {
+          console.error('Fallback to localStorage also failed:', fallbackError);
+          throw error;
+        }
+      }
+    }
+
+    async function loadEmdData() {
+      try {
+        const db = await initDB();
+        const tx = db.transaction(EMDS_STORE, 'readonly');
+        const store = tx.objectStore(EMDS_STORE);
+        const request = store.getAll();
+        
+        return new Promise((resolve, reject) => {
+          request.onsuccess = () => {
+            const data = request.result;
+            if (data && data.length > 0) {
+              emdData = data;
+              console.log('Loaded', data.length, 'EMD entries from IndexedDB');
+            } else {
+              console.log('No EMD data found in IndexedDB, using default data');
+            }
+            resolve();
+          };
+          request.onerror = () => reject(request.error);
+        });
+      } catch (error) {
+        console.error('Error loading EMD data from IndexedDB:', error);
+        throw error;
+      }
+    }
+
+    async function saveEmdData() {
+      try {
+        const db = await initDB();
+        const tx = db.transaction(EMDS_STORE, 'readwrite');
+        const store = tx.objectStore(EMDS_STORE);
+        
+        // Clear existing data
+        await store.clear();
+        
+        // Add all current EMD data
+        for (const entry of emdData) {
+          await store.add(entry);
+        }
+        
+        console.log('EMD data saved to IndexedDB:', emdData.length);
+        
+        // Also save to localStorage as backup
+        try {
+          localStorage.setItem('emdLedgerData', JSON.stringify(emdData));
+        } catch (e) {
+          console.warn('Could not save to localStorage (quota exceeded):', e);
+        }
+        
+      } catch (error) {
+        console.error('Error saving EMD data to IndexedDB:', error);
+        
+        // Fallback to localStorage
+        try {
+          localStorage.setItem('emdLedgerData', JSON.stringify(emdData));
+          console.log('EMD data saved to localStorage as fallback');
+        } catch (fallbackError) {
+          console.error('Fallback to localStorage also failed:', fallbackError);
+          throw error;
+        }
+      }
+    }
+
+    // Initialize data when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      // ... existing event listeners ...
+      
+      // Initialize data
+      initializeData();
+    });
+  </script>
+</body>
+</html>

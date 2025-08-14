@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payments Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <style>
+    body, html {
+      background: #f6f8fa;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .card {
+      border-radius: 18px;
+      box-shadow: 0 2px 12px rgba(59, 130, 246, 0.07);
+      background: #fff;
+    }
+    .nav-tabs .nav-link.active {
+      background: linear-gradient(90deg, #3b82f6 0%, #1e40af 100%);
+      color: #fff !important;
+      border: none;
+      border-radius: 8px 8px 0 0;
+    }
+    .nav-tabs .nav-link {
+      border: none;
+      border-radius: 8px 8px 0 0;
+      color: #3b82f6;
+      font-weight: 600;
+      margin-right: 4px;
+    }
+    .table {
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .table-striped > tbody > tr:nth-of-type(odd) {
+      background-color: #f3f6fa;
+    }
+    .form-control, .form-select {
+      border-radius: 8px;
+      border: 1.5px solid #e2e8f0;
+      background: #f8fafc;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px #3b82f6;
+      background: #fff;
+    }
+    .dashboard-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .client-select {
+      max-width: 320px;
+      margin-bottom: 1rem;
+    }
+    .payment-box {
+      min-width: 320px;
+      max-width: 100%;
+    }
+    @media (max-width: 900px) {
+      .d-flex.flex-row {
+        flex-direction: column !important;
+      }
+      .payment-box {
+        margin-bottom: 2rem;
+      }
+    }
+    .ledger-inward-table th, .ledger-inward-table td {
+      white-space: nowrap;
+    }
+    .ledger-inward-table {
+      table-layout: fixed;
+    }
+    .ledger-inward-table th, .ledger-inward-table td {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .ledger-inward-table td.desc-col {
+      max-width: none;
+      white-space: normal;
+      word-break: break-word;
+    }
+    .ledger-inward-card, .ledger-outward-card {
+      width: 100%;
+      min-width: 0;
+      max-width: none;
+    }
+    .ledger-row {
+      width: 100%;
+      gap: 32px;
+    }
+    .ledger-inward-table td.desc-col {
+      max-width: none;
+      white-space: normal;
+      word-break: break-word;
+    }
+    .ledger-two-col {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      gap: 32px;
+    }
+    .ledger-col {
+      flex: 1 1 0;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .ledger-col .card {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+    @media (max-width: 900px) {
+      .ledger-two-col {
+        flex-direction: column;
+      }
+    }
+    .ledger-inward-table th:first-child, .ledger-inward-table td:first-child,
+    .ledger-outward-card table th:first-child, .ledger-outward-card table td:first-child {
+      width: 50px;
+      min-width: 50px;
+      max-width: 60px;
+      text-align: center;
+    }
+    .ledger-table th, .ledger-table td {
+      vertical-align: middle;
+    }
+    .ledger-flex-row {
+      display: flex;
+      flex-direction: row;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 900px) {
+      .ledger-flex-row {
+        flex-direction: column;
+      }
+    }
+    .ledger-row-table {
+      width: 98vw;
+      margin: 0 auto 32px auto;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: #fff;
+      box-shadow: 0 2px 12px rgba(59,130,246,0.07);
+      border-radius: 12px;
+    }
+    .ledger-row-table th, .ledger-row-table td {
+      vertical-align: middle;
+      font-size: 1rem;
+    }
+    .ledger-row-table .inward-section {
+      border-right: 3px solid #bbb;
+      background: #eaf1fb;
+    }
+    .ledger-row-table .outward-section {
+      background: #fff7f0;
+    }
+    .ledger-row-table .add-btn {
+      margin-top: 4px;
+    }
+    .ledger-row-table .edit-btn, .ledger-row-table .delete-btn {
+      margin-right: 2px;
+    }
+    .ledger-row-table input[type='date'], .ledger-row-table input[type='text'], .ledger-row-table input[type='number'] {
+      width: 100%;
+      min-width: 80px;
+      font-size: 1rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      padding: 2px 6px;
+    }
+    .ledger-row-table .action-btns {
+      display: flex;
+      gap: 4px;
+    }
+    .ledger-row-flex {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      gap: 32px;
+      margin: 0;
+      padding: 0;
+    }
+    .ledger-centered-container {
+      max-width: 1400px;
+      margin: 0 auto 32px auto;
+      padding: 0 16px;
+    }
+    .ledger-row-flex > div {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+    @media (max-width: 900px) {
+      .ledger-row-flex {
+        flex-direction: column;
+        width: 100%;
+        gap: 16px;
+      }
+    }
+    .ledger-inward-table, .ledger-outward-table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 0.97rem;
+      background: #fff;
+    }
+    .ledger-inward-table th, .ledger-inward-table td,
+    .ledger-outward-table th, .ledger-outward-table td {
+      border: 1px solid #b0b0b0;
+      padding: 6px 8px;
+      text-align: left;
+      vertical-align: middle;
+    }
+    .ledger-inward-table th, .ledger-outward-table th {
+      background: linear-gradient(90deg, #eaf1fb 0%, #b6c9e6 100%);
+      font-weight: bold;
+      font-size: 1.05rem;
+      border-bottom: 2px solid #1a365d;
+    }
+    .ledger-outward-table th {
+      background: linear-gradient(90deg, #fff7f0 0%, #f7c59f 100%);
+      border-bottom: 2px solid #b85c00;
+    }
+    .ledger-inward-table tr:hover, .ledger-outward-table tr:hover {
+      background: #f3f6fa;
+    }
+    .ledger-add-btn-row {
+      text-align: right;
+      padding-bottom: 4px;
+    }
+    .ledger-diff-box {
+      font-weight: bold;
+      padding: 4px 18px;
+      border-radius: 6px;
+      min-width: 180px;
+      text-align: right;
+      font-size: 1rem;
+      margin: 0 0 0 auto;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    @media (max-width: 900px) {
+      .ledger-row-flex {
+        flex-direction: column;
+        gap: 16px;
+      }
+      .ledger-diff-box {
+        min-width: 120px;
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+  <style>
+  /* Animated gradient background */
+  body, html {
+    background: linear-gradient(-45deg, #fbeee6, #c2e0ff, #e0e7ff, #f0fdfa);
+    background-size: 400% 400%;
+    animation: gradientBG 18s ease infinite;
+    min-height: 100vh;
+  }
+  @keyframes gradientBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+  }
+  .card {
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.12);
+    border: 1.5px solid #e0e7ff;
+    background: rgba(255,255,255,0.97);
+  }
+  .dashboard-title {
+    border-bottom: 2px solid #e0e7ff;
+    padding-bottom: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="dashboard-title">Payments Dashboard</div>
+  <ul class="nav nav-tabs mb-4" id="paymentsTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="create-client-tab" data-bs-toggle="tab" data-bs-target="#create-client" type="button" role="tab">Create Client</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="ledger-tab" data-bs-toggle="tab" data-bs-target="#ledger" type="button" role="tab">Ledger</button>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <!-- Create Client Tab -->
+    <div class="tab-pane fade show active" id="create-client" role="tabpanel">
+      <div class="card p-4 mb-4 mx-auto" style="max-width: 400px;">
+        <form id="createClientForm">
+          <div class="mb-3">
+            <label class="form-label">Client Name</label>
+            <input type="text" class="form-control" id="clientName" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Company Name</label>
+            <input type="text" class="form-control" id="companyName" required />
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Create Client</button>
+        </form>
+      </div>
+      <div id="clientList" class="mt-3"></div>
+    </div>
+    <!-- Ledger Tab -->
+    <div class="tab-pane fade" id="ledger" role="tabpanel">
+      <div class="card p-4 mb-4 mx-auto" style="max-width: 1200px;">
+        <div class="mb-3">
+          <label class="form-label">Select Client</label>
+          <select class="form-select" id="ledgerClientSelect">
+            <option value="">Select a client</option>
+          </select>
+        </div>
+        <div id="ledgerClientLedger"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Add the hidden print-friendly report container if not present -->
+<div id="printLedgerReport" style="display:none;"></div>
+<!-- Invoice Details Modal -->
+<div class="modal fade" id="invoiceDetailsModal" tabindex="-1" aria-labelledby="invoiceDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="invoiceDetailsModalLabel">Invoice Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex justify-content-end mb-2" style="gap:8px;">
+          <button class="btn btn-outline-primary" id="exportInvoiceExcelBtn">Export Excel</button>
+          <button class="btn btn-outline-primary" id="exportInvoicePdfBtn">Export PDF</button>
+        </div>
+        <button class="btn btn-success mb-3" id="addInvoiceBtn">Add Invoice</button>
+        <form id="addInvoiceForm" class="row g-2 mb-3" style="display:none;">
+          <div class="col-md-2"><input type="text" class="form-control" id="invNumber" placeholder="Invoice Number" required></div>
+          <div class="col-md-2"><input type="date" class="form-control" id="invDate" placeholder="Invoice Date" required></div>
+          <div class="col-md-2"><input type="text" class="form-control" id="shipFrom" placeholder="Shipping From" required></div>
+          <div class="col-md-2"><input type="text" class="form-control" id="shipTo" placeholder="Shipping To" required></div>
+          <div class="col-md-2"><input type="text" class="form-control" id="matDesc" placeholder="Material Description" required></div>
+          <div class="col-md-1"><input type="number" class="form-control" id="qty" placeholder="Qty" required></div>
+          <div class="col-md-1"><input type="text" class="form-control" id="uom" placeholder="UOM" required></div>
+          <div class="col-md-1"><input type="text" class="form-control" id="weight" placeholder="Weight"></div>
+          <div class="col-md-1"><input type="number" class="form-control" id="rate" placeholder="Rate"></div>
+          <div class="col-md-1"><input type="number" class="form-control" id="taxable" placeholder="Taxable Value"></div>
+          <div class="col-md-1"><input type="number" class="form-control" id="gst" placeholder="GST Tax"></div>
+          <div class="col-md-1"><input type="number" class="form-control" id="tcs" placeholder="TCS"></div>
+          <div class="col-md-1"><input type="number" class="form-control" id="total" placeholder="Total Value"></div>
+          <div class="col-md-12"><button type="submit" class="btn btn-primary">Save</button> <button type="button" class="btn btn-secondary" id="cancelAddInvoice">Cancel</button></div>
+        </form>
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Sl No</th>
+                <th>Invoice Number</th>
+                <th>Invoice Date</th>
+                <th>Shiping From</th>
+                <th>Shiping To</th>
+                <th>Material Description</th>
+                <th>Qty</th>
+                <th>UOM</th>
+                <th>Weight</th>
+                <th>Rate</th>
+                <th>Taxable Value</th>
+                <th>GST Tax</th>
+                <th>TCS</th>
+                <th>Total Value</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="invoiceDetailsTableBody">
+              <!-- Data will be injected here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+// --- Data Persistence ---
+function getClients() {
+  return JSON.parse(localStorage.getItem('clients') || '[]');
+}
+function saveClients(clients) {
+  localStorage.setItem('clients', JSON.stringify(clients));
+}
+// --- Create Client ---
+document.getElementById('createClientForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const clientName = document.getElementById('clientName').value.trim();
+  const companyName = document.getElementById('companyName').value.trim();
+  if (!clientName || !companyName) return;
+  let clients = getClients();
+  const id = Date.now().toString();
+  clients.push({ id, clientName, companyName });
+  saveClients(clients);
+  console.log('Clients in localStorage after save:', getClients());
+  this.reset();
+  renderClientList();
+});
+function renderClientList() {
+  const clients = getClients();
+  const list = clients.map(c => `<div class='mb-2'><strong>${c.clientName}</strong> (${c.companyName})</div>`).join('');
+  document.getElementById('clientList').innerHTML = list || '<div class="text-muted">No clients yet.</div>';
+}
+function renderLedgerClientDropdown() {
+  const clients = getClients();
+  const select = document.getElementById('ledgerClientSelect');
+  select.innerHTML = '<option value="">Select a client</option>' + clients.map(c => `<option value="${c.id}">${c.clientName} (${c.companyName})</option>`).join('');
+}
+document.addEventListener('DOMContentLoaded', function() {
+  renderClientList();
+  renderLedgerClientDropdown();
+  document.getElementById('ledgerClientSelect').addEventListener('change', function() {
+    // Reset all modes when switching clients
+    window._addInwardMode = undefined;
+    window._addOutwardMode = undefined;
+    window._editInwardIdx = undefined;
+    window._editOutwardIdx = undefined;
+    const clientId = this.value;
+    if (clientId) {
+      renderLedgerForClient(clientId);
+    } else {
+      document.getElementById('ledgerClientLedger').innerHTML = '';
+    }
+  });
+});
+function renderLedgerForClient(clientId) {
+  const payments = JSON.parse(localStorage.getItem('payments_' + clientId) || '[]');
+  // Group inward payments by consignment number (use 'consignmentNo' property, or fallback to index+1 if not present)
+  const inward = payments.filter(p => p.type === 'credit');
+  // Group by consignmentNo
+  const consignmentGroups = {};
+  inward.forEach((iw, idx) => {
+    const consNo = iw.consignmentNo || (iw.consignmentNo = (iw.consignmentNo || (idx+1)).toString());
+    if (!consignmentGroups[consNo]) consignmentGroups[consNo] = [];
+    consignmentGroups[consNo].push(iw);
+  });
+  // --- Ensure all consignment numbers from both inward and outward are included ---
+  const outward = payments.filter(p => p.type === 'debit');
+  const allConsNosSet = new Set([
+    ...inward.map(iw => iw.consignmentNo),
+    ...outward.map(ow => ow.parentConsignmentNo)
+  ].filter(Boolean));
+  const consignmentNos = Array.from(allConsNosSet).sort((a,b) => Number(a)-Number(b));
+  // Only count outward payments linked to existing consignments
+  // (no change needed here, as we want to show all consignments now)
+  // Calculate total inward and outward for the client
+  const totalInward = inward.reduce((sum, iw) => sum + Number(iw.amount || 0), 0);
+  const totalOutward = outward.reduce((sum, ow) => sum + Number(ow.amount || 0), 0);
+  // Top summary
+  let html = `<div class='d-flex justify-content-end mb-2'>
+    <button class='btn btn-outline-primary me-2' id='exportExcelBtn'>Export Excel</button>
+    <button class='btn btn-outline-primary' id='exportPdfBtn'>Export PDF</button>
+  </div>`;
+  html += `<div style='display:flex;gap:32px;justify-content:center;align-items:center;margin-bottom:16px;'>
+    <div style='background:#e6f4ea;padding:8px 24px;border-radius:8px;font-weight:bold;'>Total Inward: <span style='color:#1a7f37;'>${totalInward}</span></div>
+    <div style='background:#fbeee6;padding:8px 24px;border-radius:8px;font-weight:bold;'>Total Outward: <span style='color:#b85c00;'>${totalOutward}</span></div>
+  </div>`;
+  html += `<div style='display:flex;justify-content:center;gap:12px;margin-bottom:24px;'>
+    <button class='btn btn-info' id='invoiceDetailsBtn'>Invoice Details</button>
+    <button class='btn btn-secondary' id='generalPaymentsBtn'>General Payments</button>
+  </div>`;
+  html += `<div style='display:flex;flex-direction:column;gap:32px;'>`;
+  consignmentNos.forEach((consNo, groupIdx) => {
+    const inwards = consignmentGroups[consNo] || [];
+    const outs = outward.filter(ow => ow.parentConsignmentNo === consNo);
+    const inwardTotal = inwards.reduce((sum, iw) => sum + Number(iw.amount || 0), 0);
+    const outwardTotal = outs.reduce((sum, ow) => sum + Number(ow.amount || 0), 0);
+    const diff = inwardTotal - outwardTotal;
+    let diffColor = diff === 0 ? '#7ed957' : (diff < 0 ? '#ff4d4d' : '#4da6ff');
+    html += `<div style='display:flex;gap:32px;align-items:flex-start;background:#f8fafc;padding:16px 8px 16px 8px;border-radius:12px;box-shadow:0 2px 8px rgba(59,130,246,0.07);'>`;
+    // Inward block (table)
+    html += `<div style='flex:1;min-width:220px;'>
+      <div style='background:#ffeec2;padding:8px 12px;border-radius:8px;font-weight:bold;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;'>
+        <span>Inward Consignment ${consNo}</span>
+        <button class='btn btn-success btn-sm add-inward-btn' data-cons='${consNo}'>Add Inward</button>
+      </div>
+      <table style='width:100%;border-collapse:collapse;background:#fff;margin-bottom:8px;'>
+        <thead><tr style='background:#fffbe6;'><th style='border:1px solid #bbb;'>Date</th><th style='border:1px solid #bbb;'>Description</th><th style='border:1px solid #bbb;'>Credit</th><th style='border:1px solid #bbb;'>Actions</th></tr></thead><tbody>`;
+    if (window._addInwardMode === consNo) {
+      html += `<tr>
+        <td><input type='date' class='form-control form-control-sm' id='addInwardDate${consNo}'></td>
+        <td><input type='text' class='form-control form-control-sm' id='addInwardDesc${consNo}'></td>
+        <td><input type='number' class='form-control form-control-sm' id='addInwardAmount${consNo}'></td>
+        <td><button class='btn btn-primary btn-sm save-add-inward-btn' data-cons='${consNo}'>Save</button> <button class='btn btn-secondary btn-sm cancel-add-inward-btn' data-cons='${consNo}'>Cancel</button></td>
+      </tr>`;
+    }
+    inwards.forEach((iw, i) => {
+      if (window._editInwardIdx && window._editInwardIdx.cons === consNo && window._editInwardIdx.i === i) {
+        const currentConsNo = consNo;
+        const consOptions = consignmentNos.map(cn => `<option value='${cn}' ${cn === currentConsNo ? 'selected' : ''}>Move to Consignment ${cn}</option>`);
+        // If current consignment is missing, add a special option
+        if (!consignmentNos.includes(currentConsNo)) {
+          consOptions.push(`<option value='__new__' selected>New Consignment (current: ${currentConsNo})</option>`);
+        } else {
+          consOptions.push(`<option value='__new__'>New Consignment</option>`);
+        }
+        html += `<tr>
+          <td><input type='date' class='form-control form-control-sm' id='editInwardDate${consNo}_${i}' value='${iw.date}'></td>
+          <td><input type='text' class='form-control form-control-sm' id='editInwardDesc${consNo}_${i}' value='${iw.desc}'></td>
+          <td><input type='number' class='form-control form-control-sm' id='editInwardAmount${consNo}_${i}' value='${iw.amount}'></td>
+          <td>
+            <div style='display:flex;gap:4px;flex-direction:column;'>
+              <div><button class='btn btn-primary btn-sm save-edit-inward-btn' data-cons='${consNo}' data-i='${i}'>Save</button> <button class='btn btn-secondary btn-sm cancel-edit-inward-btn' data-cons='${consNo}' data-i='${i}'>Cancel</button></div>
+              <div style='margin-top:4px;'>
+                <select class='form-select form-select-sm edit-inward-consignment-select' id='editInwardConsignment${consNo}_${i}'>
+                  ${consOptions.join('')}
+                </select>
+                <input type='text' class='form-control form-control-sm mt-2' id='editInwardNewConsignment${consNo}_${i}' placeholder='Enter new consignment no' style='display:none;'>
+              </div>
+            </div>
+          </td>
+        </tr>`;
+      } else {
+        html += `<tr><td style='border:1px solid #bbb;'>${formatDate(iw.date)}</td><td style='border:1px solid #bbb;'>${iw.desc}</td><td style='border:1px solid #bbb;'>${iw.amount}</td><td style='border:1px solid #bbb;'><div style='display:flex;gap:4px;'><button class='btn btn-warning btn-sm edit-inward-btn' data-cons='${consNo}' data-i='${i}'>Edit</button> <button class='btn btn-danger btn-sm delete-inward-btn' data-cons='${consNo}' data-i='${i}'>Delete</button></div></td></tr>`;
+      }
+    });
+    html += `<tr><td colspan='2' style='text-align:right;font-weight:bold;'>Total</td><td colspan='2' style='font-weight:bold;'>${inwardTotal}</td></tr>`;
+    html += `</tbody></table>`;
+    html += `</div>`;
+    // Outward block
+    html += `<div style='flex:2;min-width:320px;'>
+      <div style='background:#c2e0ff;padding:8px 12px;border-radius:8px;font-weight:bold;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;'>
+        <span>Outward Payments for ${consNo}</span>
+        <button class='btn btn-success btn-sm add-outward-btn' data-cons='${consNo}'>Add Outward</button>
+      </div>
+      <table style='width:100%;border-collapse:collapse;background:#fff;'>
+        <thead><tr style='background:#eaf6ff;'><th style='border:1px solid #bbb;'>Consignement No</th><th style='border:1px solid #bbb;'>Date</th><th style='border:1px solid #bbb;'>Description</th><th style='border:1px solid #bbb;'>Debit</th><th style='border:1px solid #bbb;'>Actions</th></tr></thead><tbody>`;
+    if (window._addOutwardMode === consNo) {
+      html += `<tr>
+        <td></td>
+        <td><input type='date' class='form-control form-control-sm' id='addOutwardDate${consNo}'></td>
+        <td><input type='text' class='form-control form-control-sm' id='addOutwardDesc${consNo}'></td>
+        <td><input type='number' class='form-control form-control-sm' id='addOutwardAmount${consNo}'></td>
+        <td><button class='btn btn-primary btn-sm save-add-outward-btn' data-cons='${consNo}'>Save</button> <button class='btn btn-secondary btn-sm cancel-add-outward-btn' data-cons='${consNo}'>Cancel</button></td>
+      </tr>`;
+    }
+    outs.forEach((ow, j) => {
+      if (window._editOutwardIdx && window._editOutwardIdx.cons === consNo && window._editOutwardIdx.j === j) {
+        const currentConsNo = consNo;
+        const consOptions = consignmentNos.map(cn => `<option value='${cn}' ${cn === currentConsNo ? 'selected' : ''}>Move to Consignment ${cn}</option>`);
+        if (!consignmentNos.includes(currentConsNo)) {
+          consOptions.push(`<option value='__new__' selected>New Consignment (current: ${currentConsNo})</option>`);
+        } else {
+          consOptions.push(`<option value='__new__'>New Consignment</option>`);
+        }
+        html += `<tr>
+          <td style='border:1px solid #bbb;text-align:center;'>${consNo}.${j+1}</td>
+          <td><input type='date' class='form-control form-control-sm' id='editOutwardDate${consNo}_${j}' value='${ow.date}'></td>
+          <td><input type='text' class='form-control form-control-sm' id='editOutwardDesc${consNo}_${j}' value='${ow.desc}'></td>
+          <td><input type='number' class='form-control form-control-sm' id='editOutwardAmount${consNo}_${j}' value='${ow.amount}'></td>
+          <td>
+            <div style='display:flex;gap:4px;flex-direction:column;'>
+              <div><button class='btn btn-primary btn-sm save-edit-outward-btn' data-cons='${consNo}' data-j='${j}'>Save</button> <button class='btn btn-secondary btn-sm cancel-edit-outward-btn' data-cons='${consNo}' data-j='${j}'>Cancel</button></div>
+              <div style='margin-top:4px;'>
+                <select class='form-select form-select-sm edit-outward-consignment-select' id='editOutwardConsignment${consNo}_${j}'>
+                  ${consOptions.join('')}
+                </select>
+                <input type='text' class='form-control form-control-sm mt-2' id='editOutwardNewConsignment${consNo}_${j}' placeholder='Enter new consignment no' style='display:none;'>
+              </div>
+            </div>
+          </td>
+        </tr>`;
+      } else {
+        html += `<tr><td style='border:1px solid #bbb;text-align:center;'>${consNo}.${j+1}</td><td style='border:1px solid #bbb;'>${formatDate(ow.date)}</td><td style='border:1px solid #bbb;'>${ow.desc}</td><td style='border:1px solid #bbb;'>${ow.amount}</td><td style='border:1px solid #bbb;'><button class='btn btn-warning btn-sm edit-outward-btn' data-cons='${consNo}' data-j='${j}'>Edit</button> <button class='btn btn-danger btn-sm delete-outward-btn' data-cons='${consNo}' data-j='${j}'>Delete</button></td></tr>`;
+      }
+    });
+    html += `<tr><td colspan='3' style='text-align:right;font-weight:bold;'>Total</td><td colspan='2' style='font-weight:bold;'>${outwardTotal}</td></tr>`;
+    html += `</tbody></table>`;
+    html += `<div style='margin:16px 0 0 0;'><div style='background:${diffColor};color:#fff;font-weight:bold;padding:8px 0;border-radius:6px;text-align:center;'>Difference Value ${diff}</div></div>`;
+    html += `</div></div>`;
+  });
+  // Always render a new consignment block for add at the end if add mode is set
+  if (window._addInwardMode && !consignmentNos.includes(window._addInwardMode)) {
+    const consNo = window._addInwardMode;
+    html += `<div style='display:flex;gap:32px;align-items:flex-start;background:#f8fafc;padding:16px 8px 16px 8px;border-radius:12px;box-shadow:0 2px 8px rgba(59,130,246,0.07);'>`;
+    // Inward block (table)
+    html += `<div style='flex:1;min-width:220px;'>
+      <div style='background:#ffeec2;padding:8px 12px;border-radius:8px;font-weight:bold;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;'>
+        <span>Inward Consignment ${consNo}</span>
+        <button class='btn btn-success btn-sm add-inward-btn' data-cons='${consNo}'>Add Inward</button>
+      </div>
+      <table style='width:100%;border-collapse:collapse;background:#fff;margin-bottom:8px;'>
+        <thead><tr style='background:#fffbe6;'><th style='border:1px solid #bbb;'>Date</th><th style='border:1px solid #bbb;'>Description</th><th style='border:1px solid #bbb;'>Credit</th><th style='border:1px solid #bbb;'>Actions</th></tr></thead><tbody>`;
+    html += `<tr>
+      <td><input type='date' class='form-control form-control-sm' id='addInwardDate${consNo}'></td>
+      <td><input type='text' class='form-control form-control-sm' id='addInwardDesc${consNo}'></td>
+      <td><input type='number' class='form-control form-control-sm' id='addInwardAmount${consNo}'></td>
+      <td><button class='btn btn-primary btn-sm save-add-inward-btn' data-cons='${consNo}'>Save</button> <button class='btn btn-secondary btn-sm cancel-add-inward-btn' data-cons='${consNo}'>Cancel</button></td>
+    </tr>`;
+    html += `</tbody></table>`;
+    html += `</div>`;
+    // Outward block (empty)
+    html += `<div style='flex:2;min-width:320px;'>
+      <div style='background:#c2e0ff;padding:8px 12px;border-radius:8px;font-weight:bold;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;'>
+        <span>Outward Payments for ${consNo}</span>
+        <button class='btn btn-success btn-sm add-outward-btn' data-cons='${consNo}'>Add Outward</button>
+      </div>
+      <table style='width:100%;border-collapse:collapse;background:#fff;'>
+        <thead><tr style='background:#eaf6ff;'><th style='border:1px solid #bbb;'>Consignement No</th><th style='border:1px solid #bbb;'>Date</th><th style='border:1px solid #bbb;'>Description</th><th style='border:1px solid #bbb;'>Debit</th><th style='border:1px solid #bbb;'>Actions</th></tr></thead><tbody>`;
+    html += `</tbody></table>`;
+    html += `<div style='margin:16px 0 0 0;'><div style='background:#7ed957;color:#fff;font-weight:bold;padding:8px 0;border-radius:6px;text-align:center;'>Difference Value 0</div></div>`;
+    html += `</div></div>`;
+  }
+  html += `<div style='margin-top:24px;'><button class='btn btn-success btn-sm' id='addConsignmentBtn'>Add New Consignment</button></div>`;
+  html += `</div>`;
+  document.getElementById('ledgerClientLedger').innerHTML = html;
+  // Add/Edit/Delete logic
+  document.getElementById('addConsignmentBtn').onclick = function() {
+    const consNos = consignmentNos.map(Number);
+    const nextNo = consNos.length ? Math.max(...consNos)+1 : 1;
+    window._addInwardMode = nextNo.toString();
+    renderLedgerForClient(clientId);
+  };
+  // Attach event listeners for all new buttons after rendering
+  setTimeout(() => {
+    document.querySelectorAll('.add-inward-btn').forEach(btn => {
+      btn.onclick = function() {
+        window._addInwardMode = btn.getAttribute('data-cons');
+        window._editInwardIdx = undefined;
+        window._addOutwardMode = undefined;
+        window._editOutwardIdx = undefined;
+        renderLedgerForClient(clientId);
+      };
+    });
+    document.querySelectorAll('.add-outward-btn').forEach(btn => {
+      btn.onclick = function() {
+        window._addOutwardMode = btn.getAttribute('data-cons');
+        window._addInwardMode = undefined;
+        window._editInwardIdx = undefined;
+        window._editOutwardIdx = undefined;
+        renderLedgerForClient(clientId);
+      };
+    });
+    document.querySelectorAll('.save-add-inward-btn').forEach(btn => {
+      btn.onclick = function() {
+        const consNo = btn.getAttribute('data-cons');
+        const date = document.getElementById('addInwardDate'+consNo).value;
+        const desc = document.getElementById('addInwardDesc'+consNo).value;
+        const amount = document.getElementById('addInwardAmount'+consNo).value;
+        if (date && desc && amount) {
+          const id = Date.now().toString();
+          const payments = JSON.parse(localStorage.getItem('payments_' + clientId) || '[]');
+          payments.push({ id, consignmentNo: consNo, date, desc, amount, type: 'credit' });
+          localStorage.setItem('payments_' + clientId, JSON.stringify(payments));
+          window._addInwardMode = undefined;
+          renderLedgerForClient(clientId);
+        }
+      };
+    });
+    document.querySelectorAll('.cancel-add-inward-btn').forEach(btn => {
+      btn.onclick = function() {
+        window._addInwardMode = undefined;
+        renderLedgerForClient(clientId);
+      };
+    });
+    document.querySelectorAll('.save-add-outward-btn').forEach(btn => {
+      btn.onclick = function() {
+        const consNo = btn.getAttribute('data-cons');
+        const date = document.getElementById('addOutwardDate'+consNo).value;
+        const desc = document.getElementById('addOutwardDesc'+consNo).value;
+        const amount = document.getElementById('addOutwardAmount'+consNo).value;
+        if (date && desc && amount) {
+          const id = Date.now().toString();
+          const payments = JSON.parse(localStorage.getItem('payments_' + clientId) || '[]');
+          payments.push({ id, parentConsignmentNo: consNo, date, desc, amount, type: 'debit' });
+          localStorage.setItem('payments_' + clientId, JSON.stringify(payments));
+          window._addOutwardMode = undefined;
+          renderLedgerForClient(clientId);
+        }
+      };
+    });
+    document.querySelectorAll('.cancel-add-outward-btn').forEach(btn => {
+      btn.onclick = function() {
+        window._addOutwardMode = undefined;
+        renderLedgerForClient(clientId);
+      };
+    });
+    document.querySelectorAll('.edit-inward-btn').forEach(btn => {
+      btn.onclick = function() {
+        window._editInwardIdx = {cons: btn.getAttribute('data-cons'), i: +btn.getAttribute('data-i')};
+        window._addInwardMode = undefined;
+        window._addOutwardMode = undefined;
+        window._editOutwardIdx = undefined;
+        renderLedgerForClient(clientId);
+      };
+    });
+    document.querySelectorAll('.delete-inward-btn').forEach(btn => {
+      btn.onclick = function() {
+        if (!confirm('Delete this Inward?')) return;
+        const cons = btn.getAttribute('data-cons');
+        const i = +btn.getAttribute('data-i');
+        const payments = JSON.parse(localStorage.getItem('payments_' + clientId) || '[]');
+        const inward = payments.filter(p => p.type === 'credit');
+        const outward = payments.filter(p => p.type === 'debit');
+        const consignmentGroups = {};
+        inward.forEach((iw, idx) => {
+          const consNo2 = iw.consignmentNo || (iw.consignmentNo = (iw.consignmentNo || (idx+1)).toString());
+          if (!consignmentGroups[consNo2]) consignmentGroups[consNo2] = [];
+          consignmentGroups[consNo2].push(iw);
+        });
+        const inwards = consignmentGroups[cons];
+        const inwardToDelete = inwards[i];
+        const newInward = inward.filter(p => p !== inwardToDelete);
+        const newOutward = outward.filter(p => p.parentConsignmentNo !== cons || p.parentPaymentId !== inwardToDelete.id);
+        localStorage.setItem('payments_' + clientId, JSON.stringify([...newInward, ...newOutward]));
+        window._editInwardIdx = undefined;
+        window._addInwardMode = undefined;
+        window._addOutwardMode = undefined;
+        window._editOutwardIdx = undefined;
+        renderLedgerForClient(clientId);
+      };
+    });
+    document.querySelectorAll('.save-edit-inward-btn').forEach(btn => {
+      btn.onclick = function() {
+        const consNo = btn.getAttribute('data-cons');
+        const i = +btn.getAttribute('data-i');
+        const date = document.getElementById('editInwardDate'+consNo+'_'+i).value;
+        const desc = document.getElementById('editInwardDesc'+consNo+'_'+i).value;
+        const amount = document.getElementById('editInwardAmount'+consNo+'_'+i).value;
+        let newConsNo = document.getElementById('editInwardConsignment'+consNo+'_'+i).value;
+        if (newConsNo === '__new__') {
+          newConsNo = document.getElementById('editInwardNewConsignment'+consNo+'_'+i).value.trim();
+        }
+        if (!newConsNo) {
+          alert('Please enter a new consignment number.');
+          return;
+        }
+        const payments = JSON.parse(localStorage.getItem('payments_' + clientId) || '[]');
+        const inward = payments.filter(p => p.type === 'credit');
+        const consignmentGroups = {};
+        inward.forEach((iw, idx) => {
+          const consNo2 = iw.consignmentNo || (iw.consignmentNo = (iw.consignmentNo || (idx+1)).toString());
+          if (!consignmentGroups[consNo2]) consignmentGroups[consNo2] = [];
+          consignmentGroups[consNo2].push(iw);
+        });
+        const inwards = consignmentGroups[consNo];
+        if (date && desc && amount) {
+          const paymentToMove = inwards[i];
+          paymentToMove.date = date;
+          paymentToMove.desc = desc;
+          paymentToMove.amount = amount;
+          if (newConsNo !== consNo) {
+            // Remove from old group
+            const idxInPayments = payments.findIndex(p => p.id === paymentToMove.id);
+            if (idxInPayments !== -1) {
+              payments.splice(idxInPayments, 1);
+              // Add to new group with updated consignmentNo
+              payments.push({ ...paymentToMove, consignmentNo: newConsNo });
+            }
+          } else {
+            // Just update in place
+            const idxInPayments = payments.findIndex(p => p.id === paymentToMove.id);
+            if (idxInPayments !== -1) {
+              payments[idxInPayments] = paymentToMove;
+            }
+          }
+          localStorage.setItem('payments_' + clientId, JSON.stringify(payments));
+          window._editInwardIdx = undefined;
+          renderLedgerForClient(clientId);
+        }
+      };
+    });
+    document.querySelectorAll('.cancel-edit-inward-btn').forEach(btn => {
+      btn.onclick = function() {
+        window._editInwardIdx = undefined;
+        renderLedgerForClient(clientId);
+      };
+    });
+    document.querySelectorAll('.edit-outward-btn').forEach(btn => {
+      btn.onclick = function() {
+        window._editOutwardIdx = {cons: btn.getAttribute('data-cons'), j: +btn.getAttribute('data-j')};
+        window._addInwardMode = undefined;
+        window._addOutwardMode = undefined;
+        window._editInwardIdx = undefined;
+        renderLedgerForClient(clientId);
+      };
+    });
+    document.querySelectorAll('.delete-outward-btn').forEach(btn => {
+      btn.onclick = function() {
+        if (!confirm('Delete this Outward?')) return;
+        const cons = btn.getAttribute('data-cons');
+        const j = +btn.getAttribute('data-j');
+        const payments = JSON.parse(localStorage.getItem('payments_' + clientId) || '[]');
+        const inward = payments.filter(p => p.type === 'credit');
+        const outward = payments.filter(p => p.type === 'debit');
+        const outs = outward.filter(ow => ow.parentConsignmentNo === cons);
+        const del = outs[j];
+        localStorage.setItem('payments_' + clientId, JSON.stringify([ ...inward, ...outward.filter(p => p !== del) ]));
+        window._editOutwardIdx = undefined;
+        window._addInwardMode = undefined;
+        window._addOutwardMode = undefined;
+        window._editInwardIdx = undefined;
+        renderLedgerForClient(clientId);
+      };
+    });
+    document.querySelectorAll('.save-edit-outward-btn').forEach(btn => {
+      btn.onclick = function() {
+        const consNo = btn.getAttribute('data-cons');
+        const j = +btn.getAttribute('data-j');
+        const date = document.getElementById('editOutwardDate'+consNo+'_'+j).value;
+        const desc = document.getElementById('editOutwardDesc'+consNo+'_'+j).value;
+        const amount = document.getElementById('editOutwardAmount'+consNo+'_'+j).value;
+        let newConsNo = document.getElementById('editOutwardConsignment'+consNo+'_'+j).value;
+        if (newConsNo === '__new__') {
+          newConsNo = document.getElementById('editOutwardNewConsignment'+consNo+'_'+j).value.trim();
+        }
+        if (!newConsNo) {
+          alert('Please enter a new consignment number.');
+          return;
+        }
+        const payments = JSON.parse(localStorage.getItem('payments_' + clientId) || '[]');
+        const outward = payments.filter(p => p.type === 'debit');
+        const outs = outward.filter(ow => ow.parentConsignmentNo === consNo);
+        if (date && desc && amount) {
+          const paymentToMove = outs[j];
+          paymentToMove.date = date;
+          paymentToMove.desc = desc;
+          paymentToMove.amount = amount;
+          if (newConsNo !== consNo) {
+            // Remove from old group
+            const idxInPayments = payments.findIndex(p => p.id === paymentToMove.id);
+            if (idxInPayments !== -1) {
+              payments.splice(idxInPayments, 1);
+              // Add to new group with updated parentConsignmentNo
+              payments.push({ ...paymentToMove, parentConsignmentNo: newConsNo });
+            }
+          } else {
+            // Just update in place
+            const idxInPayments = payments.findIndex(p => p.id === paymentToMove.id);
+            if (idxInPayments !== -1) {
+              payments[idxInPayments] = paymentToMove;
+            }
+          }
+          localStorage.setItem('payments_' + clientId, JSON.stringify(payments));
+          window._editOutwardIdx = undefined;
+          renderLedgerForClient(clientId);
+        }
+      };
+    });
+    document.querySelectorAll('.cancel-edit-outward-btn').forEach(btn => {
+      btn.onclick = function() {
+        window._editOutwardIdx = undefined;
+        renderLedgerForClient(clientId);
+      };
+    });
+    // Show/hide new consignment input for inward
+    document.querySelectorAll('.edit-inward-consignment-select').forEach(sel => {
+      sel.onchange = function() {
+        const id = sel.id.replace('editInwardConsignment', 'editInwardNewConsignment');
+        const input = document.getElementById(id);
+        if (sel.value === '__new__') {
+          input.style.display = '';
+        } else {
+          input.style.display = 'none';
+        }
+      };
+      // Trigger on load if needed
+      sel.onchange();
+    });
+    // Show/hide new consignment input for outward
+    document.querySelectorAll('.edit-outward-consignment-select').forEach(sel => {
+      sel.onchange = function() {
+        const id = sel.id.replace('editOutwardConsignment', 'editOutwardNewConsignment');
+        const input = document.getElementById(id);
+        if (sel.value === '__new__') {
+          input.style.display = '';
+        } else {
+          input.style.display = 'none';
+        }
+      };
+      sel.onchange();
+    });
+  }, 0);
+  // Export PDF
+  if (document.getElementById('exportExcelBtn')) {
+    document.getElementById('exportExcelBtn').onclick = function() {
+      // Gather data for export (all consignments in one sheet)
+      const wb = XLSX.utils.book_new();
+      let rows = [];
+      // Add totals row at the top
+      rows.push(['', '', 'Total Inward', totalInward, '', '', 'Total Outward', totalOutward]);
+      // Add header row
+      rows.push(['Consignment No', 'Inward Date', 'Inward Description', 'Inward Amount', 'Outward No', 'Outward Date', 'Outward Description', 'Outward Amount']);
+      consignmentNos.forEach((consNo) => {
+        const inwards = consignmentGroups[consNo] || [];
+        const outs = outward.filter(ow => ow.parentConsignmentNo === consNo);
+        const maxRows = Math.max(inwards.length, outs.length, 1);
+        for (let r = 0; r < maxRows; r++) {
+          const iw = inwards[r] || {};
+          const ow = outs[r] || {};
+          rows.push([
+            r === 0 ? consNo : '',
+            iw.date ? formatDate(iw.date) : '',
+            iw.desc || '',
+            iw.amount || '',
+            ow ? (ow.parentConsignmentNo ? (ow.parentConsignmentNo + '.' + (outs.indexOf(ow)+1)) : '') : '',
+            ow.date ? formatDate(ow.date) : '',
+            ow.desc || '',
+            ow.amount || ''
+          ]);
+        }
+        // Add an empty row after each consignment
+        rows.push(['','','','','','','','']);
+      });
+      const ws = XLSX.utils.aoa_to_sheet(rows);
+      XLSX.utils.book_append_sheet(wb, ws, 'Ledger');
+      XLSX.writeFile(wb, 'ledger.xlsx');
+    };
+  }
+  if (document.getElementById('exportPdfBtn')) {
+    document.getElementById('exportPdfBtn').onclick = function() {
+      try {
+        // Render the print report with latest data before exporting
+        renderPrintLedgerReport(
+          document.getElementById('ledgerClientSelect').value,
+          consignmentGroups,
+          consignmentNos,
+          inward,
+          outward
+        );
+        const printDiv = document.getElementById('printLedgerReport');
+        if (!printDiv) {
+          console.error('Print div not found');
+          return;
+        }
+        printDiv.style.display = 'block';
+
+        const opt = {
+          margin: [10, 10, 10, 10],
+          filename: 'ledger.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { 
+            scale: 2,
+            useCORS: true,
+            logging: true
+          },
+          jsPDF: { 
+            unit: 'mm', 
+            format: 'a4', 
+            orientation: 'landscape'
+          }
+        };
+
+        // First ensure html2pdf is loaded
+        if (typeof html2pdf === 'undefined') {
+          alert('PDF export library not loaded. Please refresh the page and try again.');
+          return;
+        }
+
+        html2pdf()
+          .from(printDiv)
+          .set(opt)
+          .save()
+          .then(() => {
+            printDiv.style.display = 'none';
+            console.log('PDF export completed');
+          })
+          .catch(err => {
+            console.error('PDF export error:', err);
+            alert('Error exporting PDF. Please try again.');
+            printDiv.style.display = 'none';
+          });
+
+      } catch (error) {
+        console.error('PDF export error:', error);
+        alert('Error preparing PDF export. Please try again.');
+      }
+    };
+  }
+  if (document.getElementById('invoiceDetailsBtn')) {
+    document.getElementById('invoiceDetailsBtn').onclick = function() {
+      // Use a variable to store invoices temporarily
+      if (!window._invoiceDetailsData) {
+        window._invoiceDetailsData = [
+          {
+            slno: 1,
+            invoice: 'INV 01',
+            invDate: '2024-05-01',
+            from: 'Chennai',
+            to: 'Chennai',
+            desc: '12v 120AH 1 Nos<br>12V 130AH 3 Nos',
+            qty: '1<br>3',
+            uom: 'Nos<br>Nos',
+            weight: '',
+            rate: '',
+            taxable: '',
+            gst: '',
+            tcs: '',
+            total: ''
+          }
+        ];
+      }
+      function renderInvoiceTable() {
+        let tbody = '';
+        window._invoiceDetailsData.forEach((row, idx) => {
+          tbody += `<tr>
+            <td>${idx+1}</td>
+            <td>${row.invoice}</td>
+            <td>${row.invDate || ''}</td>
+            <td>${row.from}</td>
+            <td>${row.to}</td>
+            <td>${row.desc}</td>
+            <td>${row.qty}</td>
+            <td>${row.uom}</td>
+            <td>${row.weight}</td>
+            <td>${row.rate}</td>
+            <td>${row.taxable}</td>
+            <td>${row.gst}</td>
+            <td>${row.tcs}</td>
+            <td>${row.total}</td>
+            <td>
+              <button class='btn btn-warning btn-sm edit-invoice-btn' data-idx='${idx}'>Edit</button>
+              <button class='btn btn-danger btn-sm delete-invoice-btn' data-idx='${idx}'>Delete</button>
+            </td>
+          </tr>`;
+        });
+        document.getElementById('invoiceDetailsTableBody').innerHTML = tbody;
+        // Attach edit/delete handlers
+        document.querySelectorAll('.edit-invoice-btn').forEach(btn => {
+          btn.onclick = function() {
+            const i = +btn.getAttribute('data-idx');
+            const row = window._invoiceDetailsData[i];
+            document.getElementById('invNumber').value = row.invoice;
+            document.getElementById('invDate').value = row.invDate;
+            document.getElementById('shipFrom').value = row.from;
+            document.getElementById('shipTo').value = row.to;
+            document.getElementById('matDesc').value = row.desc;
+            document.getElementById('qty').value = row.qty;
+            document.getElementById('uom').value = row.uom;
+            document.getElementById('weight').value = row.weight;
+            document.getElementById('rate').value = row.rate;
+            document.getElementById('taxable').value = row.taxable;
+            document.getElementById('gst').value = row.gst;
+            document.getElementById('tcs').value = row.tcs;
+            document.getElementById('total').value = row.total;
+            document.getElementById('addInvoiceForm').style.display = '';
+            document.getElementById('addInvoiceBtn').style.display = 'none';
+            window._editInvoiceIdx = i;
+          };
+        });
+        document.querySelectorAll('.delete-invoice-btn').forEach(btn => {
+          btn.onclick = function() {
+            const i = +btn.getAttribute('data-idx');
+            if (confirm('Delete this invoice?')) {
+              window._invoiceDetailsData.splice(i, 1);
+              renderInvoiceTable();
+            }
+          };
+        });
+      }
+      renderInvoiceTable();
+      var modal = new bootstrap.Modal(document.getElementById('invoiceDetailsModal'));
+      modal.show();
+      // Add Invoice button logic
+      document.getElementById('addInvoiceBtn').onclick = function() {
+        document.getElementById('addInvoiceForm').style.display = '';
+        this.style.display = 'none';
+      };
+      document.getElementById('cancelAddInvoice').onclick = function() {
+        document.getElementById('addInvoiceForm').reset();
+        document.getElementById('addInvoiceForm').style.display = 'none';
+        document.getElementById('addInvoiceBtn').style.display = '';
+      };
+      document.getElementById('addInvoiceForm').onsubmit = function(e) {
+        e.preventDefault();
+        const newRow = {
+          invoice: document.getElementById('invNumber').value,
+          invDate: document.getElementById('invDate').value,
+          from: document.getElementById('shipFrom').value,
+          to: document.getElementById('shipTo').value,
+          desc: document.getElementById('matDesc').value,
+          qty: document.getElementById('qty').value,
+          uom: document.getElementById('uom').value,
+          weight: document.getElementById('weight').value,
+          rate: document.getElementById('rate').value,
+          taxable: document.getElementById('taxable').value,
+          gst: document.getElementById('gst').value,
+          tcs: document.getElementById('tcs').value,
+          total: document.getElementById('total').value
+        };
+        if (window._editInvoiceIdx !== undefined) {
+          window._invoiceDetailsData[window._editInvoiceIdx] = newRow;
+          window._editInvoiceIdx = undefined;
+        } else {
+          window._invoiceDetailsData.push(newRow);
+        }
+        renderInvoiceTable();
+        document.getElementById('addInvoiceForm').reset();
+        document.getElementById('addInvoiceForm').style.display = 'none';
+        document.getElementById('addInvoiceBtn').style.display = '';
+      };
+      // Export Excel
+      document.getElementById('exportInvoiceExcelBtn').onclick = function() {
+        // Get client info
+        let clientName = '', companyName = '';
+        const clientId = document.getElementById('ledgerClientSelect')?.value;
+        if (clientId && window.getClients) {
+          const clients = window.getClients();
+          const client = clients.find(c => c.id === clientId);
+          if (client) {
+            clientName = client.clientName;
+            companyName = client.companyName;
+          }
+        }
+        const today = new Date();
+        const dateStr = today.toLocaleDateString();
+        const header1 = ['Invoice Report'];
+        const header2 = [`Client: ${clientName} (${companyName}) | Date: ${dateStr}`];
+        const rows = [header1, header2, [],
+          ['Sl No','Invoice Number','Invoice Date','Shipping From','Shipping To','Material Description','Qty','UOM','Weight','Rate','Taxable Value','GST Tax','TCS','Total Value']
+        ];
+        window._invoiceDetailsData.forEach((row, idx) => {
+          rows.push([
+            idx+1,
+            row.invoice,
+            row.invDate,
+            row.from,
+            row.to,
+            row.desc.replace(/<br>/g, '\n'),
+            row.qty,
+            row.uom,
+            row.weight,
+            row.rate,
+            row.taxable,
+            row.gst,
+            row.tcs,
+            row.total
+          ]);
+        });
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.aoa_to_sheet(rows);
+        XLSX.utils.book_append_sheet(wb, ws, 'Invoices');
+        XLSX.writeFile(wb, 'invoices.xlsx');
+      };
+      // Export PDF
+      document.getElementById('exportInvoicePdfBtn').onclick = function() {
+        // Get client info
+        let clientName = '', companyName = '';
+        const clientId = document.getElementById('ledgerClientSelect')?.value;
+        if (clientId && window.getClients) {
+          const clients = window.getClients();
+          const client = clients.find(c => c.id === clientId);
+          if (client) {
+            clientName = client.clientName;
+            companyName = client.companyName;
+          }
+        }
+        const today = new Date();
+        const dateStr = today.toLocaleDateString();
+        const printDiv = document.createElement('div');
+        printDiv.innerHTML = `<div style='font-family:Arial,sans-serif;'>
+          <h2 style='text-align:center;margin-bottom:0;'>Invoice Report</h2>
+          <div style='text-align:center;margin-bottom:16px;'>Client: <b>${clientName} (${companyName})</b> | Date: <b>${dateStr}</b></div>
+          <table style='width:100%;border-collapse:collapse;font-size:0.95rem;margin-top:12px;'>
+            <thead><tr style='background:#eaf6ff;'>
+              <th style='border:1px solid #bbb;'>Sl No</th>
+              <th style='border:1px solid #bbb;'>Invoice Number</th>
+              <th style='border:1px solid #bbb;'>Invoice Date</th>
+              <th style='border:1px solid #bbb;'>Shipping From</th>
+              <th style='border:1px solid #bbb;'>Shipping To</th>
+              <th style='border:1px solid #bbb;'>Material Description</th>
+              <th style='border:1px solid #bbb;'>Qty</th>
+              <th style='border:1px solid #bbb;'>UOM</th>
+              <th style='border:1px solid #bbb;'>Weight</th>
+              <th style='border:1px solid #bbb;'>Rate</th>
+              <th style='border:1px solid #bbb;'>Taxable Value</th>
+              <th style='border:1px solid #bbb;'>GST Tax</th>
+              <th style='border:1px solid #bbb;'>TCS</th>
+              <th style='border:1px solid #bbb;'>Total Value</th>
+            </tr></thead><tbody>` +
+          window._invoiceDetailsData.map((row, idx) =>
+            `<tr>
+              <td style='border:1px solid #bbb;'>${idx+1}</td>
+              <td style='border:1px solid #bbb;'>${row.invoice}</td>
+              <td style='border:1px solid #bbb;'>${row.invDate || ''}</td>
+              <td style='border:1px solid #bbb;'>${row.from}</td>
+              <td style='border:1px solid #bbb;'>${row.to}</td>
+              <td style='border:1px solid #bbb;'>${row.desc}</td>
+              <td style='border:1px solid #bbb;'>${row.qty}</td>
+              <td style='border:1px solid #bbb;'>${row.uom}</td>
+              <td style='border:1px solid #bbb;'>${row.weight}</td>
+              <td style='border:1px solid #bbb;'>${row.rate}</td>
+              <td style='border:1px solid #bbb;'>${row.taxable}</td>
+              <td style='border:1px solid #bbb;'>${row.gst}</td>
+              <td style='border:1px solid #bbb;'>${row.tcs}</td>
+              <td style='border:1px solid #bbb;'>${row.total}</td>
+            </tr>`
+          ).join('') + `</tbody></table></div>`;
+        html2pdf().set({
+          margin: 0.5,
+          filename: 'invoices.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
+        }).from(printDiv).save();
+      };
+    };
+  }
+  if (document.getElementById('generalPaymentsBtn')) {
+    document.getElementById('generalPaymentsBtn').onclick = function() {
+      alert('General Payments feature coming soon!');
+    };
+  }
+}
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  if (isNaN(d)) return dateStr;
+  const day = d.getDate().toString().padStart(2, '0');
+  const month = d.toLocaleString('en-US', { month: 'short' });
+  const year = d.getFullYear();
+  return `${day}-${month}-${year}`;
+}
+function renderPrintLedgerReport(clientId, consignmentGroups, consignmentNos, inward, outward) {
+  const clients = getClients();
+  const client = clients.find(c => c.id === clientId);
+  // Calculate totals
+  const totalInward = inward.reduce((sum, iw) => sum + Number(iw.amount || 0), 0);
+  const totalOutward = outward.reduce((sum, ow) => sum + Number(ow.amount || 0), 0);
+  
+  let html = `
+    <div style='font-family:Arial,sans-serif;padding:20px;background:white;'>
+      <h2 style='text-align:center;margin-bottom:8px;color:#333;'>Payments Report</h2>
+      <div style='text-align:center;margin-bottom:20px;color:#666;'>
+        Client: <b>${client ? client.clientName + ' (' + client.companyName + ')' : ''}</b> | Date: <b>${new Date().toLocaleDateString()}</b>
+      </div>
+      
+      <table style='width:100%;border-collapse:collapse;margin-bottom:12px;'>
+        <tr style='background:#f8f9fa;'>
+          <td style='padding:8px;'></td>
+          <td style='padding:8px;'></td>
+          <td style='padding:8px;font-weight:bold;color:#1a7f37;'>Total Inward</td>
+          <td style='padding:8px;font-weight:bold;color:#1a7f37;'>${totalInward}</td>
+          <td style='padding:8px;'></td>
+          <td style='padding:8px;'></td>
+          <td style='padding:8px;font-weight:bold;color:#b85c00;'>Total Outward</td>
+          <td style='padding:8px;font-weight:bold;color:#b85c00;'>${totalOutward}</td>
+        </tr>
+      </table>
+
+      <table style='width:100%;border-collapse:collapse;font-size:0.95rem;'>
+        <thead>
+          <tr style='background:#eaf6ff;'>
+            <th style='border:1px solid #bbb;padding:8px;'>Consignment No</th>
+            <th style='border:1px solid #bbb;padding:8px;'>Inward Date</th>
+            <th style='border:1px solid #bbb;padding:8px;'>Inward Description</th>
+            <th style='border:1px solid #bbb;padding:8px;'>Inward Amount</th>
+            <th style='border:1px solid #bbb;padding:8px;'>Outward No</th>
+            <th style='border:1px solid #bbb;padding:8px;'>Outward Date</th>
+            <th style='border:1px solid #bbb;padding:8px;'>Outward Description</th>
+            <th style='border:1px solid #bbb;padding:8px;'>Outward Amount</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+  consignmentNos.forEach((consNo) => {
+    const inwards = consignmentGroups[consNo] || [];
+    const outs = outward.filter(ow => ow.parentConsignmentNo === consNo);
+    let maxRows = Math.max(inwards.length, outs.length, 1);
+    
+    for (let r = 0; r < maxRows; r++) {
+      const iw = inwards[r] || {};
+      const ow = outs[r] || {};
+      html += `
+        <tr>
+          <td style='border:1px solid #bbb;padding:8px;'>${r === 0 ? consNo : ''}</td>
+          <td style='border:1px solid #bbb;padding:8px;white-space:nowrap;'>${iw.date ? formatDate(iw.date) : ''}</td>
+          <td style='border:1px solid #bbb;padding:8px;'>${iw.desc || ''}</td>
+          <td style='border:1px solid #bbb;padding:8px;'>${iw.amount || ''}</td>
+          <td style='border:1px solid #bbb;padding:8px;'>${ow ? (ow.parentConsignmentNo ? (ow.parentConsignmentNo + '.' + (outs.indexOf(ow)+1)) : '') : ''}</td>
+          <td style='border:1px solid #bbb;padding:8px;white-space:nowrap;'>${ow.date ? formatDate(ow.date) : ''}</td>
+          <td style='border:1px solid #bbb;padding:8px;'>${ow.desc || ''}</td>
+          <td style='border:1px solid #bbb;padding:8px;'>${ow.amount || ''}</td>
+        </tr>`;
+    }
+    // Add an empty row after each consignment
+    html += `<tr><td colspan='8' style='height:12px;'></td></tr>`;
+  });
+
+  html += `</tbody></table></div>`;
+  document.getElementById('printLedgerReport').innerHTML = html;
+}
+</script>
+</body>
+</html>

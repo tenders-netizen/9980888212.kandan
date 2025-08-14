@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Job Work Inward – Multi Company</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #f4f7fa; margin: 0; padding: 0; }
+    .container { max-width: 1200px; margin: 30px auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 32px; }
+    h1 { text-align: center; color: #3887b6; }
+    .top-box { margin-bottom: 24px; }
+    label { display: inline-block; width: 160px; margin-top: 10px; }
+    input, select, textarea { padding: 8px; margin: 5px 10px 5px 0; width: 220px; border-radius: 6px; border: 1px solid #b0bec5; }
+    button { padding: 8px 20px; margin: 10px 5px 0 0; background: #3887b6; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+    table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background: #e4e9f2; }
+    .form-row { margin-bottom: 12px; }
+    .section-title { font-weight: bold; margin: 24px 0 12px 0; color: #3887b6; }
+    @media (max-width: 700px) {
+      .container { padding: 10px; }
+      label, input, select, textarea { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Job Work Inward</h1>
+    <div class="top-box">
+      <label><strong>Select Company:</strong></label>
+      <select id="companySelect"></select>
+      <input type="text" id="newCompany" placeholder="Add New Company" />
+      <button onclick="addCompany()">Add</button>
+    </div>
+    <div id="formWrapper" style="display:none;">
+      <div class="section-title">Inward Details</div>
+      <div class="form-row"><label>PO Number:</label><input type="text" id="poNumber" /></div>
+      <div class="form-row"><label>DC Number:</label><input type="text" id="dcNumber" /></div>
+      <div class="form-row"><label>Date:</label><input type="date" id="inwardDate" /></div>
+      <div class="form-row"><label>Customer Name:</label><input type="text" id="customerName" /></div>
+      <div class="section-title">Material Details</div>
+      <div class="form-row"><label>2W Battery Weight:</label><input type="number" id="battery2W" /></div>
+      <div class="form-row"><label>4W Battery Weight:</label><input type="number" id="battery4W" /></div>
+      <div class="form-row"><label>PP Battery Weight:</label><input type="number" id="batteryPP" /></div>
+      <div class="form-row"><label>SMF Battery Weight:</label><input type="number" id="batterySMF" /></div>
+      <div class="form-row"><label>Total Qty:</label><input type="text" id="totalQty" readonly /></div>
+      <div class="form-row"><label>Total Lead:</label><input type="text" id="totalLead" readonly /></div>
+      <button type="button" onclick="submitForm()">Submit</button>
+      <button type="button" onclick="exportToExcel()">Export to Excel</button>
+    </div>
+    <div class="section-title">Entries</div>
+    <table id="dataTable">
+      <thead>
+        <tr>
+          <th>PO Number</th>
+          <th>DC Number</th>
+          <th>Date</th>
+          <th>Customer</th>
+          <th>2W</th>
+          <th>4W</th>
+          <th>PP</th>
+          <th>SMF</th>
+          <th>Total Qty</th>
+          <th>Total Lead</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <script>
+    function getCompanies() {
+      return JSON.parse(localStorage.getItem('companyList') || '[]');
+    }
+    function saveCompanies(list) {
+      localStorage.setItem('companyList', JSON.stringify(list));
+    }
+    function addCompany() {
+      const newCompany = document.getElementById("newCompany").value.trim();
+      if (!newCompany) return;
+      let companies = getCompanies();
+      if (!companies.includes(newCompany)) {
+        companies.push(newCompany);
+        saveCompanies(companies);
+      }
+      populateCompanyDropdown();
+      document.getElementById("companySelect").value = newCompany;
+      onCompanySelect();
+      document.getElementById("newCompany").value = "";
+    }
+    function populateCompanyDropdown() {
+      const select = document.getElementById("companySelect");
+      select.innerHTML = '<option value="">-- Select --</option>';
+      getCompanies().forEach(company => {
+        const option = document.createElement("option");
+        option.value = company;
+        option.text = company;
+        select.appendChild(option);
+      });
+      const saved = localStorage.getItem('selectedCompany');
+      if (saved) select.value = saved;
+    }
+    function onCompanySelect() {
+      const company = document.getElementById("companySelect").value;
+      localStorage.setItem('selectedCompany', company);
+      document.getElementById("formWrapper").style.display = company ? "block" : "none";
+      loadCompanyData(company);
+    }
+    function submitForm() {
+      const company = document.getElementById("companySelect").value;
+      if (!company) return;
+      const entry = {
+        poNumber: document.getElementById('poNumber').value,
+        dcNumber: document.getElementById('dcNumber').value,
+        inwardDate: document.getElementById('inwardDate').value,
+        customerName: document.getElementById('customerName').value,
+        battery2W: document.getElementById('battery2W').value,
+        battery4W: document.getElementById('battery4W').value,
+        batteryPP: document.getElementById('batteryPP').value,
+        batterySMF: document.getElementById('batterySMF').value,
+        totalQty: document.getElementById('totalQty').value,
+        totalLead: document.getElementById('totalLead').value
+      };
+      let data = JSON.parse(localStorage.getItem(company) || '[]');
+      data.push(entry);
+      localStorage.setItem(company, JSON.stringify(data));
+      loadCompanyData(company);
+    }
+    function loadCompanyData(company) {
+      const tbody = document.getElementById('dataTable').querySelector('tbody');
+      tbody.innerHTML = '';
+      if (!company) return;
+      const data = JSON.parse(localStorage.getItem(company) || '[]');
+      data.forEach(entry => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${entry.poNumber || ''}</td>
+          <td>${entry.dcNumber || ''}</td>
+          <td>${entry.inwardDate || ''}</td>
+          <td>${entry.customerName || ''}</td>
+          <td>${entry.battery2W || ''}</td>
+          <td>${entry.battery4W || ''}</td>
+          <td>${entry.batteryPP || ''}</td>
+          <td>${entry.batterySMF || ''}</td>
+          <td>${entry.totalQty || ''}</td>
+          <td>${entry.totalLead || ''}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+    function exportToExcel() {
+      const wb = XLSX.utils.table_to_book(document.getElementById('dataTable'), { sheet: "JobWork" });
+      XLSX.writeFile(wb, 'JobWorkInward.xlsx');
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      populateCompanyDropdown();
+      onCompanySelect();
+      document.getElementById("companySelect").onchange = onCompanySelect;
+    });
+  </script>
+</body>
+</html>

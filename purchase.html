@@ -1,0 +1,1910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Purchase Dashboard - KANDAN ALLOYS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+  <!-- Add Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Add Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <style>
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    /* Smooth transitions */
+    .transition-all {
+      transition: all 0.3s ease;
+    }
+
+    /* Input focus effects */
+    .form-input:focus {
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    /* Card hover effect */
+    .card-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Add these styles for better table appearance */
+    .table-row-alternate:nth-child(even) {
+      background-color: #f9fafb;
+    }
+    
+    /* Style for sticky columns */
+    .sticky-left {
+      position: sticky;
+      left: 0;
+      background-color: white;
+      z-index: 1;
+    }
+    
+    .sticky-right {
+      position: sticky;
+      right: 0;
+      background-color: white;
+      z-index: 1;
+    }
+
+    /* Add shadow to indicate scrollable content */
+    .table-shadow-right::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(to right, rgba(0,0,0,0.05), rgba(0,0,0,0));
+      pointer-events: none;
+    }
+
+    .table-shadow-left::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(to left, rgba(0,0,0,0.05), rgba(0,0,0,0));
+      pointer-events: none;
+    }
+
+    /* Payment Status styles */
+    .payment-status-cell {
+      min-width: 320px;
+      max-width: 384px;
+      padding: 1rem;
+      white-space: normal;
+      word-wrap: break-word;
+    }
+
+    .payment-details {
+      margin-top: 0.75rem;
+      padding: 0.75rem;
+      border-radius: 0.375rem;
+      border: 1px solid #e5e7eb;
+      background-color: #ffffff;
+    }
+
+    .utr-entry-box {
+      background-color: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.375rem;
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .utr-entry-box:last-child {
+      margin-bottom: 0;
+    }
+
+    .utr-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .utr-label {
+      color: #4b5563;
+      font-weight: 500;
+      padding-right: 0.5rem;
+    }
+
+    .utr-value {
+      color: #1f2937;
+    }
+
+    /* Table header freeze styles */
+    .sticky {
+      position: sticky;
+      z-index: 10;
+    }
+
+    .top-0 {
+      top: 0;
+    }
+
+    /* Add shadow to frozen header */
+    thead.sticky tr th {
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    /* Table header freeze styles */
+    thead.sticky {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    thead.sticky::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      height: 1px;
+      background-color: #e5e7eb;
+    }
+
+    /* Add shadow to frozen header */
+    thead.sticky th {
+      position: sticky;
+      top: 0;
+      background-color: #EBF5FF; /* Light blue color */
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    /* Improve table scrolling */
+    .overflow-x-auto {
+      scrollbar-width: thin;
+      scrollbar-color: #CBD5E0 #F3F4F6;
+    }
+
+    .overflow-x-auto::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    .overflow-x-auto::-webkit-scrollbar-track {
+      background: #F3F4F6;
+    }
+
+    .overflow-x-auto::-webkit-scrollbar-thumb {
+      background-color: #CBD5E0;
+      border-radius: 4px;
+    }
+
+    /* Alternate row colors */
+    .table-row-alternate:nth-child(even) {
+      background-color: #F9FAFB;
+    }
+
+    .table-row-alternate:hover {
+      background-color: #F3F4F6;
+    }
+
+    /* Modern Card Design */
+    .modern-card {
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+    }
+    
+    .modern-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Gradient Background */
+    body {
+      background: linear-gradient(135deg, #f6f9fc 0%, #edf2f7 100%);
+      min-height: 100vh;
+    }
+
+    /* Modern Button Styles */
+    .btn-modern {
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #4338ca 0%, #2563eb 100%);
+      transform: translateY(-1px);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: linear-gradient(135deg, #047857 0%, #059669 100%);
+      transform: translateY(-1px);
+    }
+
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 12px -2px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Modern Form Inputs */
+    .input-modern {
+      border: 2px solid #e2e8f0;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    .input-modern:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      outline: none;
+    }
+
+    /* Table Improvements */
+    .table-modern {
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+    }
+
+    .table-modern th {
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      font-weight: 600;
+      border-bottom: 2px solid #cbd5e1;
+      border-right: 1px solid #cbd5e1;
+    }
+
+    .table-modern td {
+      border-bottom: 1px solid #cbd5e1;
+      border-right: 1px solid #cbd5e1;
+    }
+
+    .table-modern tr:hover {
+      background-color: #f8fafc;
+    }
+
+    .table-modern tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .table-modern th:last-child,
+    .table-modern td:last-child {
+      border-right: none;
+    }
+
+    /* Dark mode table styles */
+    @media (prefers-color-scheme: dark) {
+      .table-modern {
+        border-color: #374151;
+      }
+      
+      .table-modern th {
+        border-color: #374151;
+      }
+      
+      .table-modern td {
+        border-color: #374151;
+      }
+    }
+
+    /* Status Badges */
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .status-completed {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+
+    .status-pending {
+      background-color: #fef9c3;
+      color: #854d0e;
+    }
+
+    /* Loading Animation */
+    .loading-spinner {
+      width: 2rem;
+      height: 2rem;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 1rem auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Tooltip */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+
+    .tooltip .tooltip-text {
+      visibility: hidden;
+      background-color: #1f2937;
+      color: white;
+      text-align: center;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 0.875rem;
+      white-space: nowrap;
+    }
+
+    .tooltip:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Quick Stats Section */
+    .quick-stats {
+      margin-bottom: 2rem;
+    }
+
+    /* Update table container and header styles */
+    .table-container {
+      position: relative;
+      max-height: 70vh;
+      overflow-y: auto;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .table-modern {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    .table-modern thead {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background-color: #EBF5FF;
+    }
+
+    .table-modern thead th {
+      position: sticky;
+      top: 0;
+      background-color: #EBF5FF;
+      z-index: 50;
+      padding: 1rem;
+      font-weight: 600;
+      text-align: left;
+      border-bottom: 2px solid #cbd5e1;
+      border-right: 1px solid #cbd5e1;
+      white-space: nowrap;
+    }
+
+    .table-modern thead th:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+      background-color: #cbd5e1;
+    }
+
+    /* Add these styles for better scrolling experience */
+    .table-container::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    .table-container::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+
+    .table-container::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+    }
+
+    .table-container::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div class="max-w-7xl mx-auto p-6">
+    <!-- Header Section -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-8 card-hover transition-all">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+        <div class="flex items-center space-x-4">
+          <div class="bg-blue-50 p-3 rounded-lg">
+            <img src="assets/images/logo.png" alt="Logo" class="w-16 h-16 object-contain" />
+          </div>
+          <div>
+            <h1 class="text-2xl font-bold text-gray-800">Purchase Entry</h1>
+            <p class="text-gray-500 text-sm">Manage your purchases efficiently</p>
+          </div>
+        </div>
+        <div class="text-center">
+          <h2 class="text-2xl font-bold text-blue-600">KANDAN ALLOYS</h2>
+          <p class="text-gray-500">Purchase Management System</p>
+        </div>
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <div class="text-right">
+            <p class="text-lg text-gray-600 mb-1">
+              <i class="fas fa-calendar-alt mr-2 text-blue-500"></i>
+              <span id="currentDate" class="font-semibold">--/--/----</span>
+            </p>
+            <p class="text-lg text-gray-600">
+              <i class="fas fa-clock mr-2 text-blue-500"></i>
+              <span id="currentTime" class="font-semibold">--:-- --</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Quick Stats Section after the header -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="text-gray-600 text-sm mb-1">Total Purchases</div>
+        <div class="text-2xl font-bold text-gray-900" id="totalPurchases">0</div>
+        <div class="text-green-600 text-sm mt-2">
+          <i class="fas fa-chart-line mr-1"></i>
+          <span id="purchaseGrowth">0%</span> vs last month
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="text-gray-600 text-sm mb-1">Total Amount</div>
+        <div class="text-2xl font-bold text-gray-900" id="totalAmount">₹0</div>
+        <div class="text-blue-600 text-sm mt-2">
+          <i class="fas fa-coins mr-1"></i>
+          Average: ₹<span id="avgAmount">0</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="text-gray-600 text-sm mb-1">Pending Payments</div>
+        <div class="text-2xl font-bold text-gray-900" id="pendingPayments">0</div>
+        <div class="text-yellow-600 text-sm mt-2">
+          <i class="fas fa-clock mr-1"></i>
+          Amount: ₹<span id="pendingAmount">0</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="text-gray-600 text-sm mb-1">Completed Transactions</div>
+        <div class="text-2xl font-bold text-gray-900" id="completedTransactions">0</div>
+        <div class="text-green-600 text-sm mt-2">
+          <i class="fas fa-check-circle mr-1"></i>
+          <span id="completionRate">0%</span> completion rate
+        </div>
+      </div>
+    </div>
+
+    <!-- Purchase Entry Form -->
+    <form id="purchaseForm" class="bg-white rounded-xl shadow-lg p-6 mb-8 card-hover">
+      <input type="hidden" id="editIndex" value="">
+      
+      <!-- Form Grid Layout -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <!-- Date, Company, Invoice Section -->
+        <div class="space-y-4">
+          <div class="form-group">
+            <label class="block text-gray-700 font-medium mb-2">Date</label>
+            <input type="date" id="date" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="block text-gray-700 font-medium mb-2">Company Name</label>
+            <input type="text" id="company" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="block text-gray-700 font-medium mb-2">Invoice Number</label>
+            <input type="text" id="invoice" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 form-input">
+          </div>
+        </div>
+
+        <!-- Invoice PDF, Value, Payment Section -->
+        <div class="space-y-4">
+          <div class="form-group">
+            <label class="block text-gray-700 font-medium mb-2">Invoice PDF</label>
+            <div class="flex items-center space-x-2">
+              <label class="w-full cursor-pointer">
+                <div class="border border-gray-300 rounded-lg px-4 py-2 text-center hover:bg-gray-50">
+                  <i class="fas fa-file-pdf text-red-500 mr-2"></i>
+                  <span id="fileLabel">Choose PDF</span>
+                </div>
+                <input type="file" id="invoicePdf" accept=".pdf" class="hidden" onchange="updateFileLabel(this)">
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="block text-gray-700 font-medium mb-2">Invoice Value</label>
+            <input type="number" id="invoiceValue" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 form-input" placeholder="Enter amount">
+          </div>
+          <div class="form-group">
+            <label class="block text-gray-700 font-medium mb-2">Payment Status</label>
+            <select id="payment" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 form-input" onchange="toggleUTRSection()">
+              <option value="Not Paid">Not Paid</option>
+              <option value="Partial">Partial</option>
+              <option value="Paid">Paid</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Remarks, State-District Section -->
+        <div class="space-y-4">
+          <div class="form-group">
+            <label class="block text-gray-700 font-medium mb-2">Remarks</label>
+            <input type="text" id="remarks" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 form-input">
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="form-group">
+              <label class="block text-gray-700 font-medium mb-2">State</label>
+              <select id="state" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 form-input" onchange="updateDistricts()">
+                <option value="">Select State</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="block text-gray-700 font-medium mb-2">District</label>
+              <select id="district" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 form-input">
+                <option value="">Select District</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Second Row -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <div class="form-group">
+          <label class="block text-gray-700 font-medium mb-2">Pin Code</label>
+          <input type="text" id="pincode" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 form-input" pattern="[0-9]{6}" maxlength="6">
+        </div>
+        <div class="form-group">
+          <label class="block text-gray-700 font-medium mb-2">Email ID</label>
+          <input type="email" id="email" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 form-input">
+        </div>
+        <div class="form-group">
+          <label class="block text-gray-700 font-medium mb-2">Client Name</label>
+          <input type="text" id="clientName" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 form-input">
+        </div>
+      </div>
+
+      <!-- Third Row -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div id="contactContainer" class="form-group">
+          <label class="block text-gray-700 font-medium mb-2">Contact Numbers</label>
+          <div class="flex space-x-2">
+            <input type="tel" class="contact-number w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 form-input" pattern="[0-9]{10}" maxlength="10">
+            <button type="button" onclick="addContactField()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="block text-gray-700 font-medium mb-2">Material Lifted</label>
+          <select id="material" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 form-input">
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- UTR Payment Details Section -->
+      <div id="utrSection" class="hidden space-y-4 mt-4 p-4 bg-gray-50 rounded-lg mb-6">
+        <div class="flex justify-between items-center">
+          <h3 class="text-lg font-semibold text-gray-700">UTR Payment Details</h3>
+          <button type="button" onclick="addUTREntry()" class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 transition-colors">
+            <i class="fas fa-plus"></i> Add Payment
+          </button>
+        </div>
+        <div id="utrEntries">
+          <!-- UTR entries will be added here -->
+        </div>
+      </div>
+
+      <!-- Item Descriptions -->
+      <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Item Descriptions</label>
+        <textarea id="items" rows="3" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 form-input" placeholder="Enter item details here..."></textarea>
+      </div>
+
+      <!-- Form Buttons -->
+      <div class="flex justify-end space-x-4">
+        <button type="submit" class="btn-modern btn-primary">
+          <i class="fas fa-save"></i>
+          Submit
+        </button>
+        <button type="button" class="btn-modern btn-success" onclick="exportToExcel()">
+          <i class="fas fa-file-excel"></i>
+          Export to Excel
+        </button>
+      </div>
+    </form>
+
+    <!-- Purchase Records Table -->
+    <div class="bg-white rounded-xl shadow-lg">
+      <div class="p-6">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">Purchase Records</h2>
+      </div>
+      <div class="table-container">
+        <table id="purchaseTable" class="table-modern">
+          <thead>
+            <tr>
+              <th class="px-4 py-3 text-left text-gray-700 font-medium w-16 border-r border-gray-200 bg-blue-50 sticky top-0">SL No</th>
+              <th class="px-4 py-3 text-left text-gray-700 font-medium w-32 border-r border-gray-200 bg-blue-50 sticky top-0">
+                <div class="flex flex-col">
+                  <span>Date</span>
+                  <input type="date" class="mt-1 px-2 py-1 border rounded text-sm focus:outline-none focus:border-blue-500 bg-white" onchange="filterTable(1, this.value)">
+                </div>
+              </th>
+              <th class="px-4 py-3 text-left text-gray-700 font-medium w-48 border-r border-gray-200 bg-blue-50 sticky top-0">
+                <div class="flex flex-col">
+                  <span>Company Name</span>
+                  <select id="companyFilter" class="mt-1 px-2 py-1 border rounded text-sm focus:outline-none focus:border-blue-500 bg-white" onchange="handleCompanyFilter()">
+                    <option value="">All</option>
+                  </select>
+                </div>
+              </th>
+              <th class="px-4 py-3 text-left text-gray-700 font-medium w-32 border-r border-gray-200 bg-blue-50 sticky top-0">
+                <div class="flex flex-col">
+                  <span>Invoice Number</span>
+                  <input type="text" class="mt-1 px-2 py-1 border rounded text-sm focus:outline-none focus:border-blue-500 bg-white" onkeyup="filterTable(3, this.value)" placeholder="Search...">
+                </div>
+              </th>
+              <th class="px-4 py-3 text-left text-gray-700 font-medium w-40 border-r border-gray-200 bg-blue-50 sticky top-0">Invoice PDF</th>
+              <th class="px-4 py-3 text-right text-gray-700 font-medium w-32 border-r border-gray-200 bg-blue-50 sticky top-0">Invoice Value</th>
+              <th class="px-4 py-3 text-left text-gray-700 font-medium w-96 border-r border-gray-200 bg-blue-50 sticky top-0">
+                <div class="flex flex-col">
+                  <span>Payment Status</span>
+                  <select class="mt-1 px-2 py-1 border rounded text-sm focus:outline-none focus:border-blue-500 bg-white" onchange="filterTable(6, this.value)">
+                    <option value="">All</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Not Paid">Not Paid</option>
+                    <option value="Partial">Partial</option>
+                  </select>
+                </div>
+              </th>
+              <th class="px-4 py-3 text-left text-gray-700 font-medium w-32 border-r border-gray-200 bg-blue-50 sticky top-0">
+                <div class="flex flex-col">
+                  <span>State</span>
+                  <select id="stateFilter" class="mt-1 px-2 py-1 border rounded text-sm focus:outline-none focus:border-blue-500 bg-white" onchange="handleStateFilter()">
+                    <option value="">All</option>
+                  </select>
+                </div>
+              </th>
+              <th class="px-4 py-3 text-left text-gray-700 font-medium w-32 border-r border-gray-200 bg-blue-50 sticky top-0">District</th>
+              <th class="px-4 py-3 text-left text-gray-700 font-medium w-24 border-r border-gray-200 bg-blue-50 sticky top-0">Pin Code</th>
+              <th class="px-4 py-3 text-left text-gray-700 font-medium w-48 border-r border-gray-200 bg-blue-50 sticky top-0">Email ID</th>
+              <th class="px-4 py-3 text-left text-gray-700 font-medium w-40 border-r border-gray-200 bg-blue-50 sticky top-0">Contact Numbers</th>
+              <th class="px-4 py-3 text-left text-gray-700 font-medium w-32 border-r border-gray-200 bg-blue-50 sticky top-0">
+                <div class="flex flex-col">
+                  <span>Material Lifted</span>
+                  <select class="mt-1 px-2 py-1 border rounded text-sm focus:outline-none focus:border-blue-500 bg-white" onchange="filterTable(12, this.value)">
+                    <option value="">All</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+              </th>
+              <th class="px-4 py-3 text-left text-gray-700 font-medium w-48 border-r border-gray-200 bg-blue-50 sticky top-0">Client Name</th>
+              <th class="px-4 py-3 text-left text-gray-700 font-medium w-64 border-r border-gray-200 bg-blue-50 sticky top-0">Item Description</th>
+              <th class="px-4 py-3 text-left text-gray-700 font-medium w-32 border-r border-gray-200 bg-blue-50 sticky top-0">Status</th>
+              <th class="px-4 py-3 text-left text-gray-700 font-medium w-48 border-r border-gray-200 bg-blue-50 sticky top-0">Remarks</th>
+              <th class="px-4 py-3 text-left text-gray-700 font-medium w-[88px] bg-blue-50 sticky top-0">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="purchaseTableBody" class="divide-y divide-gray-200"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let slNo = 1;
+    const form = document.getElementById("purchaseForm");
+    const tableBody = document.getElementById("purchaseTableBody");
+
+    // Define the stateDistricts object at the top level
+    const stateDistricts = {
+      "Andhra Pradesh": ["Anantapur", "Chittoor", "East Godavari", "Guntur", "Krishna", "Kurnool", "Prakasam", "Srikakulam", "Nellore", "Visakhapatnam", "Vizianagaram", "West Godavari", "YSR Kadapa"],
+      "Arunachal Pradesh": ["Tawang", "West Kameng", "East Kameng", "Papum Pare", "Kurung Kumey", "Kra Daadi", "Lower Subansiri", "Upper Subansiri", "West Siang", "East Siang", "Upper Siang", "Lower Siang", "Lower Dibang Valley", "Upper Dibang Valley", "Anjaw", "Lohit", "Namsai", "Changlang", "Tirap", "Longding"],
+      "Assam": ["Baksa", "Barpeta", "Biswanath", "Bongaigaon", "Cachar", "Charaideo", "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh", "Dima Hasao", "Goalpara", "Golaghat", "Hailakandi", "Hojai", "Jorhat", "Kamrup", "Kamrup Metropolitan", "Karbi Anglong", "Karimganj", "Kokrajhar", "Lakhimpur", "Majuli", "Morigaon", "Nagaon", "Nalbari", "Sivasagar", "Sonitpur", "South Salmara-Mankachar", "Tinsukia", "Udalguri", "West Karbi Anglong"],
+      "Bihar": ["Araria", "Arwal", "Aurangabad", "Banka", "Begusarai", "Bhagalpur", "Bhojpur", "Buxar", "Darbhanga", "East Champaran", "Gaya", "Gopalganj", "Jamui", "Jehanabad", "Kaimur", "Katihar", "Khagaria", "Kishanganj", "Lakhisarai", "Madhepura", "Madhubani", "Munger", "Muzaffarpur", "Nalanda", "Nawada", "Patna", "Purnia", "Rohtas", "Saharsa", "Samastipur", "Saran", "Sheikhpura", "Sheohar", "Sitamarhi", "Siwan", "Supaul", "Vaishali", "West Champaran"],
+      "Chhattisgarh": ["Balod", "Baloda Bazar", "Balrampur", "Bastar", "Bemetara", "Bijapur", "Bilaspur", "Dantewada", "Dhamtari", "Durg", "Gariaband", "Janjgir-Champa", "Jashpur", "Kabirdham", "Kanker", "Kondagaon", "Korba", "Korea", "Mahasamund", "Mungeli", "Narayanpur", "Raigarh", "Raipur", "Rajnandgaon", "Sukma", "Surajpur", "Surguja"],
+      "Goa": ["North Goa", "South Goa"],
+      "Gujarat": ["Ahmedabad", "Amreli", "Anand", "Aravalli", "Banaskantha", "Bharuch", "Bhavnagar", "Botad", "Chhota Udaipur", "Dahod", "Dang", "Devbhoomi Dwarka", "Gandhinagar", "Gir Somnath", "Jamnagar", "Junagadh", "Kheda", "Kutch", "Mahisagar", "Mehsana", "Morbi", "Narmada", "Navsari", "Panchmahal", "Patan", "Porbandar", "Rajkot", "Sabarkantha", "Surat", "Surendranagar", "Tapi", "Vadodara", "Valsad"],
+      "Haryana": ["Ambala", "Bhiwani", "Charkhi Dadri", "Faridabad", "Fatehabad", "Gurugram", "Hisar", "Jhajjar", "Jind", "Kaithal", "Karnal", "Kurukshetra", "Mahendragarh", "Nuh", "Palwal", "Panchkula", "Panipat", "Rewari", "Rohtak", "Sirsa", "Sonipat", "Yamunanagar"],
+      "Himachal Pradesh": ["Bilaspur", "Chamba", "Hamirpur", "Kangra", "Kinnaur", "Kullu", "Lahaul and Spiti", "Mandi", "Shimla", "Sirmaur", "Solan", "Una"],
+      "Jharkhand": ["Bokaro", "Chatra", "Deoghar", "Dhanbad", "Dumka", "East Singhbhum", "Garhwa", "Giridih", "Godda", "Gumla", "Hazaribagh", "Jamtara", "Khunti", "Koderma", "Latehar", "Lohardaga", "Pakur", "Palamu", "Ramgarh", "Ranchi", "Sahibganj", "Seraikela Kharsawan", "Simdega", "West Singhbhum"],
+      "Karnataka": ["Bagalkot", "Ballari", "Belagavi", "Bengaluru Rural", "Bengaluru Urban", "Bidar", "Chamarajanagar", "Chikkaballapur", "Chikkamagaluru", "Chitradurga", "Dakshina Kannada", "Davanagere", "Dharwad", "Gadag", "Hassan", "Haveri", "Kalaburagi", "Kodagu", "Kolar", "Koppal", "Mandya", "Mysuru", "Raichur", "Ramanagara", "Shivamogga", "Tumakuru", "Udupi", "Uttara Kannada", "Vijayapura", "Yadgir"],
+      "Kerala": ["Alappuzha", "Ernakulam", "Idukki", "Kannur", "Kasaragod", "Kollam", "Kottayam", "Kozhikode", "Malappuram", "Palakkad", "Pathanamthitta", "Thiruvananthapuram", "Thrissur", "Wayanad"],
+      "Madhya Pradesh": ["Agar Malwa", "Alirajpur", "Anuppur", "Ashoknagar", "Balaghat", "Barwani", "Betul", "Bhind", "Bhopal", "Burhanpur", "Chhatarpur", "Chhindwara", "Damoh", "Datia", "Dewas", "Dhar", "Dindori", "Guna", "Gwalior", "Harda", "Hoshangabad", "Indore", "Jabalpur", "Jhabua", "Katni", "Khandwa", "Khargone", "Mandla", "Mandsaur", "Morena", "Narsinghpur", "Neemuch", "Panna", "Raisen", "Rajgarh", "Ratlam", "Rewa", "Sagar", "Satna", "Sehore", "Seoni", "Shahdol", "Shajapur", "Sheopur", "Shivpuri", "Sidhi", "Singrauli", "Tikamgarh", "Ujjain", "Umaria", "Vidisha"],
+      "Maharashtra": ["Ahmednagar", "Akola", "Amravati", "Aurangabad", "Beed", "Bhandara", "Buldhana", "Chandrapur", "Dhule", "Gadchiroli", "Gondia", "Hingoli", "Jalgaon", "Jalna", "Kolhapur", "Latur", "Mumbai City", "Mumbai Suburban", "Nagpur", "Nanded", "Nandurbar", "Nashik", "Osmanabad", "Palghar", "Parbhani", "Pune", "Raigad", "Ratnagiri", "Sangli", "Satara", "Sindhudurg", "Solapur", "Thane", "Wardha", "Washim", "Yavatmal"],
+      "Manipur": ["Bishnupur", "Chandel", "Churachandpur", "Imphal East", "Imphal West", "Jiribam", "Kakching", "Kamjong", "Kangpokpi", "Noney", "Pherzawl", "Senapati", "Tamenglong", "Tengnoupal", "Thoubal", "Ukhrul"],
+      "Meghalaya": ["East Garo Hills", "East Jaintia Hills", "East Khasi Hills", "North Garo Hills", "Ri Bhoi", "South Garo Hills", "South West Garo Hills", "South West Khasi Hills", "West Garo Hills", "West Jaintia Hills", "West Khasi Hills"],
+      "Mizoram": ["Aizawl", "Champhai", "Kolasib", "Lawngtlai", "Lunglei", "Mamit", "Saiha", "Serchhip"],
+      "Nagaland": ["Dimapur", "Kiphire", "Kohima", "Longleng", "Mokokchung", "Mon", "Peren", "Phek", "Tuensang", "Wokha", "Zunheboto"],
+      "Odisha": ["Angul", "Balangir", "Balasore", "Bargarh", "Bhadrak", "Boudh", "Cuttack", "Deogarh", "Dhenkanal", "Gajapati", "Ganjam", "Jagatsinghpur", "Jajpur", "Jharsuguda", "Kalahandi", "Kandhamal", "Kendrapara", "Kendujhar", "Khordha", "Koraput", "Malkangiri", "Mayurbhanj", "Nabarangpur", "Nayagarh", "Nuapada", "Puri", "Rayagada", "Sambalpur", "Subarnapur", "Sundargarh"],
+      "Punjab": ["Amritsar", "Barnala", "Bathinda", "Faridkot", "Fatehgarh Sahib", "Fazilka", "Ferozepur", "Gurdaspur", "Hoshiarpur", "Jalandhar", "Kapurthala", "Ludhiana", "Mansa", "Moga", "Muktsar", "Nawanshahr", "Pathankot", "Patiala", "Rupnagar", "Sangrur", "SAS Nagar", "Tarn Taran"],
+      "Rajasthan": ["Ajmer", "Alwar", "Banswara", "Baran", "Barmer", "Bharatpur", "Bhilwara", "Bikaner", "Bundi", "Chittorgarh", "Churu", "Dausa", "Dholpur", "Dungarpur", "Hanumangarh", "Jaipur", "Jaisalmer", "Jalore", "Jhalawar", "Jhunjhunu", "Jodhpur", "Karauli", "Kota", "Nagaur", "Pali", "Pratapgarh", "Rajsamand", "Sawai Madhopur", "Sikar", "Sirohi", "Sri Ganganagar", "Tonk", "Udaipur"],
+      "Sikkim": ["East Sikkim", "North Sikkim", "South Sikkim", "West Sikkim"],
+      "Tamil Nadu": ["Ariyalur", "Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul", "Erode", "Kanchipuram", "Kanyakumari", "Karur", "Krishnagiri", "Madurai", "Nagapattinam", "Namakkal", "Nilgiris", "Perambalur", "Pudukkottai", "Ramanathapuram", "Salem", "Sivaganga", "Thanjavur", "Theni", "Thoothukudi", "Tiruchirappalli", "Tirunelveli", "Tiruppur", "Tiruvallur", "Tiruvannamalai", "Tiruvarur", "Vellore", "Viluppuram", "Virudhunagar"],
+      "Telangana": ["Adilabad", "Bhadradri Kothagudem", "Hyderabad", "Jagtial", "Jangaon", "Jayashankar Bhupalpally", "Jogulamba Gadwal", "Kamareddy", "Karimnagar", "Khammam", "Kumuram Bheem Asifabad", "Mahabubabad", "Mahabubnagar", "Mancherial", "Medak", "Medchal-Malkajgiri", "Mulugu", "Nagarkurnool", "Nalgonda", "Narayanpet", "Nirmal", "Nizamabad", "Peddapalli", "Rajanna Sircilla", "Rangareddy", "Sangareddy", "Siddipet", "Suryapet", "Vikarabad", "Wanaparthy", "Warangal Rural", "Warangal Urban", "Yadadri Bhuvanagiri"],
+      "Tripura": ["Dhalai", "Gomati", "Khowai", "North Tripura", "Sepahijala", "South Tripura", "Unakoti", "West Tripura"],
+      "Uttar Pradesh": ["Agra", "Aligarh", "Allahabad", "Ambedkar Nagar", "Amethi", "Amroha", "Auraiya", "Azamgarh", "Baghpat", "Bahraich", "Ballia", "Balrampur", "Banda", "Barabanki", "Bareilly", "Basti", "Bhadohi", "Bijnor", "Budaun", "Bulandshahr", "Chandauli", "Chitrakoot", "Deoria", "Etah", "Etawah", "Faizabad", "Farrukhabad", "Fatehpur", "Firozabad", "Gautam Buddha Nagar", "Ghaziabad", "Ghazipur", "Gonda", "Gorakhpur", "Hamirpur", "Hapur", "Hardoi", "Hathras", "Jalaun", "Jaunpur", "Jhansi", "Kannauj", "Kanpur Dehat", "Kanpur Nagar", "Kasganj", "Kaushambi", "Kushinagar", "Lakhimpur Kheri", "Lalitpur", "Lucknow", "Maharajganj", "Mahoba", "Mainpuri", "Mathura", "Mau", "Meerut", "Mirzapur", "Moradabad", "Muzaffarnagar", "Pilibhit", "Pratapgarh", "Raebareli", "Rampur", "Saharanpur", "Sambhal", "Sant Kabir Nagar", "Shahjahanpur", "Shamli", "Shravasti", "Siddharthnagar", "Sitapur", "Sonbhadra", "Sultanpur", "Unnao", "Varanasi"],
+      "Uttarakhand": ["Almora", "Bageshwar", "Chamoli", "Champawat", "Dehradun", "Haridwar", "Nainital", "Pauri Garhwal", "Pithoragarh", "Rudraprayag", "Tehri Garhwal", "Udham Singh Nagar", "Uttarkashi"],
+      "West Bengal": ["Alipurduar", "Bankura", "Birbhum", "Cooch Behar", "Dakshin Dinajpur", "Darjeeling", "Hooghly", "Howrah", "Jalpaiguri", "Jhargram", "Kalimpong", "Kolkata", "Malda", "Murshidabad", "Nadia", "North 24 Parganas", "Paschim Bardhaman", "Paschim Medinipur", "Purba Bardhaman", "Purba Medinipur", "Purulia", "South 24 Parganas", "Uttar Dinajpur"],
+      "Andaman and Nicobar Islands": ["Nicobar", "North and Middle Andaman", "South Andaman"],
+      "Chandigarh": ["Chandigarh"],
+      "Dadra and Nagar Haveli and Daman and Diu": ["Dadra and Nagar Haveli", "Daman", "Diu"],
+      "Delhi": ["Central Delhi", "East Delhi", "New Delhi", "North Delhi", "North East Delhi", "North West Delhi", "Shahdara", "South Delhi", "South East Delhi", "South West Delhi", "West Delhi"],
+      "Jammu and Kashmir": ["Anantnag", "Bandipora", "Baramulla", "Budgam", "Doda", "Ganderbal", "Jammu", "Kathua", "Kishtwar", "Kulgam", "Kupwara", "Poonch", "Pulwama", "Rajouri", "Ramban", "Reasi", "Samba", "Shopian", "Srinagar", "Udhampur"],
+      "Ladakh": ["Kargil", "Leh"],
+      "Lakshadweep": ["Lakshadweep"],
+      "Puducherry": ["Karaikal", "Mahe", "Puducherry", "Yanam"]
+    };
+
+    // Data Service Layer - Easy to switch between localStorage and server in future
+    const purchaseService = {
+      // Current implementation uses localStorage
+      async getAllPurchases() {
+        try {
+          // In future, this will be: return await fetch('/api/purchases');
+          const data = localStorage.getItem("purchases");
+          return JSON.parse(data || "[]");
+        } catch (error) {
+          console.error('Error getting purchases:', error);
+          throw new Error('Failed to fetch purchases');
+        }
+      },
+
+      async savePurchase(purchaseData, editIndex = null) {
+        try {
+          // In future, this will be: 
+          // if (editIndex !== null) {
+          //   return await fetch(`/api/purchases/${editIndex}`, { method: 'PUT', body: JSON.stringify(purchaseData) });
+          // }
+          // return await fetch('/api/purchases', { method: 'POST', body: JSON.stringify(purchaseData) });
+
+          let purchases = await this.getAllPurchases();
+          
+          if (editIndex !== null) {
+            purchases[editIndex] = purchaseData;
+          } else {
+            purchases.push(purchaseData);
+          }
+          
+          localStorage.setItem("purchases", JSON.stringify(purchases));
+          return { success: true };
+        } catch (error) {
+          console.error('Error saving purchase:', error);
+          throw new Error('Failed to save purchase');
+        }
+      },
+
+      async deletePurchase(index) {
+        try {
+          // In future, this will be: return await fetch(`/api/purchases/${index}`, { method: 'DELETE' });
+          let purchases = await this.getAllPurchases();
+          purchases.splice(index, 1);
+          localStorage.setItem("purchases", JSON.stringify(purchases));
+          return { success: true };
+        } catch (error) {
+          console.error('Error deleting purchase:', error);
+          throw new Error('Failed to delete purchase');
+        }
+      }
+    };
+
+    // Update updateStats function
+    async function updateStats() {
+      try {
+        const purchases = await purchaseService.getAllPurchases();
+        
+        // Calculate total purchases
+        const totalPurchases = purchases.length;
+        document.getElementById('totalPurchases').textContent = totalPurchases;
+
+        // Calculate total amount and average
+        const totalAmount = purchases.reduce((sum, purchase) => sum + (parseFloat(purchase.invoiceValue) || 0), 0);
+        document.getElementById('totalAmount').textContent = `₹${totalAmount.toLocaleString()}`;
+        const avgAmount = totalPurchases > 0 ? totalAmount / totalPurchases : 0;
+        document.getElementById('avgAmount').textContent = avgAmount.toLocaleString(undefined, { maximumFractionDigits: 2 });
+
+        // Calculate pending payments
+        const pendingPayments = purchases.filter(p => p.paymentStatus === 'Not Paid' || p.paymentStatus === 'Partial').length;
+        document.getElementById('pendingPayments').textContent = pendingPayments;
+        const pendingAmount = purchases
+          .filter(p => p.paymentStatus === 'Not Paid' || p.paymentStatus === 'Partial')
+          .reduce((sum, purchase) => sum + (parseFloat(purchase.invoiceValue) || 0), 0);
+        document.getElementById('pendingAmount').textContent = pendingAmount.toLocaleString();
+
+        // Calculate completed transactions
+        const completedTransactions = purchases.filter(p => p.status === 'Transaction Completed').length;
+        document.getElementById('completedTransactions').textContent = completedTransactions;
+        const completionRate = totalPurchases > 0 ? (completedTransactions / totalPurchases * 100) : 0;
+        document.getElementById('completionRate').textContent = `${completionRate.toFixed(1)}%`;
+
+        // Calculate growth rate (comparing with previous month)
+        const currentDate = new Date();
+        const lastMonthDate = new Date();
+        lastMonthDate.setMonth(lastMonthDate.getMonth() - 1);
+
+        const currentMonthPurchases = purchases.filter(p => new Date(p.date) > lastMonthDate).length;
+        const previousMonthPurchases = purchases.filter(p => {
+          const purchaseDate = new Date(p.date);
+          return purchaseDate <= lastMonthDate && purchaseDate > new Date(lastMonthDate.getFullYear(), lastMonthDate.getMonth() - 1);
+        }).length;
+
+        let growthRate = 0;
+        if (previousMonthPurchases > 0) {
+          growthRate = ((currentMonthPurchases - previousMonthPurchases) / previousMonthPurchases * 100);
+        }
+        document.getElementById('purchaseGrowth').textContent = `${growthRate.toFixed(1)}%`;
+        
+      } catch (error) {
+        console.error('Error updating stats:', error);
+      }
+    }
+
+    // Update loadData function to remove duplicate updateStats call
+    async function loadData() {
+      try {
+        const purchases = await purchaseService.getAllPurchases();
+        const tableBody = document.getElementById("purchaseTableBody");
+        tableBody.innerHTML = "";
+        slNo = 1;
+
+        if (purchases.length === 0) {
+          tableBody.innerHTML = '<tr><td colspan="19" class="text-center py-4 text-gray-500">No purchase entries found</td></tr>';
+          return;
+        }
+
+        purchases.forEach((entry, index) => addRow(entry, index));
+        populateStateFilter();
+        populateCompanyFilter();
+        updateStats(); // Keep only one call to updateStats
+      } catch (error) {
+        showMessage('Failed to load purchases', true, error.message);
+      }
+    }
+
+    function addRow(data, index) {
+      const row = document.createElement("tr");
+      row.className = "table-row-alternate hover:bg-gray-50 transition-colors";
+      
+      // Format state consistently
+      const state = data.state ? data.state.trim() : '';
+      
+      row.innerHTML = `
+        <td class="px-4 py-3 text-center border-r border-gray-200">${slNo++}</td>
+        <td class="px-4 py-3 border-r border-gray-200">${data.date || ''}</td>
+        <td class="px-4 py-3 border-r border-gray-200">${data.company || ''}</td>
+        <td class="px-4 py-3 border-r border-gray-200">${data.invoice || ''}</td>
+        <td class="px-4 py-3 border-r border-gray-200">
+          ${data.invoicePdf ? 
+            `<a href="${data.invoicePdfData}" 
+                class="text-blue-600 underline hover:text-blue-800 inline-flex items-center" 
+                target="_blank" download="${data.invoicePdf}">
+                <i class="fas fa-file-pdf text-red-500 mr-2"></i>
+                ${data.invoicePdf}
+            </a>` : 
+            '<span class="text-gray-400">No PDF</span>'}
+        </td>
+        <td class="px-4 py-3 text-right border-r border-gray-200">₹${data.invoiceValue || ''}</td>
+        <td class="payment-status-cell border-r border-gray-200">
+          <div class="space-y-2">
+            <span class="inline-flex px-3 py-1 rounded-full text-sm font-medium ${
+              data.paymentStatus === 'Paid' ? 'bg-green-100 text-green-800' :
+              data.paymentStatus === 'Partial' ? 'bg-yellow-100 text-yellow-800' :
+              'bg-red-100 text-red-800'
+            }">${data.paymentStatus || ''}</span>
+            ${data.utrEntries && data.utrEntries.length > 0 ? 
+              `<div class="payment-details">
+                ${data.utrEntries.map(utr => `
+                  <div class="utr-entry-box">
+                    <div class="utr-grid">
+                      <span class="utr-label">Date:</span>
+                      <span class="utr-value">${utr.date}</span>
+                      <span class="utr-label">UTR:</span>
+                      <span class="utr-value">${utr.utrNumber}</span>
+                      <span class="utr-label">Amount:</span>
+                      <span class="utr-value">₹${utr.amount}</span>
+                    </div>
+                    ${utr.receiptData ? 
+                      `<div class="mt-2">
+                        <a href="${utr.receiptData}" 
+                            class="text-blue-600 underline hover:text-blue-800 text-xs inline-flex items-center" 
+                            target="_blank" download="${utr.receiptFilename || 'receipt.pdf'}">
+                            <i class="fas fa-file-pdf text-red-500 mr-1"></i>
+                            View Receipt
+                        </a>
+                      </div>` : 
+                      ''}
+                  </div>
+                `).join('')}
+              </div>` : 
+              ''}
+          </div>
+        </td>
+        <td class="px-4 py-3 border-r border-gray-200">${state}</td>
+        <td class="px-4 py-3 border-r border-gray-200">${data.district || ''}</td>
+        <td class="px-4 py-3 border-r border-gray-200">${data.pincode || ''}</td>
+        <td class="px-4 py-3 border-r border-gray-200">${data.email || ''}</td>
+        <td class="px-4 py-3 border-r border-gray-200">${data.contactNumbers ? data.contactNumbers.join(', ') : ''}</td>
+        <td class="px-4 py-3 border-r border-gray-200">
+          <span class="inline-flex px-2 py-1 rounded-full text-sm ${
+            data.material === 'Yes' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+          }">${data.material || ''}</span>
+        </td>
+        <td class="px-4 py-3 border-r border-gray-200">${data.clientName || ''}</td>
+        <td class="px-4 py-3 whitespace-pre-wrap border-r border-gray-200">${data.items || ''}</td>
+        <td class="px-4 py-3 border-r border-gray-200">
+          <span class="inline-flex px-2 py-1 rounded-full text-sm ${
+            data.status === 'Transaction Completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+          }">${data.status || ''}</span>
+        </td>
+        <td class="px-4 py-3 whitespace-pre-wrap border-r border-gray-200">${data.remarks || ''}</td>
+        <td class="px-4 py-3">
+          <div class="flex space-x-2">
+            <button onclick="editRow(${index})" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition-colors">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button onclick="deleteRow(${index})" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition-colors">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </td>
+      `;
+      document.getElementById("purchaseTableBody").appendChild(row);
+    }
+
+    function updateDistricts() {
+      const stateSelect = document.getElementById('state');
+      const districtSelect = document.getElementById('district');
+      const selectedState = stateSelect.value;
+      
+      // Clear existing options
+      districtSelect.innerHTML = '<option value="">Select District</option>';
+      
+      if (selectedState && stateDistricts[selectedState]) {
+        stateDistricts[selectedState].forEach(district => {
+          const option = document.createElement('option');
+          option.value = district;
+          option.textContent = district;
+          districtSelect.appendChild(option);
+        });
+
+        // If editing, select the saved district
+        const editIndex = document.getElementById('editIndex').value;
+        if (editIndex !== "") {
+          const purchases = JSON.parse(localStorage.getItem('purchases') || '[]');
+          const savedDistrict = purchases[editIndex]?.district;
+          if (savedDistrict) {
+            districtSelect.value = savedDistrict;
+          }
+        }
+      }
+    }
+
+    function addContactField() {
+      const container = document.getElementById('contactContainer');
+      const contactFields = container.getElementsByClassName('contact-number');
+      
+      if (contactFields.length < 3) {
+        const div = document.createElement('div');
+        div.className = 'flex space-x-2 mt-2';
+        div.innerHTML = `
+          <input type="tel" class="contact-number w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 form-input" pattern="[0-9]{10}" maxlength="10" placeholder="Enter 10-digit number">
+          <button type="button" onclick="removeContactField(this)" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
+            <i class="fas fa-minus"></i>
+          </button>
+        `;
+        container.appendChild(div);
+      } else {
+        showMessage('Maximum 3 contact numbers allowed', true);
+      }
+    }
+
+    function removeContactField(button) {
+      button.parentElement.remove();
+    }
+
+    function handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        if (file.type !== 'application/pdf') {
+          alert('Please upload only PDF files');
+          event.target.value = '';
+          return;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+          alert('File size should be less than 5MB');
+          event.target.value = '';
+          return;
+        }
+
+        // Read the PDF file as data URL
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('pdfData').value = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Add this function for form validation
+    function validateForm(formData) {
+      const errors = [];
+      
+      if (!formData.date) errors.push("Date is required");
+      if (!formData.company) errors.push("Company Name is required");
+      if (!formData.invoice) errors.push("Invoice Number is required");
+      if (!formData.invoiceValue) errors.push("Invoice Value is required");
+      if (!formData.state) errors.push("State is required");
+      if (!formData.district) errors.push("District is required");
+      if (formData.pincode && !/^\d{6}$/.test(formData.pincode)) errors.push("Pin Code must be 6 digits");
+      if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) errors.push("Invalid email format");
+      
+      const contactNumbers = formData.contactNumbers || [];
+      for (const number of contactNumbers) {
+        if (number && !/^\d{10}$/.test(number)) {
+          errors.push("Contact numbers must be 10 digits");
+          break;
+        }
+      }
+      
+      return errors;
+    }
+
+    // Update the showMessage function to handle detailed errors
+    function showMessage(message, isError = false, details = null) {
+      // Remove any existing message
+      const existingMessage = document.getElementById('message-container');
+      if (existingMessage) {
+        existingMessage.remove();
+      }
+
+      // Create message container
+      const messageContainer = document.createElement('div');
+      messageContainer.id = 'message-container';
+      messageContainer.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg ${isError ? 'bg-red-100 border-red-500' : 'bg-green-100 border-green-500'} border text-${isError ? 'red' : 'green'}-700 max-w-md z-50`;
+      
+      // Add message content with details if available
+      messageContainer.innerHTML = `
+        <div class="flex items-center">
+          <i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'} mr-3"></i>
+          <div>
+            ${Array.isArray(message) ? 
+              `<ul class="list-disc ml-5">
+                ${message.map(msg => `<li>${msg}</li>`).join('')}
+              </ul>` : 
+              `<p>${message}</p>`}
+            ${details ? `<p class="text-sm mt-2 text-gray-600">${details}</p>` : ''}
+          </div>
+          <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-gray-500 hover:text-gray-700">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      `;
+
+      document.body.appendChild(messageContainer);
+
+      // Auto remove after 5 seconds for success messages
+      if (!isError) {
+        setTimeout(() => {
+          messageContainer.remove();
+        }, 5000);
+      }
+    }
+
+    // Update form submission to include UTR details
+    document.getElementById("purchaseForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      
+      try {
+        // Get all contact numbers
+        const contactNumbers = Array.from(document.getElementsByClassName('contact-number'))
+          .map(input => input.value)
+          .filter(value => value);
+
+        // Create form data object
+        const formData = {
+          date: document.getElementById('date').value,
+          company: document.getElementById('company').value,
+          invoice: document.getElementById('invoice').value,
+          invoiceValue: document.getElementById('invoiceValue').value,
+          paymentStatus: document.getElementById('payment').value,
+          remarks: document.getElementById('remarks').value || 'NO',
+          state: document.getElementById('state').value,
+          district: document.getElementById('district').value,
+          pincode: document.getElementById('pincode').value,
+          email: document.getElementById('email').value,
+          contactNumbers: contactNumbers,
+          material: document.getElementById('material').value,
+          clientName: document.getElementById('clientName').value || 'NO',
+          items: document.getElementById('items').value || 'NO',
+          status: (document.getElementById('payment').value === "Paid" && 
+                  document.getElementById('material').value === "Yes") ? 
+                  "Transaction Completed" : "In Progress"
+        };
+
+        // Handle main invoice PDF
+        const invoicePdfFile = document.getElementById('invoicePdf').files[0];
+        if (invoicePdfFile) {
+          try {
+            const pdfData = await handlePDFStorage(invoicePdfFile);
+            formData.invoicePdf = pdfData.filename;
+            formData.invoicePdfData = pdfData.data;
+          } catch (error) {
+            showMessage('Failed to process invoice PDF: ' + error.message, true);
+            return;
+          }
+        }
+
+        // Handle UTR entries and their PDFs
+        if (formData.paymentStatus === 'Partial' || formData.paymentStatus === 'Paid') {
+          formData.utrEntries = [];
+          const utrEntries = document.querySelectorAll('.utr-entry');
+          
+          for (const entry of utrEntries) {
+            const utrData = {
+              date: entry.querySelector('.utr-date').value,
+              utrNumber: entry.querySelector('.utr-number').value,
+              amount: entry.querySelector('.utr-amount').value
+            };
+
+            const receiptFile = entry.querySelector('.utr-receipt').files[0];
+            if (receiptFile) {
+              try {
+                const pdfData = await handlePDFStorage(receiptFile);
+                utrData.receiptFilename = pdfData.filename;
+                utrData.receiptData = pdfData.data;
+              } catch (error) {
+                showMessage('Failed to process UTR receipt: ' + error.message, true);
+                return;
+              }
+            }
+
+            formData.utrEntries.push(utrData);
+          }
+        }
+
+        // Save to localStorage
+        const editIndex = document.getElementById('editIndex').value;
+        let purchases = JSON.parse(localStorage.getItem('purchases') || '[]');
+
+        if (editIndex !== "") {
+          purchases[parseInt(editIndex)] = formData;
+        } else {
+          purchases.push(formData);
+        }
+
+        localStorage.setItem('purchases', JSON.stringify(purchases));
+
+        // Show success message
+        showMessage(editIndex ? "Purchase entry updated successfully!" : "Purchase entry saved successfully!");
+
+        // Reset form
+        this.reset();
+        document.getElementById('editIndex').value = "";
+        document.getElementById('fileLabel').textContent = 'Choose PDF';
+        
+        // Clear contact fields
+        const contactContainer = document.getElementById('contactContainer');
+        const contactFields = contactContainer.getElementsByClassName('contact-number');
+        while (contactFields.length > 1) {
+          contactFields[contactFields.length - 1].parentElement.remove();
+        }
+
+        // Clear UTR entries
+        const utrEntries = document.getElementById('utrEntries');
+        utrEntries.innerHTML = '';
+        document.getElementById('utrSection').classList.add('hidden');
+
+        // Reload table
+        loadData();
+        updateStats();
+
+      } catch (error) {
+        console.error('Error saving purchase:', error);
+        showMessage('Failed to save purchase: ' + error.message, true);
+      }
+    });
+
+    // Update edit function to handle UTR entries
+    async function editRow(index) {
+      try {
+        const purchases = await purchaseService.getAllPurchases();
+        const data = purchases[index];
+        
+        document.getElementById('date').value = data.date || '';
+        document.getElementById('company').value = data.company || '';
+        document.getElementById('invoice').value = data.invoice || '';
+        document.getElementById('invoiceValue').value = data.invoiceValue || '';
+        document.getElementById('payment').value = data.paymentStatus || 'Not Paid';
+        document.getElementById('remarks').value = data.remarks || '';
+        document.getElementById('state').value = data.state || '';
+        await updateDistricts(); // Wait for districts to update
+        document.getElementById('district').value = data.district || '';
+        document.getElementById('pincode').value = data.pincode || '';
+        document.getElementById('email').value = data.email || '';
+        document.getElementById('material').value = data.material || 'No';
+        document.getElementById('clientName').value = data.clientName || '';
+        document.getElementById('items').value = data.items || '';
+        document.getElementById('editIndex').value = index;
+
+        // Clear existing contact fields
+        const contactContainer = document.getElementById('contactContainer');
+        while (contactContainer.children.length > 1) {
+          contactContainer.lastChild.remove();
+        }
+        
+        // Add contact numbers
+        if (data.contactNumbers && data.contactNumbers.length > 0) {
+          document.querySelector('.contact-number').value = data.contactNumbers[0];
+          for (let i = 1; i < data.contactNumbers.length; i++) {
+            addContactField();
+            document.querySelectorAll('.contact-number')[i].value = data.contactNumbers[i];
+          }
+        }
+
+        // Handle UTR entries
+        if (data.paymentStatus === 'Partial' || data.paymentStatus === 'Paid') {
+          document.getElementById('utrSection').classList.remove('hidden');
+          const utrEntries = document.getElementById('utrEntries');
+          utrEntries.innerHTML = '';
+
+          if (data.utrEntries && data.utrEntries.length > 0) {
+            data.utrEntries.forEach(utr => {
+              const entryDiv = document.createElement('div');
+              entryDiv.className = 'utr-entry bg-white p-4 rounded-lg shadow-sm mb-4';
+              entryDiv.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label class="block text-gray-700 text-sm font-medium mb-2">Payment Date</label>
+                    <input type="date" class="utr-date w-full border border-gray-300 rounded-lg px-3 py-2" value="${utr.date}" required>
+                  </div>
+                  <div>
+                    <label class="block text-gray-700 text-sm font-medium mb-2">UTR Number</label>
+                    <input type="text" class="utr-number w-full border border-gray-300 rounded-lg px-3 py-2" value="${utr.utrNumber}" required>
+                  </div>
+                  <div>
+                    <label class="block text-gray-700 text-sm font-medium mb-2">Amount</label>
+                    <input type="number" class="utr-amount w-full border border-gray-300 rounded-lg px-3 py-2" value="${utr.amount}" required>
+                  </div>
+                </div>
+                <div class="mt-4">
+                  <label class="block text-gray-700 text-sm font-medium mb-2">UTR Receipt</label>
+                  <div class="flex items-center space-x-2">
+                    <label class="flex-1 cursor-pointer">
+                      <div class="border border-gray-300 rounded-lg px-4 py-2 text-center hover:bg-gray-50">
+                        <i class="fas fa-file-pdf text-red-500 mr-2"></i>
+                        <span class="utr-file-label">${utr.receiptFilename || 'Choose PDF'}</span>
+                      </div>
+                      <input type="file" class="utr-receipt hidden" accept=".pdf" onchange="updateUTRFileLabel(this)">
+                    </label>
+                    <button type="button" onclick="removeUTREntry(this)" class="bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-600 transition-colors">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              `;
+              utrEntries.appendChild(entryDiv);
+            });
+          } else {
+            addUTREntry();
+          }
+        } else {
+          document.getElementById('utrSection').classList.add('hidden');
+        }
+
+        // Scroll to form
+        document.getElementById('purchaseForm').scrollIntoView({ behavior: 'smooth' });
+      } catch (error) {
+        console.error('Error editing purchase:', error);
+        showMessage('Failed to edit purchase', true, error.message);
+      }
+    }
+
+    // Update delete function to use the service
+    async function deleteRow(index) {
+      try {
+        await purchaseService.deletePurchase(index);
+        await loadData();
+        showMessage("Purchase entry deleted successfully!");
+      } catch (error) {
+        showMessage('Failed to delete purchase', true, error.message);
+      }
+    }
+
+    function exportToExcel() {
+      // Get the table
+      const table = document.getElementById('purchaseTable');
+      
+      // Create a clone of the table for export
+      const exportTable = table.cloneNode(true);
+      
+      // Find the Invoice PDF column index (it's the 5th column, index 4)
+      const pdfColumnIndex = 4;
+      
+      // Remove Invoice PDF column from header and all rows
+      const rows = exportTable.getElementsByTagName('tr');
+      for (let row of rows) {
+        if (row.cells[pdfColumnIndex]) {
+          row.deleteCell(pdfColumnIndex);
+        }
+      }
+
+      // Clean up state filter dropdown content in header
+      const stateHeader = exportTable.querySelector('th:nth-child(9)');
+      if (stateHeader) {
+        const stateDiv = stateHeader.querySelector('div');
+        if (stateDiv) {
+          stateDiv.innerHTML = '<span>State</span>';
+        }
+      }
+      
+      // Convert table to workbook
+      const wb = XLSX.utils.table_to_book(exportTable, { 
+        sheet: "Purchase",
+        raw: true
+      });
+      
+      // Write the file
+      XLSX.writeFile(wb, 'purchase_data.xlsx');
+    }
+
+    function exportToPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.text("KANDAN ALLOYS - Purchase Data", 14, 16);
+      doc.autoTable({ html: '#purchaseTable', startY: 20 });
+      doc.save('purchase_data.pdf');
+    }
+
+    function updateDateTime() {
+      const now = new Date();
+      
+      // Format date as DD-MM-YYYY
+      const day = String(now.getDate()).padStart(2, '0');
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const year = now.getFullYear();
+      const formattedDate = `${day}-${month}-${year}`;
+      
+      // Format time as HH:MM AM/PM
+      const timeOptions = { hour: 'numeric', minute: '2-digit', hour12: true };
+      const formattedTime = now.toLocaleTimeString('en-US', timeOptions);
+      
+      document.getElementById('currentDate').textContent = formattedDate;
+      document.getElementById('currentTime').textContent = formattedTime;
+    }
+
+    // Add this function to populate states on page load
+    function populateStates() {
+      const stateSelect = document.getElementById('state');
+      stateSelect.innerHTML = '<option value="">Select State</option>';
+      
+      Object.keys(stateDistricts).forEach(state => {
+        const option = document.createElement('option');
+        option.value = state;
+        option.textContent = state;
+        stateSelect.appendChild(option);
+      });
+    }
+
+    // Update the populateStateFilter function
+    function populateStateFilter() {
+      const stateSelect = document.getElementById('stateFilter');
+      if (!stateSelect) return;
+
+      // Get data from localStorage
+      const purchases = JSON.parse(localStorage.getItem("purchases") || "[]");
+      const stateSet = new Set();
+
+      // Collect unique states from purchases
+      purchases.forEach(purchase => {
+        if (purchase.state && purchase.state.trim()) {
+          stateSet.add(purchase.state.trim());
+        }
+      });
+
+      console.log('Available States:', Array.from(stateSet)); // Debug log
+
+      // Clear existing options except 'All'
+      while (stateSelect.options.length > 1) {
+        stateSelect.remove(1);
+      }
+
+      // Add states to dropdown
+      Array.from(stateSet).sort().forEach(state => {
+        const option = new Option(state, state);
+        stateSelect.add(option);
+      });
+    }
+
+    // Update the filterTable function to fix state filtering
+    function filterTable(columnIndex, value) {
+      const tbody = document.getElementById('purchaseTableBody');
+      const rows = tbody.getElementsByTagName('tr');
+      let hasVisibleRows = false;
+      
+      // Remove any existing no-data message
+      const existingMessage = tbody.querySelector('.no-data-message');
+      if (existingMessage) {
+        existingMessage.remove();
+      }
+
+      // Debug log
+      console.log('Filtering for:', { columnIndex, value });
+      
+      for (let row of rows) {
+        if (row.classList.contains('no-data-message')) continue;
+        
+        const cell = row.cells[columnIndex];
+        if (!cell) continue;
+        
+        let cellText = '';
+        
+        // Handle different column types
+        if (columnIndex === 8) { // State column
+          cellText = cell.textContent.trim();
+          console.log('Comparing state:', { cellText, value }); // Debug log
+        } else if (columnIndex === 6) { // Payment Status
+          const statusSpan = cell.querySelector('span');
+          cellText = statusSpan ? statusSpan.textContent.trim() : cell.textContent.trim();
+        } else if (columnIndex === 12) { // Material Lifted
+          const materialSpan = cell.querySelector('span');
+          cellText = materialSpan ? materialSpan.textContent.trim() : cell.textContent.trim();
+        } else {
+          cellText = cell.textContent.trim();
+        }
+        
+        let shouldShow = false;
+        
+        if (value === '') {
+          shouldShow = true;
+        } else {
+          if (columnIndex === 8) { // State column
+            shouldShow = cellText === value;
+          } else if (columnIndex === 1) { // Date column
+            shouldShow = cellText.includes(value);
+          } else if (columnIndex === 6 || columnIndex === 12) { // Payment Status or Material Lifted
+            shouldShow = cellText === value;
+          } else {
+            shouldShow = cellText.toLowerCase().includes(value.toLowerCase());
+          }
+        }
+        
+        row.style.display = shouldShow ? '' : 'none';
+        if (shouldShow) hasVisibleRows = true;
+      }
+
+      // Show no data message if no matches found
+      if (!hasVisibleRows && value !== '') {
+        const messageRow = document.createElement('tr');
+        messageRow.className = 'no-data-message';
+        messageRow.innerHTML = `<td colspan="19" class="text-center py-4 text-gray-500">No records found for ${columnIndex === 8 ? 'state' : 'filter'}: ${value}</td>`;
+        tbody.appendChild(messageRow);
+      }
+      
+      updateSerialNumbers();
+    }
+
+    // Update serial numbers for visible rows
+    function updateSerialNumbers() {
+      const tbody = document.getElementById('purchaseTableBody');
+      const rows = tbody.getElementsByTagName('tr');
+      let visibleIndex = 1;
+      
+      for (let row of rows) {
+        if (row.style.display !== 'none') {
+          row.cells[0].textContent = visibleIndex++;
+        }
+      }
+    }
+
+    // Add this function to update file input label
+    function updateFileLabel(input) {
+      const label = input.parentElement.querySelector('#fileLabel') || input.parentElement.querySelector('.utr-file-label');
+      if (input.files.length > 0) {
+        const file = input.files[0];
+        if (file.type !== 'application/pdf') {
+          showMessage('Please select a PDF file', true);
+          input.value = '';
+          label.textContent = 'Choose PDF';
+          return;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+          showMessage('File size should be less than 5MB', true);
+          input.value = '';
+          label.textContent = 'Choose PDF';
+          return;
+        }
+        label.textContent = file.name;
+      } else {
+        label.textContent = 'Choose PDF';
+      }
+    }
+
+    function toggleUTRSection() {
+      const paymentStatus = document.getElementById('payment').value;
+      const utrSection = document.getElementById('utrSection');
+      
+      if (paymentStatus === 'Partial' || paymentStatus === 'Paid') {
+        utrSection.classList.remove('hidden');
+        if (document.querySelectorAll('.utr-entry').length === 0) {
+          addUTREntry();
+        }
+      } else {
+        utrSection.classList.add('hidden');
+      }
+    }
+
+    function addUTREntry() {
+      const container = document.getElementById('utrEntries');
+      const entryDiv = document.createElement('div');
+      entryDiv.className = 'utr-entry bg-white p-4 rounded-lg shadow-sm mb-4';
+      
+      const entryId = `utr-${Date.now()}`;
+      entryDiv.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-gray-700 text-sm font-medium mb-2">Payment Date</label>
+            <input type="date" class="utr-date w-full border border-gray-300 rounded-lg px-3 py-2" required>
+          </div>
+          <div>
+            <label class="block text-gray-700 text-sm font-medium mb-2">UTR Number</label>
+            <input type="text" class="utr-number w-full border border-gray-300 rounded-lg px-3 py-2" required>
+          </div>
+          <div>
+            <label class="block text-gray-700 text-sm font-medium mb-2">Amount</label>
+            <input type="number" class="utr-amount w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500" required>
+          </div>
+        </div>
+        <div class="mt-4">
+          <label class="block text-gray-700 text-sm font-medium mb-2">UTR Receipt</label>
+          <div class="flex items-center space-x-2">
+            <label class="flex-1 cursor-pointer">
+              <div class="border border-gray-300 rounded-lg px-4 py-2 text-center hover:bg-gray-50">
+                <i class="fas fa-file-pdf text-red-500 mr-2"></i>
+                <span class="utr-file-label">Choose PDF</span>
+              </div>
+              <input type="file" class="utr-receipt hidden" accept=".pdf" onchange="updateUTRFileLabel(this)">
+            </label>
+            <button type="button" onclick="removeUTREntry(this)" class="bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-600 transition-colors">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      `;
+      
+      container.appendChild(entryDiv);
+    }
+
+    function removeUTREntry(button) {
+      const entry = button.closest('.utr-entry');
+      if (document.querySelectorAll('.utr-entry').length > 1) {
+        entry.remove();
+      }
+    }
+
+    function updateUTRFileLabel(input) {
+      const label = input.parentElement.querySelector('.utr-file-label');
+      if (input.files.length > 0) {
+        label.textContent = input.files[0].name;
+      } else {
+        label.textContent = 'Choose PDF';
+      }
+    }
+
+    function getUTREntries() {
+      const entries = [];
+      document.querySelectorAll('.utr-entry').forEach(entry => {
+        entries.push({
+          date: entry.querySelector('.utr-date').value,
+          utrNumber: entry.querySelector('.utr-number').value,
+          amount: entry.querySelector('.utr-amount').value,
+          receipt: entry.querySelector('.utr-receipt').files[0]
+        });
+      });
+      return entries;
+    }
+
+    // Add this function to handle PDF storage in localStorage
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    }
+
+    // Function to handle PDF storage
+    async function handlePDFStorage(file) {
+      try {
+        if (!file) {
+          throw new Error('No file selected');
+        }
+
+        // Validate file type
+        if (file.type !== 'application/pdf') {
+          throw new Error('Please select a PDF file');
+        }
+
+        // Validate file size (5MB limit)
+        if (file.size > 5 * 1024 * 1024) {
+          throw new Error('File size should be less than 5MB');
+        }
+
+        // Convert file to base64
+        const base64Data = await fileToBase64(file);
+        
+        return {
+          filename: file.name,
+          data: base64Data
+        };
+      } catch (error) {
+        console.error('Error handling PDF:', error);
+        throw error;
+      }
+    }
+
+    // Add back the DOMContentLoaded event listener with all necessary initializations
+    document.addEventListener('DOMContentLoaded', function() {
+      populateStates(); // Populate states in the form
+      updateDateTime();
+      setInterval(updateDateTime, 1000);
+      loadData();
+    });
+
+    // Add back the applyFilters function
+    function applyFilters() {
+      const dateFilter = document.getElementById('filterDate').value;
+      const companyFilter = document.getElementById('filterCompany').value.toLowerCase();
+      const statusFilter = document.getElementById('filterStatus').value;
+      const paymentFilter = document.getElementById('filterPayment').value;
+
+      const data = JSON.parse(localStorage.getItem("purchases") || "[]");
+      const filteredData = data.filter(item => {
+        const dateMatch = !dateFilter || item.date === dateFilter;
+        const companyMatch = !companyFilter || item.company.toLowerCase().includes(companyFilter);
+        const statusMatch = !statusFilter || item.status === statusFilter;
+        const paymentMatch = !paymentFilter || item.paymentStatus === paymentFilter;
+        return dateMatch && companyMatch && statusMatch && paymentMatch;
+      });
+
+      tableBody.innerHTML = "";
+      slNo = 1;
+      filteredData.forEach((entry, index) => addRow(entry, index));
+    }
+
+    // Update DateTime function
+    function updateDateTime() {
+      const now = new Date();
+      
+      // Format date as DD-MM-YYYY
+      const day = String(now.getDate()).padStart(2, '0');
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const year = now.getFullYear();
+      const formattedDate = `${day}-${month}-${year}`;
+      
+      // Format time as HH:MM AM/PM
+      const timeOptions = { hour: 'numeric', minute: '2-digit', hour12: true };
+      const formattedTime = now.toLocaleTimeString('en-US', timeOptions);
+      
+      document.getElementById('currentDate').textContent = formattedDate;
+      document.getElementById('currentTime').textContent = formattedTime;
+    }
+
+    // Add new function to handle state filtering
+    function handleStateFilter() {
+      const stateSelect = document.getElementById('stateFilter');
+      const selectedState = stateSelect.value;
+      const tbody = document.getElementById('purchaseTableBody');
+      const rows = tbody.getElementsByTagName('tr');
+      let hasVisibleRows = false;
+
+      console.log('Selected State:', selectedState); // Debug log
+
+      // Remove existing no-data message if any
+      const existingMessage = tbody.querySelector('.no-data-message');
+      if (existingMessage) {
+        existingMessage.remove();
+      }
+
+      // Get all purchases from localStorage to ensure we're working with current data
+      const purchases = JSON.parse(localStorage.getItem("purchases") || "[]");
+      
+      // Clear the table
+      tbody.innerHTML = '';
+      slNo = 1;
+
+      if (selectedState === '') {
+        // Show all records
+        purchases.forEach((entry, index) => addRow(entry, index));
+        hasVisibleRows = purchases.length > 0;
+      } else {
+        // Filter and show only records matching the selected state
+        const filteredPurchases = purchases.filter(purchase => 
+          purchase.state && purchase.state.trim() === selectedState
+        );
+        
+        filteredPurchases.forEach((entry, index) => addRow(entry, index));
+        hasVisibleRows = filteredPurchases.length > 0;
+      }
+
+      // Show message if no matching records
+      if (!hasVisibleRows && selectedState !== '') {
+        const messageRow = document.createElement('tr');
+        messageRow.className = 'no-data-message';
+        messageRow.innerHTML = `<td colspan="19" class="text-center py-4 text-gray-500">No records found for state: ${selectedState}</td>`;
+        tbody.appendChild(messageRow);
+      }
+    }
+
+    // Add this function to help with debugging
+    function checkStateData() {
+      const purchases = JSON.parse(localStorage.getItem("purchases") || "[]");
+      console.log('All purchases:', purchases);
+      console.log('States in data:', purchases.map(p => p.state).filter(Boolean));
+    }
+
+    // Add function to populate company filter
+    function populateCompanyFilter() {
+      const companySelect = document.getElementById('companyFilter');
+      if (!companySelect) return;
+
+      // Get data from localStorage
+      const purchases = JSON.parse(localStorage.getItem("purchases") || "[]");
+      const companySet = new Set();
+
+      // Collect unique companies from purchases
+      purchases.forEach(purchase => {
+        if (purchase.company && purchase.company.trim()) {
+          companySet.add(purchase.company.trim());
+        }
+      });
+
+      // Clear existing options except 'All'
+      while (companySelect.options.length > 1) {
+        companySelect.remove(1);
+      }
+
+      // Add companies to dropdown
+      Array.from(companySet).sort().forEach(company => {
+        const option = new Option(company, company);
+        companySelect.add(option);
+      });
+    }
+
+    // Add function to handle company filtering
+    function handleCompanyFilter() {
+      const companySelect = document.getElementById('companyFilter');
+      const selectedCompany = companySelect.value;
+      const tbody = document.getElementById('purchaseTableBody');
+      const rows = tbody.getElementsByTagName('tr');
+      let hasVisibleRows = false;
+
+      // Remove existing no-data message if any
+      const existingMessage = tbody.querySelector('.no-data-message');
+      if (existingMessage) {
+        existingMessage.remove();
+      }
+
+      // Get all purchases from localStorage
+      const purchases = JSON.parse(localStorage.getItem("purchases") || "[]");
+      
+      // Clear the table
+      tbody.innerHTML = '';
+      slNo = 1;
+
+      if (selectedCompany === '') {
+        // Show all records
+        purchases.forEach((entry, index) => addRow(entry, index));
+        hasVisibleRows = purchases.length > 0;
+      } else {
+        // Filter and show only records matching the selected company
+        const filteredPurchases = purchases.filter(purchase => 
+          purchase.company && purchase.company.trim() === selectedCompany
+        );
+        
+        filteredPurchases.forEach((entry, index) => addRow(entry, index));
+        hasVisibleRows = filteredPurchases.length > 0;
+      }
+
+      // Show message if no matching records
+      if (!hasVisibleRows && selectedCompany !== '') {
+        const messageRow = document.createElement('tr');
+        messageRow.className = 'no-data-message';
+        messageRow.innerHTML = `<td colspan="19" class="text-center py-4 text-gray-500">No records found for company: ${selectedCompany}</td>`;
+        tbody.appendChild(messageRow);
+      }
+    }
+
+    // Update loadData function to populate company filter
+    async function loadData() {
+      try {
+        const purchases = await purchaseService.getAllPurchases();
+        const tableBody = document.getElementById("purchaseTableBody");
+        tableBody.innerHTML = "";
+        slNo = 1;
+
+        if (purchases.length === 0) {
+          tableBody.innerHTML = '<tr><td colspan="19" class="text-center py-4 text-gray-500">No purchase entries found</td></tr>';
+          return;
+        }
+
+        purchases.forEach((entry, index) => addRow(entry, index));
+        populateStateFilter();
+        populateCompanyFilter();
+        updateStats();
+      } catch (error) {
+        showMessage('Failed to load purchases', true, error.message);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kandan Alloys - Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: 'Inter', Arial, sans-serif;
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-glass {
+      background: rgba(255,255,255,0.18);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.20);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 24px;
+      padding: 36px 20px 28px 20px;
+      max-width: 340px;
+      width: 100%;
+      text-align: center;
+      margin: 0 auto;
+    }
+    .login-glass h2 {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.3rem;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    }
+    .login-glass p {
+      color: #e0e7ff;
+      font-size: 1.1rem;
+      margin-bottom: 2.2rem;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    }
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.3rem;
+      margin-bottom: 1.2rem;
+    }
+    .login-form label {
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+      text-align: left;
+      display: block;
+      letter-spacing: 0.5px;
+    }
+    .login-form input {
+      width: 100%;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0.85rem 1rem;
+      border-radius: 16px;
+      border: none;
+      font-size: 1.05rem;
+      background: rgba(255,255,255,0.85);
+      color: #1e293b;
+      margin-bottom: 0.2rem;
+      outline: none;
+      box-shadow: 0 2px 8px rgba(59,130,246,0.07);
+      transition: box-shadow 0.2s, border 0.2s;
+    }
+    .login-form input:focus {
+      box-shadow: 0 0 0 2px #3b82f6;
+      background: #fff;
+    }
+    .login-btn {
+      width: 140px;
+      margin: 0 auto 0.5rem auto;
+      padding: 0.8rem 0;
+      border-radius: 18px;
+      border: none;
+      background: #fff;
+      color: #1e293b;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(59,130,246,0.10);
+      transition: background 0.2s, color 0.2s;
+    }
+    .login-btn:hover {
+      background: #facc15;
+      color: #1e293b;
+    }
+    .login-footer {
+      margin-top: 1.2rem;
+      color: #fff;
+      font-size: 1rem;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    }
+    .login-footer a {
+      color: #facc15;
+      text-decoration: underline;
+      margin-left: 0.5rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .login-footer a:hover {
+      color: #fff;
+    }
+    @media (max-width: 600px) {
+      .login-glass {
+        padding: 18px 4vw 12px 4vw;
+        max-width: 98vw;
+      }
+      .login-form input {
+        max-width: 98vw;
+        font-size: 1rem;
+      }
+      .login-glass h2 { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-glass">
+    <h2>Welcome Back!</h2>
+    <p>Let's Login to Your Account</p>
+    <form class="login-form" autocomplete="off">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Username" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit" class="login-btn">LOGIN</button>
+    </form>
+    <div class="login-footer">
+      <a href="#" id="forgotPasswordLink" style="color:#facc15;text-decoration:underline;">Forgot password?</a>
+    </div>
+  </div>
+  <script>
+    document.getElementById('forgotPasswordLink').onclick = function(e) {
+      e.preventDefault();
+      alert('Contact Administrator for password reset.');
+    };
+    // Updated login logic: allow multiple users and store session
+    const users = {
+      'admin': { password: 'Pradeep@8772', fullName: 'Administrator', role: 'admin', permissions: ['all'] },
+      'user1': { password: 'password1', fullName: 'User One', role: 'user', permissions: ['sales', 'purchase'] },
+      'user2': { password: 'password2', fullName: 'User Two', role: 'user', permissions: ['sales'] }
+    };
+    document.querySelector('.login-form').onsubmit = function(e) {
+      e.preventDefault();
+      var user = document.getElementById('username').value.trim();
+      var pass = document.getElementById('password').value;
+      if(users[user] && users[user].password === pass) {
+        localStorage.setItem('loggedInUser', JSON.stringify({
+          username: user,
+          fullName: users[user].fullName,
+          role: users[user].role,
+          permissions: users[user].permissions
+        }));
+        window.location.href = 'home.html';
+      } else {
+        alert('Invalid username or password.');
+      }
+    }
+  </script>
+</body>
+</html> 
